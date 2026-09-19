@@ -32,7 +32,7 @@ COPY apps/template-react/backend/ ./apps/template-react/backend/
 # Install dependencies
 # Note: Must copy source before sync because local packages are editable installs
 WORKDIR /workspace/apps/template-react/backend
-RUN uv sync --frozen --all-extras
+RUN uv sync --all-extras
 
 # Development stage - includes hot reload
 FROM python:3.13-slim AS development
