@@ -1,4 +1,4 @@
-import { type NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 
 import { routing } from './i18n/routing';
@@ -7,14 +7,14 @@ import { createRedirect } from './lib/middleware-utils';
 const intlMiddleware = createMiddleware(routing);
 
 /**
- * Proxy: i18n routing + access control
+ * Middleware: i18n routing + access control
  *
  * Route access levels:
  * - Public routes (/,/demo): accessible to everyone, no redirects
  * - Guest-only routes (/login, /marketing): redirect authenticated users to home
  * - Auth-required routes (/profile, /admin): redirect guests to login
  */
-export default function proxy(request: NextRequest) {
+export default function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Extract locale and path from URL
@@ -22,7 +22,9 @@ export default function proxy(request: NextRequest) {
 
   // 👇 ЕСЛИ ПУТЬ БЕЗ ЛОКАЛИ — РЕДИРЕКТИМ НА ДЕФОЛТНУЮ ЛОКАЛЬ (/en)
   if (!localeMatch && pathname !== `/${routing.defaultLocale}`) {
-    return createRedirect(request, `/${routing.defaultLocale}${pathname}`);
+    const url = request.nextUrl.clone();
+    url.pathname = `/${routing.defaultLocale}${pathname === '/' ? '' : pathname}`;
+    return NextResponse.redirect(url);
   }
 
   // Apply i18n middleware for locale routing
@@ -45,11 +47,8 @@ export default function proxy(request: NextRequest) {
   const isAuthenticated = hasTmaAuth || hasSessionAuth;
 
   // Route classification
-  // Public: accessible to everyone (no access control)
   const publicRoutes = ['/', '/demo'];
-  // Guest-only: redirect authenticated users to home
   const guestOnlyRoutes = ['/login', '/marketing'];
-  // Auth-required: redirect guests to login
   const authRequiredRoutes = ['/profile', '/admin', '/test-gen'];
 
   const isPublicRoute = publicRoutes.some(
@@ -84,9 +83,7 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // The matcher is relative to the basePath
   matcher: [
-    '/', // Handle root of basePath
-    '/((?!api|_next|_vercel|.*\\..*).*)', // All other routes
+    '/((?!api|_next|_vercel|.*\\..*).*)',
   ],
 };
