@@ -77,4 +77,4 @@ ENV PATH="/workspace/.venv/bin:$PATH"
 WORKDIR /workspace/apps/template-react/backend
 
 # Default command (overridden in docker-compose for different services)
-CMD ["python", "-u", "src/app/webhook/app.py"]
+CMD ["sh", "-c", "cd /workspace/apps/template-react/backend/src && python -m uvicorn app.webhook.app:app --host 0.0.0.0 --port $PORT"]
