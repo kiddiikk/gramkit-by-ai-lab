@@ -14,14 +14,22 @@ const intlMiddleware = createMiddleware(routing);
  * - Guest-only routes (/login, /marketing): redirect authenticated users to home
  * - Auth-required routes (/profile, /admin): redirect guests to login
  */
-export default function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
+  // Extract locale and path from URL
+  const localeMatch = /^\/([a-z]{2})(\/.*)?$/.exec(pathname);
+
+  // 👇 ЕСЛИ ПУТЬ БЕЗ ЛОКАЛИ — РЕДИРЕКТИМ НА ДЕФОЛТНУЮ ЛОКАЛЬ (/en)
+  if (!localeMatch && pathname !== `/${routing.defaultLocale}`) {
+    return createRedirect(request, `/${routing.defaultLocale}${pathname}`);
+  }
+
   // Apply i18n middleware for locale routing
   const intlResponse = intlMiddleware(request);
 
   // Extract locale and path from URL
-  const pathname = request.nextUrl.pathname;
-  const localeMatch = /^\/([a-z]{2})(\/.*)?$/.exec(pathname);
-  const locale = localeMatch?.[1] ?? 'en';
+  const locale = localeMatch?.[1] ?? routing.defaultLocale;
   const pathWithoutLocale = localeMatch?.[2] ?? '/';
 
   // Check if request is authenticated
