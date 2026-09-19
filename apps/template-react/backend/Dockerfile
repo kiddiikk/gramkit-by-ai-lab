@@ -6,7 +6,7 @@
 #
 # Build stage installs dependencies, runtime stage runs the application
 
-FROM python:3.14-slim as builder
+FROM python:3.13-slim AS builder
 
 # Install build dependencies for Python packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -21,7 +21,7 @@ RUN pip install --no-cache-dir uv
 WORKDIR /workspace
 
 # Copy dependency files first for better caching
-COPY pyproject.toml uv.lock ./
+COPY pyproject.toml ./
 
 # Copy core backend (needed for local editable install)
 COPY core/backend/ ./core/backend/
@@ -29,15 +29,13 @@ COPY core/backend/ ./core/backend/
 # Copy template-react backend (needed for local editable install)
 COPY apps/template-react/backend/ ./apps/template-react/backend/
 
-# Install dependencies with cache mount for faster rebuilds
+# Install dependencies
 # Note: Must copy source before sync because local packages are editable installs
-# Using BuildKit cache mount to persist uv's cache between builds
 WORKDIR /workspace/apps/template-react/backend
-RUN --mount=type=cache,id=s/b2527fc2-59c6-43c8-9750-4164edb7e6b4-/root/cache/uv,target=/root/.cache/uv ...
 RUN uv sync --frozen --all-extras
 
 # Development stage - includes hot reload
-FROM python:3.14-slim as development
+FROM python:3.13-slim AS development
 
 # Install postgresql-client for pg_dump (database backups)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -50,8 +48,7 @@ WORKDIR /workspace
 COPY --from=builder /workspace/ /workspace/
 
 # Set Python path to include both core and app source directories
-# This allows imports from both packages
-ENV PYTHONPATH=/workspace/core/backend/src:/workspace/apps/template-react/backend/src:$PYTHONPATH
+ENV PYTHONPATH=/workspace/core/backend/src:/workspace/apps/template-react/backend/src
 
 # Use virtual environment Python directly
 ENV PATH="/workspace/.venv/bin:$PATH"
@@ -63,7 +60,7 @@ WORKDIR /app
 CMD ["python", "-u", "src/app/webhook/app.py"]
 
 # Production stage - minimal Python image
-FROM python:3.14-slim as production
+FROM python:3.13-slim AS production
 
 WORKDIR /workspace
 
@@ -71,8 +68,7 @@ WORKDIR /workspace
 COPY --from=builder /workspace/ /workspace/
 
 # Set Python path to include both core and app source directories
-# This allows imports from both packages
-ENV PYTHONPATH=/workspace/core/backend/src:/workspace/apps/template-react/backend/src:$PYTHONPATH
+ENV PYTHONPATH=/workspace/core/backend/src:/workspace/apps/template-react/backend/src
 
 # Use virtual environment Python directly
 ENV PATH="/workspace/.venv/bin:$PATH"
