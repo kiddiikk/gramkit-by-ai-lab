@@ -33,7 +33,7 @@ COPY apps/template-react/backend/ ./apps/template-react/backend/
 # Note: Must copy source before sync because local packages are editable installs
 # Using BuildKit cache mount to persist uv's cache between builds
 WORKDIR /workspace/apps/template-react/backend
-RUN --mount=type=cache,target=/root/.cache/uv \
+RUN --mount=type=cache,id=s/b2527fc2-59c6-43c8-9750-4164edb7e6b4-/root/cache/uv,target=/root/.cache/uv ...
     uv sync --frozen --all-extras
 
 # Development stage - includes hot reload
