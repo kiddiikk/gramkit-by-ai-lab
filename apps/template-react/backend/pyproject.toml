@@ -9,7 +9,7 @@ package-dir = { "" = "src" }
 name = "template-react-backend"
 version = "0.1.0"
 description = "TMA Platform Template - Backend"
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
@@ -96,7 +96,7 @@ line_length = 88
 # PYRIGHT - Type checking (basic mode for gradual adoption)
 # ============================================================================
 [tool.pyright]
-pythonVersion = "3.14"
+pythonVersion = "3.13"
 typeCheckingMode = "basic"
 exclude = ["src/app/migrations/"]
 
