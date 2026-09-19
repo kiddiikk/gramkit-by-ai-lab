@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   // Base path for serving under nginx
   // Local dev: /template-react (default)
   // Production: set NEXT_PUBLIC_BASE_PATH= (empty) for root path
-  basePath: undefined,
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || undefined,
 
   // No trailing slashes - nginx handles normalization
   // trailingSlash: false is the default
