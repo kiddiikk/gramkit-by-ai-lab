@@ -14,7 +14,7 @@ const intlMiddleware = createMiddleware(routing);
  * - Guest-only routes (/login, /marketing): redirect authenticated users to home
  * - Auth-required routes (/profile, /admin): redirect guests to login
  */
-export default function proxy(request: NextRequest) {
+export default function middleware(request: NextRequest) {
   // Apply i18n middleware for locale routing
   const intlResponse = intlMiddleware(request);
 
