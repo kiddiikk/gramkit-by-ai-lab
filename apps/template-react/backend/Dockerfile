@@ -47,6 +47,9 @@ WORKDIR /workspace
 # Copy entire workspace structure from builder (includes .venv)
 COPY --from=builder /workspace/ /workspace/
 
+# Copy Python runtime that uv downloaded (needed because .venv/bin/python is a symlink to it)
+COPY --from=builder /root/.local/share/uv/python /root/.local/share/uv/python
+
 # Set Python path to include both core and app source directories
 ENV PYTHONPATH=/workspace/core/backend/src:/workspace/apps/template-react/backend/src
 
@@ -67,6 +70,9 @@ WORKDIR /workspace
 # Copy entire workspace structure from builder (includes .venv)
 COPY --from=builder /workspace/ /workspace/
 
+# Copy Python runtime that uv downloaded (needed because .venv/bin/python is a symlink to it)
+COPY --from=builder /root/.local/share/uv/python /root/.local/share/uv/python
+
 # Set Python path to include both core and app source directories
 ENV PYTHONPATH=/workspace/core/backend/src:/workspace/apps/template-react/backend/src
 
@@ -76,5 +82,5 @@ ENV PATH="/workspace/.venv/bin:$PATH"
 # Default working directory for runtime
 WORKDIR /workspace/apps/template-react/backend
 
-# Default command (overridden in docker-compose for different services)
+# Default command
 CMD ["sh", "-c", "cd /workspace/apps/template-react/backend/src && python -m uvicorn app.webhook.app:app --host 0.0.0.0 --port $PORT"]
