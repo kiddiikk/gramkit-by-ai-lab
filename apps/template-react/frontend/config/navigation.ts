@@ -1,39 +1,27 @@
 import {
   Home,
-  FlaskConical,
-  User,
+  SlidersHorizontal,
+  CircleHelp,
   Settings,
-  ArrowRight,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
-/**
- * Access levels for navigation items:
- * - 'public': Visible to everyone (guests and authenticated users)
- * - 'guest': Visible only to guests (not logged in)
- * - 'auth': Visible only to authenticated users
- * - 'admin': Visible only to admin or owner users
- * - 'owner': Visible only to owner users (highest privilege)
- */
 export type AccessLevel = 'public' | 'guest' | 'auth' | 'admin' | 'owner';
 
 export interface NavItem {
   id: string;
   href: string;
   icon: LucideIcon;
-  labelKey: string; // i18n key for translation
+  labelKey: string;
   access: AccessLevel;
-  /** Show in mobile bottom tabs (max 5 recommended) */
   showInMobile?: boolean;
-  /** Show in desktop header nav */
   showInDesktop?: boolean;
-  /** Show lock icon for non-authenticated users (only for public items) */
   lockedForGuests?: boolean;
 }
 
 /**
- * Main app navigation items
- * Single source of truth for all navigation across the app
+ * Основная навигация приложения
+ * Единый источник правды для нижнего (mobile) и верхнего (desktop) меню
  */
 export const navItems: NavItem[] = [
   {
@@ -46,23 +34,22 @@ export const navItems: NavItem[] = [
     showInDesktop: true,
   },
   {
-    id: 'demo',
-    href: '/demo',
-    icon: FlaskConical,
-    labelKey: 'nav.demo',
+    id: 'settings',
+    href: '/settings',
+    icon: SlidersHorizontal,
+    labelKey: 'nav.settings',
     access: 'public',
     showInMobile: true,
     showInDesktop: true,
   },
   {
-    id: 'profile',
-    href: '/profile',
-    icon: User,
-    labelKey: 'nav.profile',
+    id: 'about',
+    href: '/about',
+    icon: CircleHelp,
+    labelKey: 'nav.about',
     access: 'public',
     showInMobile: true,
     showInDesktop: true,
-    lockedForGuests: true,
   },
   {
     id: 'admin',
@@ -76,21 +63,19 @@ export const navItems: NavItem[] = [
 ];
 
 /**
- * Auth CTA item (Get Started button for guests)
+ * Auth CTA (Get Started) — убран.
+ * Оставлено для совместимости с AppNav.tsx, но всегда пустой.
  */
 export const authCtaItem: NavItem = {
   id: 'getStarted',
-  href: '/login',
-  icon: ArrowRight,
+  href: '/',
+  icon: Home,
   labelKey: 'nav.getStarted',
-  access: 'guest',
-  showInMobile: true,
-  showInDesktop: true,
+  access: 'owner', // никогда не показывается (нет owner-гостей)
+  showInMobile: false,
+  showInDesktop: false,
 };
 
-/**
- * Filter nav items based on user access level
- */
 export function filterNavItems(
   items: NavItem[],
   options: {
@@ -104,7 +89,6 @@ export function filterNavItems(
   const { isAuthenticated, isAdmin = false, isOwner = false, mobileOnly, desktopOnly } = options;
 
   return items.filter((item) => {
-    // Check access level
     const hasAccess = (() => {
       switch (item.access) {
         case 'public':
@@ -114,17 +98,15 @@ export function filterNavItems(
         case 'auth':
           return isAuthenticated;
         case 'admin':
-          return isAdmin || isOwner; // admin OR owner can access
+          return isAdmin || isOwner;
         case 'owner':
-          return isOwner; // only owner
+          return isOwner;
         default:
           return false;
       }
     })();
 
     if (!hasAccess) return false;
-
-    // Check display context
     if (mobileOnly && !item.showInMobile) return false;
     if (desktopOnly && !item.showInDesktop) return false;
 
@@ -132,9 +114,6 @@ export function filterNavItems(
   });
 }
 
-/**
- * Get all visible nav items for current user state
- */
 export function getVisibleNavItems(options: {
   isAuthenticated: boolean;
   isAdmin?: boolean;
@@ -160,7 +139,8 @@ export function getVisibleNavItems(options: {
     mobileOnly: true,
   });
 
-  const showLoginCta = !isAuthenticated;
+  // Кнопка Get Started отключена
+  const showLoginCta = false;
 
   return { mainNav, mobileNav, showLoginCta };
 }
