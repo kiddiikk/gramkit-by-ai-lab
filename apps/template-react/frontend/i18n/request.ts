@@ -1,9 +1,15 @@
 import { getRequestConfig } from 'next-intl/server';
 
 import { routing } from './routing';
+import en from './messages/en.json';
+import ru from './messages/ru.json';
+
+const messagesMap = {
+  en,
+  ru,
+} as const;
 
 export default getRequestConfig(async ({ requestLocale }) => {
-  // Typically corresponds to the `[locale]` segment
   const requested = await requestLocale;
   const typedRequested = requested as 'en' | 'ru' | null;
   const locale =
@@ -13,11 +19,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    messages: (await import(`./messages/${locale}.json`)).default as Record<
-      string,
-      string
-    >,
+    messages: messagesMap[locale] as Record<string, string>,
     timeZone: 'UTC',
   };
 });
