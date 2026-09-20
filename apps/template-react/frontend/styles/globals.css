@@ -39,8 +39,9 @@
   --sidebar-accent-foreground: oklch(0.145 0 0);
   --sidebar-border: oklch(0.92 0.005 260);
   --sidebar-ring: oklch(0.6 0.18 230);
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
-  --font-serif: var(--font-manrope), system-ui, sans-serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-display: var(--font-display), system-ui, sans-serif;
+  --font-serif: var(--font-sans), system-ui, sans-serif;
   --font-mono: ui-monospace, 'JetBrains Mono', monospace;
   --shadow-color: hsl(0 0% 0%);
   --shadow-opacity: 0.08;
@@ -118,8 +119,9 @@
   --sidebar-accent-foreground: oklch(0.97 0.007 248);
   --sidebar-border: oklch(0.37 0.039 257);
   --sidebar-ring: oklch(0.65 0.18 230);
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
-  --font-serif: var(--font-manrope), system-ui, sans-serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-display: var(--font-display), system-ui, sans-serif;
+  --font-serif: var(--font-sans), system-ui, sans-serif;
   --font-mono: ui-monospace, 'JetBrains Mono', monospace;
   --shadow-color: hsl(0 0% 0%);
   --shadow-opacity: 0.3;
@@ -169,9 +171,10 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-display: var(--font-display), system-ui, sans-serif;
   --font-mono: ui-monospace, 'JetBrains Mono', monospace;
-  --font-serif: var(--font-manrope), system-ui, sans-serif;
+  --font-serif: var(--font-sans), system-ui, sans-serif;
   --radius: 0.5rem;
   --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
   --tracking-tight: calc(var(--tracking-normal) - 0.025em);
@@ -298,6 +301,16 @@ body {
   html,
   body {
     @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+  h1 {
+    font-weight: 900;
   }
 }
 
