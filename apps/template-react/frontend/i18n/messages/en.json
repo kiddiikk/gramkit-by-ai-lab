@@ -12,8 +12,8 @@
   "logout": "Logout",
   "nav": {
     "home": "Home",
-    "demo": "Demo",
-    "profile": "Profile",
+    "settings": "Settings",
+    "about": "About",
     "admin": "Admin",
     "features": "Features",
     "login": "Login",
