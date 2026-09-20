@@ -294,6 +294,7 @@ body {
   display: none;
 }
 
+/* === Typography scale === */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -302,15 +303,41 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-  h1,
-  h2,
-  h3 {
+
+  /* Базовый текст крупнее */
+  body {
+    font-size: 1rem;      /* 16px */
+    line-height: 1.55;
+  }
+
+  /* Заголовки — Alumni Sans, крупные */
+  h1, h2, h3 {
     font-family: var(--font-display), system-ui, sans-serif;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
     font-weight: 800;
   }
   h1 {
+    font-size: 2.25rem;   /* 36px */
     font-weight: 900;
+  }
+  h2 {
+    font-size: 1.875rem;  /* 30px */
+    font-weight: 800;
+  }
+  h3 {
+    font-size: 1.375rem;  /* 22px */
+    font-weight: 800;
+  }
+  h4 {
+    font-size: 1.125rem;  /* 18px */
+    font-weight: 700;
+  }
+
+  /* Кнопки — крупнее и жирнее */
+  button, .btn {
+    font-size: 1rem;
+    font-weight: 600;
   }
 }
 
