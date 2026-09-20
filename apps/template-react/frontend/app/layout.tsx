@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Manrope } from 'next/font/google';
 import Script from 'next/script';
 import { ViewTransitions } from 'next-view-transitions';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
@@ -8,10 +8,10 @@ import '@/styles/globals.css';
 
 import { PlatformDetector } from '@/components/platform-detector';
 
-const inter = Inter({
-  subsets: ['latin'],
+const manrope = Manrope({
+  subsets: ['latin', 'cyrillic'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-manrope',
 });
 
 export const viewport: Viewport = {
@@ -23,8 +23,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'TMA Template React',
-  description: 'Telegram Mini App Template with React and Next.js',
+  title: 'FEEL IT — AI LAB',
+  description: 'Бот для автопостинга в Telegram-каналы',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -50,7 +50,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
       </head>
-      <body className={`${inter.className} min-h-dvh bg-background antialiased`}>
+      <body className={`${manrope.className} min-h-dvh bg-background antialiased`}>
         <NuqsAdapter>
           <ViewTransitions>
             <PlatformDetector />
