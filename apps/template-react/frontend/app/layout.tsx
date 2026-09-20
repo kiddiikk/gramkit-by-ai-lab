@@ -41,16 +41,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning>
+    <html suppressHydrationWarning className={manrope.variable}>
       <head>
-        {/* Telegram WebApp SDK - CRITICAL for authentication */}
-        {/* beforeInteractive ensures script loads before React hydration */}
         <Script
           src="https://telegram.org/js/telegram-web-app.js"
           strategy="beforeInteractive"
         />
       </head>
-      <body className={`${manrope.className} min-h-dvh bg-background antialiased`}>
+      <body className="min-h-dvh bg-background antialiased">
         <NuqsAdapter>
           <ViewTransitions>
             <PlatformDetector />
