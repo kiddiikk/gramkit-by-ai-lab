@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Manrope } from 'next/font/google';
+import { Instrument_Sans, Alumni_Sans } from 'next/font/google';
 import Script from 'next/script';
 import { ViewTransitions } from 'next-view-transitions';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
@@ -8,10 +8,17 @@ import '@/styles/globals.css';
 
 import { PlatformDetector } from '@/components/platform-detector';
 
-const manrope = Manrope({
+const instrumentSans = Instrument_Sans({
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
-  variable: '--font-manrope',
+  variable: '--font-sans',
+});
+
+const alumniSans = Alumni_Sans({
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+  variable: '--font-display',
+  weight: ['700', '800', '900'],
 });
 
 export const viewport: Viewport = {
@@ -41,7 +48,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning className={manrope.variable}>
+    <html
+      suppressHydrationWarning
+      className={`${instrumentSans.variable} ${alumniSans.variable}`}
+    >
       <head>
         <Script
           src="https://telegram.org/js/telegram-web-app.js"
