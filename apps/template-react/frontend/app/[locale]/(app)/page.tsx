@@ -10,8 +10,6 @@ import {
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
-// Список разделов — большие иконки на главной.
-// Настройки и Обо мне — в нижнем меню, дублировать не нужно.
 const sections = [
   {
     href: '/subscription',
@@ -42,26 +40,24 @@ const sections = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-dvh px-4 py-8 space-y-8">
+    <div className="min-h-dvh px-4 py-6 flex flex-col gap-6">
       {/* === HERO === */}
-      <section className="text-center space-y-3 motion-opacity-in-[0%] motion-translate-y-in-[20px] motion-blur-in-[4px] motion-duration-[0.6s] motion-ease-spring-smooth">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-          FEEL IT - AI LAB
-        </h1>
-        <p className="text-muted-foreground text-base md:text-lg max-w-md mx-auto">
+      <section className="text-center space-y-2 pt-2 motion-opacity-in-[0%] motion-translate-y-in-[20px] motion-blur-in-[4px] motion-duration-[0.6s] motion-ease-spring-smooth">
+        <h1 className="tracking-tight">FEEL IT — AI LAB</h1>
+        <p className="text-muted-foreground text-base max-w-md mx-auto">
           Бот, который ведёт твой Telegram-канал сам
         </p>
       </section>
 
-      {/* === СЕТКА КНОПОК (2×2) === */}
-      <section className="grid grid-cols-2 gap-3 md:gap-4">
+      {/* === СЕТКА КНОПОК (2×2), квадратные карточки === */}
+      <section className="grid grid-cols-2 gap-3">
         {sections.map((item, index) => {
           const Icon = item.icon;
           return (
-            <Link key={item.href} href={item.href} className="block">
+            <Link key={item.href} href={item.href} className="block aspect-square">
               <Card
                 className={[
-                  'group relative overflow-hidden cursor-pointer',
+                  'group relative overflow-hidden cursor-pointer gap-0 py-0 h-full',
                   'transition-all duration-300 ease-out',
                   'hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10',
                   'active:scale-[0.98]',
@@ -76,11 +72,11 @@ export default function HomePage() {
                 {/* Мягкий градиент при hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/[0.03] to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                <CardContent className="relative p-4 flex flex-col items-start gap-3">
-                  {/* Иконка */}
+                <CardContent className="relative p-4 flex flex-col justify-between h-full">
+                  {/* Иконка сверху */}
                   <div
                     className={[
-                      'p-2.5 rounded-xl transition-all duration-300',
+                      'p-2.5 rounded-xl w-fit transition-all duration-300',
                       item.accent
                         ? 'bg-primary/20 group-hover:bg-primary/30'
                         : 'bg-primary/10 group-hover:bg-primary/20',
@@ -89,10 +85,10 @@ export default function HomePage() {
                     <Icon className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
                   </div>
 
-                  {/* Текст */}
+                  {/* Текст снизу */}
                   <div className="space-y-0.5 w-full">
                     <div className="flex items-center justify-between gap-1">
-                      <h3 className="text-sm font-semibold leading-tight">
+                      <h3 className="text-base font-medium leading-tight">
                         {item.title}
                       </h3>
                       <ChevronRight className="w-4 h-4 text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-primary" />
@@ -108,9 +104,9 @@ export default function HomePage() {
         })}
       </section>
 
-      {/* === FOOTER === */}
-      <footer className="text-center text-xs text-muted-foreground pt-4 pb-2 motion-opacity-in-[0%] motion-duration-[1s]">
-        FEEL IT - AI LAB · {new Date().getFullYear()}
+      {/* === FOOTER прижат к низу === */}
+      <footer className="mt-auto text-center text-xs text-muted-foreground pt-4 motion-opacity-in-[0%] motion-duration-[1s]">
+        FEEL IT — AI LAB · {new Date().getFullYear()}
       </footer>
     </div>
   );
