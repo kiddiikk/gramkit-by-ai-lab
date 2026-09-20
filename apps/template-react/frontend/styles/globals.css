@@ -294,7 +294,7 @@ body {
   display: none;
 }
 
-/* === Typography scale === */
+/* === Base layer === */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -308,34 +308,40 @@ body {
   }
 }
 
-/* === Typography overrides — с !important, чтобы перебить Tailwind утилиты === */
-h1, h2, h3 {
+/* === Typography overrides === */
+h1, h2, h3, h4 {
   font-family: var(--font-display), system-ui, sans-serif !important;
   letter-spacing: -0.01em !important;
-  line-height: 1.15 !important;
+  line-height: 1.2 !important;
 }
 
+/* H1 — hero на главной: semibold, не жирный */
 h1 {
-  font-size: 2.5rem !important;   /* 40px */
-  font-weight: 900 !important;
-}
-h2 {
-  font-size: 2rem !important;     /* 32px */
-  font-weight: 800 !important;
-}
-h3 {
-  font-size: 1.5rem !important;   /* 24px */
-  font-weight: 800 !important;
-}
-h4 {
-  font-size: 1.25rem !important;  /* 20px */
-  font-weight: 700 !important;
+  font-size: 2.25rem !important;  /* 36px */
+  font-weight: 600 !important;
 }
 
-/* Кнопки крупнее */
+/* H2 — средние заголовки: medium */
+h2 {
+  font-size: 1.75rem !important;  /* 28px */
+  font-weight: 500 !important;
+}
+
+/* H3 — заголовки карточек, страниц: medium */
+h3 {
+  font-size: 1.25rem !important;  /* 20px */
+  font-weight: 500 !important;
+}
+
+/* H4 — мелкие заголовки: medium */
+h4 {
+  font-size: 1.125rem !important; /* 18px */
+  font-weight: 500 !important;
+}
+
 button {
   font-size: 1rem !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
 }
 
 /* Sonner toast theming */
