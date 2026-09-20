@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Instrument_Sans, Alumni_Sans } from 'next/font/google';
+import { Onest, Alumni_Sans } from 'next/font/google';
 import Script from 'next/script';
 import { ViewTransitions } from 'next-view-transitions';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
@@ -8,7 +8,7 @@ import '@/styles/globals.css';
 
 import { PlatformDetector } from '@/components/platform-detector';
 
-const instrumentSans = Instrument_Sans({
+const onest = Onest({
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
   variable: '--font-sans',
@@ -50,7 +50,7 @@ export default function RootLayout({
   return (
     <html
       suppressHydrationWarning
-      className={`${instrumentSans.variable} ${alumniSans.variable}`}
+      className={`${onest.variable} ${alumniSans.variable}`}
     >
       <head>
         <Script
