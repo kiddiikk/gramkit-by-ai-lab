@@ -19,7 +19,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: messagesMap[locale] as Record<string, string>,
+    messages: messagesMap[locale],
     timeZone: 'UTC',
   };
 });
