@@ -17,8 +17,20 @@ class RequestTracker:
 
     def __init__(self):
         self._active_requests = 0
-        self._lock = asyncio.Lock()
-        self._shutdown_event = asyncio.Event()
+        self._lock: asyncio.Lock | None = None
+        self._shutdown_event: asyncio.Event | None = None
+
+    def _get_lock(self) -> asyncio.Lock:
+        """Lazily create the lock inside the running event loop."""
+        if self._lock is None:
+            self._lock = asyncio.Lock()
+        return self._lock
+
+    def _get_shutdown_event(self) -> asyncio.Event:
+        """Lazily create the shutdown event inside the running event loop."""
+        if self._shutdown_event is None:
+            self._shutdown_event = asyncio.Event()
+        return self._shutdown_event
 
     @property
     def active_count(self) -> int:
@@ -28,11 +40,13 @@ class RequestTracker:
     @property
     def is_shutting_down(self) -> bool:
         """Return True if shutdown has been initiated."""
+        if self._shutdown_event is None:
+            return False
         return self._shutdown_event.is_set()
 
     def start_shutdown(self):
         """Signal that shutdown has been initiated."""
-        self._shutdown_event.set()
+        self._get_shutdown_event().set()
         logger.info("Shutdown signal received, will reject new requests")
 
     async def wait_for_drain(self, timeout: float = 30.0) -> bool:
@@ -100,11 +114,12 @@ class RequestTrackerMiddleware:
             return
 
         # Track this request
-        async with self.tracker._lock:
+        lock = self.tracker._get_lock()
+        async with lock:
             self.tracker._active_requests += 1
 
         try:
             await self.app(scope, receive, send)
         finally:
-            async with self.tracker._lock:
+            async with lock:
                 self.tracker._active_requests -= 1
