@@ -9,30 +9,33 @@ import { cn } from '@/lib/utils';
 const plans = [
   {
     id: 'start',
-    name: '🚀 Старт',
+    name: 'Старт',
+    emoji: '🚀',
     price: 250,
     channels: 1,
     posts: 10,
     popular: false,
-    features: ['1 канал', '10 постов в день', 'AI-обработка', 'Модерация'],
+    features: ['1 канал', '10 постов в день', 'AI-обработка', 'Модерация', 'Генерация картинок'],
   },
   {
     id: 'pro',
-    name: '💎 Про',
+    name: 'Про',
+    emoji: '💎',
     price: 500,
     channels: 2,
     posts: 30,
     popular: true,
-    features: ['2 канала', '30 постов в день', 'AI-обработка', 'Модерация', 'Приоритетная очередь'],
+    features: ['2 канала', '30 постов в день', 'AI-обработка', 'Модерация', 'Генерация картинок', 'Приоритетная очередь'],
   },
   {
     id: 'business',
-    name: '🏢 Бизнес',
+    name: 'Бизнес',
+    emoji: '🏢',
     price: 1000,
     channels: 5,
     posts: 100,
     popular: false,
-    features: ['5 каналов', '100 постов в день', 'AI-обработка', 'Модерация', 'Приоритетная очередь', 'Персональная поддержка'],
+    features: ['5 каналов', '100 постов в день', 'AI-обработка', 'Модерация', 'Генерация картинок', 'Приоритетная очередь'],
   },
 ];
 
@@ -40,13 +43,13 @@ export default function TariffsPage() {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <div className="min-h-dvh px-4 py-8 space-y-6">
+    <div className="min-h-dvh px-5 py-6 space-y-4">
       <header className="space-y-1 text-center motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
         <h1 className="text-2xl font-bold tracking-tight">Тарифы</h1>
         <p className="text-sm text-muted-foreground">Выбери подходящий план</p>
       </header>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {plans.map((plan, i) => {
           const isOpen = openId === plan.id;
           return (
@@ -58,10 +61,12 @@ export default function TariffsPage() {
               )}
               style={{ animationDelay: `${String(i * 100)}ms` }}
             >
-              <CardContent className="p-5 space-y-4">
+              <CardContent className="p-4 space-y-3">
                 <div className="flex items-start justify-between">
                   <div>
-                    <div className="font-semibold">{plan.name}</div>
+                    <div className="font-semibold">
+                      {plan.emoji} {plan.name}
+                    </div>
                     <div className="text-xs text-muted-foreground">
                       {plan.channels} {plan.channels === 1 ? 'канал' : 'каналов'} · {plan.posts} постов/день
                     </div>
@@ -83,12 +88,22 @@ export default function TariffsPage() {
                     <Sparkles className="w-4 h-4 mr-2" />
                     Оформить
                   </Button>
-                  <Button variant="ghost" size="icon" onClick={() => setOpenId(isOpen ? null : plan.id)} className="cursor-pointer">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setOpenId(isOpen ? null : plan.id)}
+                    className="cursor-pointer"
+                  >
                     <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isOpen && 'rotate-180')} />
                   </Button>
                 </div>
 
-                <div className={cn('overflow-hidden transition-all duration-300 ease-out', isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0')}>
+                <div
+                  className={cn(
+                    'overflow-hidden transition-all duration-300 ease-out',
+                    isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
+                  )}
+                >
                   <ul className="space-y-1.5 pt-2 border-t">
                     {plan.features.map((f, idx) => (
                       <li
@@ -108,7 +123,9 @@ export default function TariffsPage() {
         })}
       </div>
 
-      <p className="text-xs text-muted-foreground text-center">Оплата через Telegram Stars</p>
+      <p className="text-xs text-muted-foreground text-center pt-2">
+        Оплата через Telegram Stars
+      </p>
     </div>
   );
 }
