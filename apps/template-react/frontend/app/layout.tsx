@@ -11,13 +11,13 @@ import { PlatformDetector } from '@/components/platform-detector';
 const onest = Onest({
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
-  variable: '--font-sans',
+  variable: '--font-onest',
 });
 
 const alumniSans = Alumni_Sans({
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
-  variable: '--font-display',
+  variable: '--font-alumni',
   weight: ['700', '800', '900'],
 });
 
