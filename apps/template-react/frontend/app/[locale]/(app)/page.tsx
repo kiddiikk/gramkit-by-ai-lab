@@ -6,13 +6,12 @@ import {
   ChartLine,
   UserPlus,
   Sparkles,
-  SlidersHorizontal,
-  CircleHelp,
   ChevronRight,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
-// Список разделов — легко добавлять/менять
+// Список разделов — большие иконки на главной.
+// Настройки и Обо мне — в нижнем меню, дублировать не нужно.
 const sections = [
   {
     href: '/subscription',
@@ -39,18 +38,6 @@ const sections = [
     title: 'Тарифы',
     subtitle: 'Выбери план',
   },
-  {
-    href: '/settings',
-    icon: SlidersHorizontal,
-    title: 'Настройки',
-    subtitle: 'Связь и тема',
-  },
-  {
-    href: '/about',
-    icon: CircleHelp,
-    title: 'Обо мне',
-    subtitle: 'Что умеет бот',
-  },
 ];
 
 export default function HomePage() {
@@ -66,7 +53,7 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* === СЕТКА КНОПОК === */}
+      {/* === СЕТКА КНОПОК (2×2) === */}
       <section className="grid grid-cols-2 gap-3 md:gap-4">
         {sections.map((item, index) => {
           const Icon = item.icon;
