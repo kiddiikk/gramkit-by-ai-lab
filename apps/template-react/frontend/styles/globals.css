@@ -39,9 +39,9 @@
   --sidebar-accent-foreground: oklch(0.145 0 0);
   --sidebar-border: oklch(0.92 0.005 260);
   --sidebar-ring: oklch(0.6 0.18 230);
-  --font-sans: 'Geist', 'Inter', system-ui, sans-serif;
-  --font-serif: 'Geist', serif;
-  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-serif: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', monospace;
   --shadow-color: hsl(0 0% 0%);
   --shadow-opacity: 0.08;
   --shadow-blur: 6px;
@@ -51,14 +51,14 @@
   --letter-spacing: -0.01em;
 
   /* Layout dimensions */
-  --header-height: 3.5rem;        /* 56px - desktop header */
-  --bottom-nav-height: 4.125rem;  /* 66px - mobile bottom nav */
-  --sidebar-width: 16rem;         /* 256px - future use */
+  --header-height: 3.5rem;
+  --bottom-nav-height: 4.125rem;
+  --sidebar-width: 16rem;
 
   /* Content spacing */
-  --page-padding-x: 1rem;         /* 16px */
-  --page-padding-y: 1rem;         /* 16px */
-  --page-max-width: 80rem;        /* 1280px */
+  --page-padding-x: 1rem;
+  --page-padding-y: 1rem;
+  --page-max-width: 80rem;
 
   --spacing: 0.25rem;
   --shadow-2xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.05);
@@ -79,8 +79,8 @@
 
 @media (min-width: 768px) {
   :root {
-    --bottom-nav-height: 0px;     /* No bottom nav on desktop */
-    --page-padding-x: 1.5rem;     /* 24px on desktop */
+    --bottom-nav-height: 0px;
+    --page-padding-x: 1.5rem;
   }
 }
 
@@ -89,7 +89,7 @@
   --foreground: oklch(0.97 0.007 248);
   --card: oklch(0.28 0.037 260);
   --card-foreground: oklch(0.97 0.007 248);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.28 0.037 260);
   --popover-foreground: oklch(0.97 0.007 248);
   --primary: oklch(0.8088 0.0592 67.76);
   --primary-foreground: oklch(1 0 0);
@@ -118,9 +118,9 @@
   --sidebar-accent-foreground: oklch(0.97 0.007 248);
   --sidebar-border: oklch(0.37 0.039 257);
   --sidebar-ring: oklch(0.65 0.18 230);
-  --font-sans: 'Geist', 'Inter', system-ui, sans-serif;
-  --font-serif: 'Geist', serif;
-  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-serif: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', monospace;
   --shadow-color: hsl(0 0% 0%);
   --shadow-opacity: 0.3;
   --shadow-blur: 15px;
@@ -169,9 +169,9 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: 'Geist', 'Inter', system-ui, sans-serif;
-  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
-  --font-serif: 'Geist', serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', monospace;
+  --font-serif: var(--font-manrope), system-ui, sans-serif;
   --radius: 0.5rem;
   --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
   --tracking-tight: calc(var(--tracking-normal) - 0.025em);
@@ -232,7 +232,7 @@
   --page-max-width: var(--page-max-width);
 }
 
-/* Set default border color (Tailwind v4 doesn't provide --default-border-color) */
+/* Set default border color */
 @layer base {
   *,
   ::after,
@@ -256,7 +256,6 @@ body {
 }
 
 /* Safari fix: prevent text blur after motion-blur-in animations */
-/* Targets all elements using Tailwind Motion blur animations */
 [class*="motion-blur-in"] {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -302,7 +301,7 @@ body {
   }
 }
 
-/* Sonner toast theming - must match Sonner's specificity */
+/* Sonner toast theming */
 [data-sonner-toaster][data-theme="light"],
 [data-sonner-toaster][data-theme="dark"] {
   --normal-bg: var(--popover);
@@ -339,7 +338,6 @@ body {
    Animation Utilities
    ============================================ */
 
-/* Subtle pulse for attention without being distracting */
 @keyframes pulse-subtle {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.8; }
@@ -348,7 +346,6 @@ body {
   animation: pulse-subtle 2s ease-in-out infinite;
 }
 
-/* Gradient shift for backgrounds */
 @keyframes gradient-shift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -357,7 +354,6 @@ body {
   animation: gradient-shift 15s ease infinite;
 }
 
-/* Glow pulse for active states */
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 0 0 oklch(from var(--primary) l c h / 0); }
   50% { box-shadow: 0 0 20px 0 oklch(from var(--primary) l c h / 0.15); }
@@ -366,7 +362,6 @@ body {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Shake animation for errors */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
