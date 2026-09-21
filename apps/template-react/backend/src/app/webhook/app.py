@@ -73,6 +73,7 @@ app = create_api(
         routers.base.router,
         routers.admin.router,
         routers.demo.router,
+        routers.channels.router,
     ],
     title="Template API",
     version=release_version,
