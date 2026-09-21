@@ -8,6 +8,7 @@ from arq import ArqRedis
 from app.domain import products
 from app.infrastructure.database.repo.requests import RequestsRepo
 from app.services.balance import BalanceService
+from app.services.channels import ChannelsService
 from app.services.notifications import NotificationsService
 from app.services.statistics import StatisticsService
 from core.infrastructure.config import settings
@@ -123,6 +124,11 @@ class RequestsService:
     def balance(self) -> BalanceService:
         """Balance service for managing user credits/limits."""
         return BalanceService(self.repo, self.producer, self, self.bot)
+
+        @cached_property
+    def channels(self) -> ChannelsService:  # ← НОВОЕ
+        """Channels service for managing user Telegram channels."""
+        return ChannelsService(self.repo, self.producer, self, self.bot)
 
     @cached_property
     def statistics(self) -> StatisticsService:
