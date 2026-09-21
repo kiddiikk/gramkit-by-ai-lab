@@ -432,13 +432,13 @@ button {
    Aurora Background v3 — мягкие плавающие пятна
    ============================================ */
 
-/* Базовое состояние: blur + смешивание */
+/* Базовое состояние (light по умолчанию) */
 .aurora-blob {
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(70px);
   will-change: transform, opacity;
-  /* В светлой теме — soft-light, чтобы сливалось с белым */
-  mix-blend-mode: soft-light;
+  /* В светлой теме — multiply, чтобы пятна ТОНИРОВАЛИ белый фон */
+  mix-blend-mode: multiply;
   transform: translate3d(0, 0, 0);
   opacity: 1;
 }
@@ -452,7 +452,7 @@ button {
 /* Сильнее блюрим на маленьких экранах, чтобы точно не было полос */
 @media (max-width: 640px) {
   .aurora-blob {
-    filter: blur(70px);
+    filter: blur(60px);
   }
   .dark .aurora-blob {
     filter: blur(90px);
