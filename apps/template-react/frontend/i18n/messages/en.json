@@ -980,7 +980,6 @@
       }
     }
   }
-}
 ,
   "feelit": {
     "subscription": {
@@ -1101,3 +1100,4 @@
       "step3Text": "Moderation is optional"
     }
   }
+}
