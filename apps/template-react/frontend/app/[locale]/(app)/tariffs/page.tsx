@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   Rocket, Crown, Building2, Check, ChevronDown, Loader2, Sparkles,
 } from 'lucide-react';
@@ -15,55 +16,56 @@ import {
 } from '@/src/gen';
 import { BackButton } from '@/components/shared/BackButton';
 
-const PRODUCT_META: Record<string, {
-  name: string;
-  Icon: React.ElementType;
-  features: string[];
-  popular?: boolean;
-}> = {
-  FEELIT_START: {
-    name: 'Старт',
-    Icon: Rocket,
-    features: [
-      '1 канал',
-      '10 постов в день',
-      'AI-обработка',
-      'Модерация',
-      'Генерация картинок',
-    ],
-  },
-  FEELIT_PRO: {
-    name: 'Про',
-    Icon: Crown,
-    popular: true,
-    features: [
-      '2 канала',
-      '30 постов в день',
-      'AI-обработка',
-      'Модерация',
-      'Генерация картинок',
-      'Приоритетная очередь',
-    ],
-  },
-  FEELIT_BUSINESS: {
-    name: 'Бизнес',
-    Icon: Building2,
-    features: [
-      '5 каналов',
-      '100 постов в день',
-      'AI-обработка',
-      'Модерация',
-      'Генерация картинок',
-      'Приоритетная очередь',
-    ],
-  },
-};
-
 export default function TariffsPage() {
+  const t = useTranslations('feelit.tariffs');
   const [openId, setOpenId] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const { data: products, isLoading, error } = useGetProductsPaymentsProductsGet();
   const startPurchase = useStartPurchasePaymentsStartPurchasePost();
+
+  const PRODUCT_META: Record<string, {
+    name: string;
+    Icon: React.ElementType;
+    features: string[];
+    popular?: boolean;
+  }> = {
+    FEELIT_START: {
+      name: t('startName'),
+      Icon: Rocket,
+      features: [
+        t('features.channels1'),
+        t('features.posts10'),
+        t('features.ai'),
+        t('features.moderation'),
+        t('features.images'),
+      ],
+    },
+    FEELIT_PRO: {
+      name: t('proName'),
+      Icon: Crown,
+      popular: true,
+      features: [
+        t('features.channels2'),
+        t('features.posts30'),
+        t('features.ai'),
+        t('features.moderation'),
+        t('features.images'),
+        t('features.priority'),
+      ],
+    },
+    FEELIT_BUSINESS: {
+      name: t('businessName'),
+      Icon: Building2,
+      features: [
+        t('features.channels5'),
+        t('features.posts100'),
+        t('features.ai'),
+        t('features.moderation'),
+        t('features.images'),
+        t('features.priority'),
+      ],
+    },
+  };
 
   const handleBuy = async (productId: string) => {
     try {
@@ -78,7 +80,7 @@ export default function TariffsPage() {
 
       const tg = (window as any).Telegram?.WebApp;
       if (!tg) {
-        alert('Открой из Telegram, чтобы оплатить');
+        alert(t('openInTelegram'));
         return;
       }
 
@@ -89,9 +91,9 @@ export default function TariffsPage() {
               queryKey: getSubscriptionSubscriptionsGetQueryKey(),
             });
             queryClient.invalidateQueries({ queryKey: [{ url: '/users/me' }] });
-            tg.showPopup({ title: 'Успешно!', message: 'Подписка активирована 🎉' });
+            tg.showPopup({ title: t('paymentSuccess'), message: '' });
           } else if (status === 'failed') {
-            tg.showPopup({ title: 'Ошибка', message: 'Оплата не прошла' });
+            tg.showPopup({ title: t('paymentFailed'), message: '' });
           }
         });
       } else {
@@ -100,7 +102,7 @@ export default function TariffsPage() {
     } catch (e) {
       console.error('Purchase failed:', e);
       const tg = (window as any).Telegram?.WebApp;
-      tg?.showPopup?.({ title: 'Ошибка', message: 'Не удалось создать платёж' });
+      tg?.showPopup?.({ title: t('paymentError'), message: '' });
     }
   };
 
@@ -116,7 +118,7 @@ export default function TariffsPage() {
     return (
       <div className="min-h-dvh flex items-center justify-center px-5">
         <div className="text-sm text-destructive text-center">
-          Не удалось загрузить тарифы. Попробуй позже.
+          {t('loadError')}
         </div>
       </div>
     );
@@ -127,8 +129,8 @@ export default function TariffsPage() {
       <div className="flex items-center gap-3">
         <BackButton />
         <div className="space-y-0.5">
-          <h1 className="text-2xl font-bold tracking-tight">Тарифы</h1>
-          <p className="text-sm text-muted-foreground">Выбери подходящий план</p>
+          <h1 className="text-2xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
         </div>
       </div>
 
@@ -162,13 +164,13 @@ export default function TariffsPage() {
                     <div>
                       <div className="font-semibold">{meta.name}</div>
                       <div className="text-xs text-muted-foreground">
-                        {product.duration_days} дней
+                        {product.duration_days} {t('daysLabel')}
                       </div>
                     </div>
                   </div>
                   {meta.popular && (
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/20 text-primary font-medium">
-                      Популярный
+                      {t('popular')}
                     </span>
                   )}
                 </div>
@@ -192,12 +194,12 @@ export default function TariffsPage() {
                     {isPending ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Создание...
+                        {t('creating')}
                       </>
                     ) : (
                       <>
                         <Sparkles className="w-4 h-4 mr-2" />
-                        Оформить
+                        {t('buy')}
                       </>
                     )}
                   </Button>
@@ -238,7 +240,7 @@ export default function TariffsPage() {
       </div>
 
       <p className="text-xs text-muted-foreground text-center pt-2">
-        Оплата через Telegram Stars
+        {t('payNote')}
       </p>
     </div>
   );
