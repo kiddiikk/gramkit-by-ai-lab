@@ -2,18 +2,14 @@
 
 import { ThemeToggle } from '@/components/shared/theme-toggle';
 import { LanguageToggle } from '@/components/shared/language-toggle';
-import { BackButton } from '@/components/shared/BackButton';
 
 export default function SettingsPage() {
   return (
     <div className="min-h-dvh px-5 py-6 space-y-6">
-      <div className="flex items-center gap-3 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
-        <BackButton />
-        <div className="space-y-0.5">
-          <h1 className="text-2xl font-bold tracking-tight">Настройки</h1>
-          <p className="text-sm text-muted-foreground">Интерфейс</p>
-        </div>
-      </div>
+      <header className="space-y-1 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
+        <h1 className="text-2xl font-bold tracking-tight">Настройки</h1>
+        <p className="text-sm text-muted-foreground">Интерфейс</p>
+      </header>
 
       <section className="space-y-4 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[100ms] motion-ease-spring-smooth">
         <h2 className="text-sm font-semibold text-foreground">Интерфейс</h2>
