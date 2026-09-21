@@ -130,41 +130,38 @@ LEGACY_PRODUCTS = {
 
 # Active products with updated pricing
 AVAILABLE_PRODUCTS = {
-    "WEEK_SUB_V3": PaymentProduct(
-        product_id="WEEK_SUB_V3",
-        name="Weekly Subscription",
-        duration_days=7,
+    "FEELIT_START": PaymentProduct(
+        product_id="FEELIT_START",
+        name="FEEL IT — Старт",
+        duration_days=30,   # ← месяц
         prices={
-            "RUB": CurrencyPrice(222.0, "RUB"),
-            "USD": CurrencyPrice(1.99, "USD"),
-            "XTR": CurrencyPrice(250.0, "XTR"),  # ← ДОБАВИТЬ
+            "RUB": CurrencyPrice(250.0, "RUB"),
+            "XTR": CurrencyPrice(250.0, "XTR"),
         },
         recurring=True,
-        reward_handler=weekly_reward,
+        reward_handler=monthly_reward,   # ← переиспользуем
     ),
-    "MONTH_SUB_V3": PaymentProduct(
-        product_id="MONTH_SUB_V3",
-        name="Monthly Subscription",
+    "FEELIT_PRO": PaymentProduct(
+        product_id="FEELIT_PRO",
+        name="FEEL IT — Про",
         duration_days=30,
         prices={
-            "RUB": CurrencyPrice(555.0, "RUB"),
-            "USD": CurrencyPrice(3.99, "USD"),
-            "XTR": CurrencyPrice(500.0, "XTR"),  # ← ДОБАВИТЬ
+            "RUB": CurrencyPrice(500.0, "RUB"),
+            "XTR": CurrencyPrice(500.0, "XTR"),
         },
         recurring=True,
         reward_handler=monthly_reward,
     ),
-    "YEAR_SUB_V3": PaymentProduct(
-        product_id="YEAR_SUB_V3",
-        name="Yearly Subscription",
-        duration_days=365,
+    "FEELIT_BUSINESS": PaymentProduct(
+        product_id="FEELIT_BUSINESS",
+        name="FEEL IT — Бизнес",
+        duration_days=30,
         prices={
-            "RUB": CurrencyPrice(999.0, "RUB"),
-            "USD": CurrencyPrice(9.99, "USD"),
-            "XTR": CurrencyPrice(1000.0, "XTR"),  # ← ДОБАВИТЬ
+            "RUB": CurrencyPrice(1000.0, "RUB"),
+            "XTR": CurrencyPrice(1000.0, "XTR"),
         },
         recurring=True,
-        reward_handler=yearly_reward,
+        reward_handler=monthly_reward,
     ),
 }
 
