@@ -3,7 +3,7 @@
 import { use } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Check } from 'lucide-react';
-import { useGetChannel, useToggleChannel, useSetChannelInterval } from '@/gen';
+import { useGetChannel, useToggleChannel, useSetChannelInterval } from '@/src/gen';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
 
