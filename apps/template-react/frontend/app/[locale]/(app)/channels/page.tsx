@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Activity, Clock, ChevronRight, Radio, ListChecks } from 'lucide-react';
-import { useListChannels, useToggleChannel, useSetChannelInterval } from '@/gen';
+import { useListChannels, useToggleChannel, useSetChannelInterval } from '@/src/gen';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
 
