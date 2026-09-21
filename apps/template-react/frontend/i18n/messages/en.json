@@ -979,8 +979,7 @@
         "error": "Failed to link email. Please try again."
       }
     }
-  }
-,
+  },
   "feelit": {
     "subscription": {
       "title": "My Subscription",
@@ -1100,4 +1099,3 @@
       "step3Text": "Moderation is optional"
     }
   }
-}
