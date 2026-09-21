@@ -25,33 +25,21 @@ async def default_reward(user_id: UUID, payment: Payment, recurring_details: dic
 async def weekly_reward(user_id: UUID, payment: Payment, recurring_details: dict, subscriptions_service) -> None:
     logger.info(f"Weekly reward: initiating top-up for user {user_id}, payment {payment.id}")
     await subscriptions_service.top_up_subscription(
-        user_id,
-        payment.product_id,
-        7,
-        payment,
-        recurring_details,
+        user_id, payment.product_id, 7, payment, recurring_details,
     )
 
 
 async def monthly_reward(user_id: UUID, payment: Payment, recurring_details: dict, subscriptions_service) -> None:
     logger.info(f"Monthly reward: initiating top-up for user {user_id}, payment {payment.id}")
     await subscriptions_service.top_up_subscription(
-        user_id,
-        payment.product_id,
-        30,
-        payment,
-        recurring_details,
+        user_id, payment.product_id, 30, payment, recurring_details,
     )
 
 
 async def yearly_reward(user_id: UUID, payment: Payment, recurring_details: dict, subscriptions_service) -> None:
     logger.info(f"Yearly reward: initiating top-up for user {user_id}, payment {payment.id}")
     await subscriptions_service.top_up_subscription(
-        user_id,
-        payment.product_id,
-        365,
-        payment,
-        recurring_details,
+        user_id, payment.product_id, 365, payment, recurring_details,
     )
 
 
@@ -74,9 +62,10 @@ class PaymentProduct:
         await self.reward_handler(user_id, payment, recurring_details, subscriptions_service)
 
 
-# Legacy products (inactive - keeping for existing subscriptions)
+# ============================================================
+# LEGACY PRODUCTS — оставлены для активных подписок, не показываются
+# ============================================================
 LEGACY_PRODUCTS = {
-    # V1 products
     "WEEK_SUB": PaymentProduct(
         product_id="WEEK_SUB",
         name="Weekly Subscription",
@@ -101,7 +90,6 @@ LEGACY_PRODUCTS = {
         recurring=True,
         reward_handler=yearly_reward,
     ),
-    # V2 products (moved to legacy)
     "WEEK_SUB_V2": PaymentProduct(
         product_id="WEEK_SUB_V2",
         name="Weekly Subscription",
@@ -126,83 +114,113 @@ LEGACY_PRODUCTS = {
         recurring=True,
         reward_handler=yearly_reward,
     ),
+    # V3 — тоже legacy, были активны до этого
+    "WEEK_SUB_V3": PaymentProduct(
+        product_id="WEEK_SUB_V3",
+        name="Weekly Subscription",
+        duration_days=7,
+        prices={"RUB": CurrencyPrice(222.0, "RUB"), "USD": CurrencyPrice(1.99, "USD")},
+        recurring=True,
+        reward_handler=weekly_reward,
+    ),
+    "MONTH_SUB_V3": PaymentProduct(
+        product_id="MONTH_SUB_V3",
+        name="Monthly Subscription",
+        duration_days=30,
+        prices={"RUB": CurrencyPrice(555.0, "RUB"), "USD": CurrencyPrice(3.99, "USD")},
+        recurring=True,
+        reward_handler=monthly_reward,
+    ),
+    "YEAR_SUB_V3": PaymentProduct(
+        product_id="YEAR_SUB_V3",
+        name="Yearly Subscription",
+        duration_days=365,
+        prices={"RUB": CurrencyPrice(999.0, "RUB"), "USD": CurrencyPrice(9.99, "USD")},
+        recurring=True,
+        reward_handler=yearly_reward,
+    ),
 }
 
-# Active products with updated pricing
-AVAILABLE_PRODUCTS = {
+
+# ============================================================
+# FEEL IT PRODUCTS — активные, показываются в Mini App
+# Все на 30 дней, отличаются лимитами (в newsbot)
+# ============================================================
+FEELIT_PRODUCTS = {
     "FEELIT_START": PaymentProduct(
         product_id="FEELIT_START",
-        name="FEEL IT — Старт",
-        duration_days=30,   # ← месяц
+        name="Старт",
+        duration_days=30,
         prices={
-            "RUB": CurrencyPrice(250.0, "RUB"),
             "XTR": CurrencyPrice(250.0, "XTR"),
+            "RUB": CurrencyPrice(250.0, "RUB"),
         },
         recurring=True,
-        reward_handler=monthly_reward,   # ← переиспользуем
+        reward_handler=monthly_reward,
     ),
     "FEELIT_PRO": PaymentProduct(
         product_id="FEELIT_PRO",
-        name="FEEL IT — Про",
+        name="Про",
         duration_days=30,
         prices={
-            "RUB": CurrencyPrice(500.0, "RUB"),
             "XTR": CurrencyPrice(500.0, "XTR"),
+            "RUB": CurrencyPrice(500.0, "RUB"),
         },
         recurring=True,
         reward_handler=monthly_reward,
     ),
     "FEELIT_BUSINESS": PaymentProduct(
         product_id="FEELIT_BUSINESS",
-        name="FEEL IT — Бизнес",
+        name="Бизнес",
         duration_days=30,
         prices={
-            "RUB": CurrencyPrice(1000.0, "RUB"),
             "XTR": CurrencyPrice(1000.0, "XTR"),
+            "RUB": CurrencyPrice(1000.0, "RUB"),
         },
         recurring=True,
         reward_handler=monthly_reward,
     ),
 }
 
-# Test products for development (only available when debug=True)
+
+# ============================================================
+# TEST PRODUCTS — только в debug-режиме
+# ============================================================
 TEST_PRODUCTS = {
     "TEST_ONETIME": PaymentProduct(
         product_id="TEST_ONETIME",
         name="Test One-time Payment",
         duration_days=7,
-        prices={"XTR": CurrencyPrice(1.0, "XTR")},  # 1 Telegram Star
+        prices={"XTR": CurrencyPrice(1.0, "XTR")},
         recurring=False,
     ),
     "TEST_SUBSCRIPTION": PaymentProduct(
         product_id="TEST_SUBSCRIPTION",
         name="Test Subscription",
         duration_days=30,
-        prices={"XTR": CurrencyPrice(1.0, "XTR")},  # 1 Telegram Star
+        prices={"XTR": CurrencyPrice(1.0, "XTR")},
         recurring=True,
         reward_handler=monthly_reward,
     ),
 }
 
-# Products shown in profile page (excludes test products)
-CURRENT_OFFERS = AVAILABLE_PRODUCTS
 
-# Combined dictionary for internal use (contains ALL products)
-ALL_PRODUCTS = {**LEGACY_PRODUCTS, **AVAILABLE_PRODUCTS}
+# ============================================================
+# EXPORTS — что показывать в Mini App, что доступно внутри
+# ============================================================
+
+# В Mini App показываем ТОЛЬКО FEEL IT
+CURRENT_OFFERS = FEELIT_PRODUCTS
+
+# Внутри — всё (legacy + новые), чтобы найти существующие подписки
+ALL_PRODUCTS = {**LEGACY_PRODUCTS, **FEELIT_PRODUCTS}
 
 
 def get_product(product_id: str) -> PaymentProduct | None:
     """
-    Get product by ID, checking both active and legacy products
-    When debug mode is enabled, also includes test products
-
-    Args:
-        product_id: Product ID to look up
-
-    Returns:
-        PaymentProduct or None if not found
+    Get product by ID, checking both active and legacy products.
+    In debug mode, also includes test products.
     """
-    # Include test products in debug mode
     if settings.debug:
         all_products = {**ALL_PRODUCTS, **TEST_PRODUCTS}
         return all_products.get(product_id)
