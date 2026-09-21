@@ -314,3 +314,6 @@ export { paymentProviderEnum } from "./models/PaymentProvider.ts";
 export { startModeEnum } from "./models/StartMode.ts";
 export { subscriptionStatusEnum } from "./models/SubscriptionStatus.ts";
 export { userTypeEnum } from "./models/UserType.ts";
+export type { ChannelOut, SetIntervalRequest } from "./models/ChannelOut.ts";
+export { listChannels, getChannel, toggleChannel, setChannelInterval } from "./client/channels.ts";
+export { listChannelsQueryKey, listChannelsQueryOptions, useListChannels, getChannelQueryKey, getChannelQueryOptions, useGetChannel, useToggleChannel, useSetChannelInterval } from "./hooks/useChannels.ts";
