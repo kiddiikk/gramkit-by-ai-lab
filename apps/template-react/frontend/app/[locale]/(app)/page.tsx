@@ -7,6 +7,9 @@ import {
   UserPlus,
   Sparkles,
   ChevronRight,
+  Zap,
+  Send,
+  Clock,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -49,15 +52,15 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* === СЕТКА КНОПОК (2×2), квадратные карточки === */}
+      {/* === СЕТКА КНОПОК (2×2), аккуратные прямоугольники === */}
       <section className="grid grid-cols-2 gap-3">
         {sections.map((item, index) => {
           const Icon = item.icon;
           return (
-            <Link key={item.href} href={item.href} className="block aspect-square">
+            <Link key={item.href} href={item.href} className="block">
               <Card
                 className={[
-                  'group relative overflow-hidden cursor-pointer gap-0 py-0 h-full',
+                  'group relative overflow-hidden cursor-pointer gap-0 py-0',
                   'transition-all duration-300 ease-out',
                   'hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10',
                   'active:scale-[0.98]',
@@ -69,11 +72,9 @@ export default function HomePage() {
                   .join(' ')}
                 style={{ animationDelay: `${String(index * 60)}ms` }}
               >
-                {/* Мягкий градиент при hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/[0.03] to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                <CardContent className="relative p-4 flex flex-col gap-2.5 h-full">
-                  {/* Иконка — сверху */}
+                <CardContent className="relative p-3.5 flex flex-col gap-2.5">
                   <div
                     className={[
                       'p-2.5 rounded-xl w-fit transition-all duration-300',
@@ -85,7 +86,6 @@ export default function HomePage() {
                     <Icon className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
                   </div>
 
-                  {/* Текст — сразу под иконкой */}
                   <div className="space-y-0.5 w-full">
                     <div className="flex items-center justify-between gap-1">
                       <span className="text-base font-medium leading-tight">
@@ -104,7 +104,55 @@ export default function HomePage() {
         })}
       </section>
 
-      {/* === FOOTER прижат к низу === */}
+      {/* === БЛОК "КАК ЭТО РАБОТАЕТ" === */}
+      <section className="rounded-2xl bg-gradient-to-br from-primary/[0.08] to-primary/[0.02] p-5 space-y-3.5 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[300ms] motion-ease-spring-smooth">
+        <div className="flex items-center gap-2">
+          <div className="p-2 rounded-lg bg-primary/15">
+            <Zap className="w-4 h-4 text-primary" />
+          </div>
+          <div className="font-semibold text-sm">Как это работает</div>
+        </div>
+
+        <div className="space-y-3">
+          <div className="flex items-start gap-3">
+            <div className="w-6 h-6 rounded-full bg-primary/15 flex items-center justify-center shrink-0 mt-0.5">
+              <Send className="w-3 h-3 text-primary" />
+            </div>
+            <div className="space-y-0.5">
+              <div className="text-sm font-medium leading-tight">Подключаешь канал</div>
+              <div className="text-xs text-muted-foreground leading-relaxed">
+                Добавляешь бота в свой Telegram-канал
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="w-6 h-6 rounded-full bg-primary/15 flex items-center justify-center shrink-0 mt-0.5">
+              <Zap className="w-3 h-3 text-primary" />
+            </div>
+            <div className="space-y-0.5">
+              <div className="text-sm font-medium leading-tight">Бот работает сам</div>
+              <div className="text-xs text-muted-foreground leading-relaxed">
+                Находит новости, обрабатывает и публикует
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="w-6 h-6 rounded-full bg-primary/15 flex items-center justify-center shrink-0 mt-0.5">
+              <Clock className="w-3 h-3 text-primary" />
+            </div>
+            <div className="space-y-0.5">
+              <div className="text-sm font-medium leading-tight">Ты только одобряешь</div>
+              <div className="text-xs text-muted-foreground leading-relaxed">
+                Модерация постов — по желанию
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* === FOOTER === */}
       <footer className="mt-auto text-center text-xs text-muted-foreground pt-4 motion-opacity-in-[0%] motion-duration-[1s]">
         FEEL IT — AI LAB · {new Date().getFullYear()}
       </footer>
