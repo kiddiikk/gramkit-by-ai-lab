@@ -1,47 +1,29 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { Gem, Clock, Check, ChevronDown, ArrowRight, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useGetSubscriptionSubscriptionsGet } from '@/src/gen';
 import { BackButton } from '@/components/shared/BackButton';
 
-const features = [
-  'Автопостинг по расписанию',
-  'AI-обработка новостей',
-  'Генерация картинок к постам',
-  'Модерация перед публикацией',
-  'Чередование новостей и развлечений',
-];
-
-const PRODUCT_NAMES: Record<string, string> = {
-  MOCK: 'Нет активной подписки',
-  WEEK_SUB: 'Недельная подписка',
-  MONTH_SUB: 'Месячная подписка',
-  YEAR_SUB: 'Годовая подписка',
-  WEEK_SUB_V2: 'Недельная подписка',
-  MONTH_SUB_V2: 'Месячная подписка',
-  YEAR_SUB_V2: 'Годовая подписка',
-  WEEK_SUB_V3: 'Недельная подписка',
-  MONTH_SUB_V3: 'Месячная подписка',
-  YEAR_SUB_V3: 'Годовая подписка',
-  GIFT_SUB: 'Подарочная подписка',
-};
-
-function formatDaysLeft(endDate: string): string {
+function formatDaysLeft(endDate: string, locale: string): string {
   const now = Date.now();
   const end = new Date(endDate).getTime();
   const diffMs = end - now;
-  if (diffMs <= 0) return 'истекла';
+  if (diffMs <= 0) return locale === 'ru' ? 'истекла' : 'expired';
   const days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-  if (days === 1) return '1 день';
-  if (days >= 2 && days <= 4) return `${days} дня`;
-  return `${days} дней`;
+  if (locale === 'ru') {
+    if (days === 1) return '1 день';
+    if (days >= 2 && days <= 4) return `${days} дня`;
+    return `${days} дней`;
+  }
+  return `${days} ${days === 1 ? 'day' : 'days'}`;
 }
 
-function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString('ru-RU', {
+function formatDate(dateStr: string, locale: string): string {
+  return new Date(dateStr).toLocaleDateString(locale === 'ru' ? 'ru-RU' : 'en-US', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -49,20 +31,33 @@ function formatDate(dateStr: string): string {
 }
 
 export default function SubscriptionPage() {
+  const t = useTranslations('feelit.subscription');
   const [open, setOpen] = useState(false);
   const { data: subscription, isLoading, error } = useGetSubscriptionSubscriptionsGet();
+
+  const locale = typeof window !== 'undefined'
+    ? window.location.pathname.split('/')[1] || 'ru'
+    : 'ru';
 
   const hasAccess = subscription?.has_access ?? false;
   const status = subscription?.status;
   const productId = subscription?.product_id;
   const isMock = !productId || productId === 'MOCK' || status === 'NONE';
 
-  const planName = productId
-    ? PRODUCT_NAMES[productId] ?? productId
-    : 'Нет активной подписки';
+  const features = [
+    t('features.schedule'),
+    t('features.ai'),
+    t('features.images'),
+    t('features.moderation'),
+    t('features.mix'),
+  ];
+
+  const planName = isMock
+    ? t('noSub')
+    : productId ?? t('noSub');
 
   const daysLeft = subscription?.end_date && hasAccess
-    ? formatDaysLeft(subscription.end_date)
+    ? formatDaysLeft(subscription.end_date, locale)
     : null;
 
   const progressPct = (() => {
@@ -80,8 +75,8 @@ export default function SubscriptionPage() {
       <div className="flex items-center gap-3 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
         <BackButton />
         <div className="space-y-0.5">
-          <h1 className="text-2xl font-bold tracking-tight">Моя подписка</h1>
-          <p className="text-sm text-muted-foreground">План, дни, лимиты</p>
+          <h1 className="text-2xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
         </div>
       </div>
 
@@ -91,12 +86,12 @@ export default function SubscriptionPage() {
             <Gem className="w-5 h-5 text-primary" />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-xs text-muted-foreground">Текущий план</div>
+            <div className="text-xs text-muted-foreground">{t('currentPlan')}</div>
             <div className="text-lg font-semibold flex items-center gap-2">
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Загрузка...</span>
+                  <span>{t('loading')}</span>
                 </>
               ) : (
                 planName
@@ -110,10 +105,10 @@ export default function SubscriptionPage() {
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Clock className="w-4 h-4" />
-                <span>{hasAccess ? 'Осталось' : 'Статус'}</span>
+                <span>{hasAccess ? t('daysLeft') : t('status')}</span>
               </div>
               <span className="font-medium tabular-nums">
-                {hasAccess ? daysLeft : isMock ? 'Не активна' : status ?? '—'}
+                {hasAccess ? daysLeft : isMock ? t('notActive') : status ?? '—'}
               </span>
             </div>
             {hasAccess && (
@@ -126,7 +121,7 @@ export default function SubscriptionPage() {
                 </div>
                 {subscription?.end_date && (
                   <div className="text-xs text-muted-foreground text-right">
-                    до {formatDate(subscription.end_date)}
+                    {t('until', { date: formatDate(subscription.end_date, locale) })}
                   </div>
                 )}
               </>
@@ -135,16 +130,14 @@ export default function SubscriptionPage() {
         )}
 
         {error && (
-          <div className="text-xs text-destructive">
-            Не удалось загрузить данные подписки
-          </div>
+          <div className="text-xs text-destructive">{t('loadError')}</div>
         )}
 
         <Link
           href="/tariffs"
           className="flex items-center justify-center gap-2 w-full h-10 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors active:scale-[0.98]"
         >
-          {hasAccess ? 'Повысить план' : 'Оформить подписку'}
+          {hasAccess ? t('upgrade') : t('subscribe')}
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
@@ -154,7 +147,7 @@ export default function SubscriptionPage() {
           onClick={() => setOpen(!open)}
           className="w-full flex items-center justify-between py-3 cursor-pointer text-sm font-semibold hover:text-primary transition-colors"
         >
-          <span>Что входит в подписку</span>
+          <span>{t('whatIncludes')}</span>
           <ChevronDown
             className={cn(
               'w-4 h-4 text-muted-foreground transition-transform duration-300',
