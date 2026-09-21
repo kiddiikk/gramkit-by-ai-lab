@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Copy, Gift, Percent, ChevronDown, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { BackButton } from '@/components/shared/BackButton';
 
 const REFERRAL_PERCENT = 20;
 
@@ -24,10 +25,13 @@ export default function ReferralsPage() {
 
   return (
     <div className="min-h-dvh px-5 py-6 space-y-6">
-      <header className="space-y-1 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
-        <h1 className="text-2xl font-bold tracking-tight">Мои рефералы</h1>
-        <p className="text-sm text-muted-foreground">Приглашай друзей — получай бонусы</p>
-      </header>
+      <div className="flex items-center gap-3 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
+        <BackButton />
+        <div className="space-y-0.5">
+          <h1 className="text-2xl font-bold tracking-tight">Мои рефералы</h1>
+          <p className="text-sm text-muted-foreground">Приглашай друзей — получай бонусы</p>
+        </div>
+      </div>
 
       <div className="rounded-2xl bg-gradient-to-br from-primary/[0.08] to-primary/[0.02] p-5 space-y-4 motion-opacity-in-[0%] motion-translate-y-in-[20px] motion-duration-[0.6s] motion-ease-spring-smooth">
         <div className="text-center space-y-1">
