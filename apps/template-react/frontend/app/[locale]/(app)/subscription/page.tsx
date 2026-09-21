@@ -77,9 +77,13 @@ export default function SubscriptionPage() {
 
   return (
     <div className="min-h-dvh px-5 py-6 space-y-5">
-      <header className="space-y-1 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
-        <h1 className="text-2xl font-bold tracking-tight">Моя подписка</h1>
-        <p className="text-sm text-muted-foreground">План, дни, лимиты</p>
+<div className="flex items-center gap-3">
+  <BackButton />
+  <div className="space-y-0.5">
+    <h1 className="text-2xl font-bold tracking-tight">Моя подписка</h1>
+    <p className="text-sm text-muted-foreground">План, дни, лимиты</p>
+  </div>
+</div>
       </header>
 
       <div className="rounded-2xl bg-gradient-to-br from-primary/[0.08] to-primary/[0.02] p-5 space-y-4 motion-opacity-in-[0%] motion-translate-y-in-[20px] motion-duration-[0.6s] motion-ease-spring-smooth">
