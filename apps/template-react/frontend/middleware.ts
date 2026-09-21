@@ -1,45 +1,18 @@
-import { NextResponse, type NextRequest } from 'next/server';
-import createMiddleware from 'next-intl/middleware';
-
-import { routing } from './i18n/routing';
-import { createRedirect } from './lib/middleware-utils';
-
-const intlMiddleware = createMiddleware(routing);
-
-/**
- * Middleware: i18n routing + access control
- *
- * Route access levels:
- * - Public routes (/,/demo): accessible to everyone, no redirects
- * - Guest-only routes (/login, /marketing): redirect authenticated users to home
- * - Auth-required routes (/profile, /admin): redirect guests to login
- */
 export default function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Extract locale and path from URL
   const localeMatch = /^\/([a-z]{2})(\/.*)?$/.exec(pathname);
+  const locale = localeMatch?.[1] ?? routing.defaultLocale;
+  const pathWithoutLocale = localeMatch?.[2] ?? pathname;
 
-  // 👇 ЕСЛИ ПУТЬ БЕЗ ЛОКАЛИ — РЕДИРЕКТИМ НА ДЕФОЛТНУЮ ЛОКАЛЬ (/en)
-  if (!localeMatch && pathname !== `/${routing.defaultLocale}`) {
-    const url = request.nextUrl.clone();
-    url.pathname = `/${routing.defaultLocale}${pathname === '/' ? '' : pathname}`;
-    return NextResponse.redirect(url);
-  }
-
-  // Apply i18n middleware for locale routing
+  // Apply i18n middleware (handles redirects to /ru/ or /en/ automatically)
   const intlResponse = intlMiddleware(request);
 
-  // Extract locale and path from URL
-  const locale = localeMatch?.[1] ?? routing.defaultLocale;
-  const pathWithoutLocale = localeMatch?.[2] ?? '/';
-
   // Check if request is authenticated
-  // TMA auth: initData header
   const initData = request.headers.get('initData');
   const hasTmaAuth = !!initData && initData.length > 0;
 
-  // Web auth: session cookie (format: {app_name}_session)
   const appName = process.env.APP_NAME ?? 'app';
   const sessionCookie = request.cookies.get(`${appName}_session`)?.value;
   const hasSessionAuth = !!sessionCookie;
@@ -61,29 +34,17 @@ export default function middleware(request: NextRequest) {
     (route) => pathWithoutLocale === route || pathWithoutLocale.startsWith(route + '/')
   );
 
-  // Access control rules
-
-  // Rule 1: Public routes - always accessible, no redirects
-  if (isPublicRoute) {
-    return intlResponse;
-  }
-
-  // Rule 2: Guest-only routes - redirect authenticated users to home
+  if (isPublicRoute) return intlResponse;
   if (isGuestOnlyRoute && isAuthenticated) {
     return createRedirect(request, `/${locale}`);
   }
-
-  // Rule 3: Auth-required routes - redirect guests to login
   if (isAuthRequiredRoute && !isAuthenticated) {
     return createRedirect(request, `/${locale}/login`);
   }
 
-  // Default: allow through (unknown routes)
   return intlResponse;
 }
 
 export const config = {
-  matcher: [
-    '/((?!api|_next|_vercel|.*\\..*).*)',
-  ],
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 };
