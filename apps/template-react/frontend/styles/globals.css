@@ -429,112 +429,118 @@ button {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease !important;
 }
 /* ============================================
-   Aurora Background — плавающие волны "северного сияния"
+   Aurora Background v3 — мягкие плавающие пятна
    ============================================ */
 
-/* Волна 1 — большая диагональ, медленная, плавает по кругу */
-@keyframes aurora-w1 {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+/* Базовое состояние: blur + смешивание */
+.aurora-blob {
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform, opacity;
+  /* В светлой теме — soft-light, чтобы сливалось с белым */
+  mix-blend-mode: soft-light;
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+/* В тёмной теме — screen, чтобы пятна светились мягко */
+.dark .aurora-blob {
+  mix-blend-mode: screen;
+  filter: blur(100px);
+}
+
+/* Сильнее блюрим на маленьких экранах, чтобы точно не было полос */
+@media (max-width: 640px) {
+  .aurora-blob {
+    filter: blur(70px);
+  }
+  .dark .aurora-blob {
+    filter: blur(90px);
+  }
+}
+
+/* ==== Анимации: каждая blob плывёт по своей траектории ==== */
+
+@keyframes aurora-blob-1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
   }
   33% {
-    transform: translate3d(-4%, 3%, 0) rotate(2deg) scale(1.05);
+    transform: translate3d(8%, 6%, 0) scale(1.15);
   }
   66% {
-    transform: translate3d(3%, -2%, 0) rotate(-1.5deg) scale(1.08);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+    transform: translate3d(-5%, -3%, 0) scale(0.95);
   }
 }
+.aurora-blob-1 {
+  animation: aurora-blob-1 38s ease-in-out infinite;
+}
 
-/* Волна 2 — встречное движение, чуть быстрее */
-@keyframes aurora-w2 {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+@keyframes aurora-blob-2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  40% {
+    transform: translate3d(-10%, -8%, 0) scale(1.18);
+  }
+  70% {
+    transform: translate3d(5%, 4%, 0) scale(1.05);
+  }
+}
+.aurora-blob-2 {
+  animation: aurora-blob-2 45s ease-in-out infinite;
+}
+
+@keyframes aurora-blob-3 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(5%, -4%, 0) rotate(-3deg) scale(1.1);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+    transform: translate3d(6%, -6%, 0) scale(1.2);
   }
 }
+.aurora-blob-3 {
+  animation: aurora-blob-3 52s ease-in-out infinite;
+}
 
-/* Волна 3 — тонкая, лёгкое покачивание */
-@keyframes aurora-w3 {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
+@keyframes aurora-blob-4 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
   }
-  25% {
-    transform: translate3d(-3%, 2%, 0) rotate(1deg);
+  35% {
+    transform: translate3d(-8%, 5%, 0) scale(1.1);
   }
   75% {
-    transform: translate3d(4%, -1%, 0) rotate(-2deg);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
+    transform: translate3d(4%, -7%, 0) scale(0.92);
   }
 }
+.aurora-blob-4 {
+  animation: aurora-blob-4 42s ease-in-out infinite;
+}
 
-/* Волна 4 — очень медленная, даёт "пульс" */
-@keyframes aurora-w4 {
+@keyframes aurora-blob-5 {
   0%, 100% {
-    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.9;
   }
   50% {
-    transform: translate3d(-5%, 4%, 0) rotate(1.5deg) scale(1.06);
+    transform: translate3d(-7%, 8%, 0) scale(1.15);
+    opacity: 1;
   }
 }
-
-@keyframes aurora-glow {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.15); }
+.aurora-blob-5 {
+  animation: aurora-blob-5 48s ease-in-out infinite;
 }
 
-.aurora-w1 {
-  animation: aurora-w1 55s ease-in-out infinite;
-  opacity: 0.85;
-  will-change: transform;
-}
-.aurora-w2 {
-  animation: aurora-w2 40s ease-in-out infinite;
-  opacity: 0.75;
-  will-change: transform;
-}
-.aurora-w3 {
-  animation: aurora-w3 32s ease-in-out infinite;
-  opacity: 0.7;
-  will-change: transform;
-}
-.aurora-w4 {
-  animation: aurora-w4 60s ease-in-out infinite;
-  opacity: 0.6;
-  will-change: transform;
-}
-
-.aurora-glow {
-  animation: aurora-glow 25s ease-in-out infinite;
-}
-.aurora-glow-2 {
-  animation: aurora-glow 30s ease-in-out infinite reverse;
-}
-
-/* Dark mode — приглушаем */
-.dark .aurora-w1 { opacity: 0.5; }
-.dark .aurora-w2 { opacity: 0.45; }
-.dark .aurora-w3 { opacity: 0.4; }
-.dark .aurora-w4 { opacity: 0.35; }
-.dark .aurora-glow { opacity: 0.4; }
-.dark .aurora-glow-2 { opacity: 0.3; }
+/* Dark mode — приглушаем, чтобы не выжигало */
+.dark .aurora-blob-1 { opacity: 0.7; }
+.dark .aurora-blob-2 { opacity: 0.65; }
+.dark .aurora-blob-3 { opacity: 0.55; }
+.dark .aurora-blob-4 { opacity: 0.6; }
+.dark .aurora-blob-5 { opacity: 0.5; }
 
 @media (prefers-reduced-motion: reduce) {
-  .aurora-w1,
-  .aurora-w2,
-  .aurora-w3,
-  .aurora-w4,
-  .aurora-glow,
-  .aurora-glow-2 {
-    animation: none;
+  .aurora-blob {
+    animation: none !important;
   }
 }
