@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles, Check, ChevronDown, Loader2 } from 'lucide-react';
+import {
+  Rocket, Crown, Building2, Check, ChevronDown, Loader2, Sparkles,
+} from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -11,15 +13,17 @@ import {
   useStartPurchasePaymentsStartPurchasePost,
   getSubscriptionSubscriptionsGetQueryKey,
 } from '@/src/gen';
+import { BackButton } from '@/components/shared/BackButton';
 
-// Мапинг product_id → метаданные для отображения
-const PRODUCT_META: Record<
-  string,
-  { name: string; emoji: string; features: string[]; popular?: boolean }
-> = {
+const PRODUCT_META: Record<string, {
+  name: string;
+  Icon: React.ElementType;
+  features: string[];
+  popular?: boolean;
+}> = {
   FEELIT_START: {
     name: 'Старт',
-    emoji: '🚀',
+    Icon: Rocket,
     features: [
       '1 канал',
       '10 постов в день',
@@ -30,7 +34,7 @@ const PRODUCT_META: Record<
   },
   FEELIT_PRO: {
     name: 'Про',
-    emoji: '💎',
+    Icon: Crown,
     popular: true,
     features: [
       '2 канала',
@@ -43,7 +47,7 @@ const PRODUCT_META: Record<
   },
   FEELIT_BUSINESS: {
     name: 'Бизнес',
-    emoji: '🏢',
+    Icon: Building2,
     features: [
       '5 каналов',
       '100 постов в день',
@@ -58,7 +62,6 @@ const PRODUCT_META: Record<
 export default function TariffsPage() {
   const [openId, setOpenId] = useState<string | null>(null);
   const queryClient = useQueryClient();
-
   const { data: products, isLoading, error } = useGetProductsPaymentsProductsGet();
   const startPurchase = useStartPurchasePaymentsStartPurchasePost();
 
@@ -82,35 +85,22 @@ export default function TariffsPage() {
       if (tg.openInvoice) {
         tg.openInvoice(result.confirmation_url, (status: string) => {
           if (status === 'paid') {
-            // Обновить данные подписки и пользователя
             queryClient.invalidateQueries({
               queryKey: getSubscriptionSubscriptionsGetQueryKey(),
             });
-            queryClient.invalidateQueries({ queryKey: ['/users/me'] });
             queryClient.invalidateQueries({ queryKey: [{ url: '/users/me' }] });
-
-            tg.showPopup({
-              title: 'Успешно!',
-              message: 'Подписка активирована 🎉',
-            });
+            tg.showPopup({ title: 'Успешно!', message: 'Подписка активирована 🎉' });
           } else if (status === 'failed') {
-            tg.showPopup({
-              title: 'Ошибка',
-              message: 'Оплата не прошла',
-            });
+            tg.showPopup({ title: 'Ошибка', message: 'Оплата не прошла' });
           }
         });
       } else {
-        // Fallback для не-Telegram окружения
         window.open(result.confirmation_url, '_blank');
       }
     } catch (e) {
       console.error('Purchase failed:', e);
       const tg = (window as any).Telegram?.WebApp;
-      tg?.showPopup?.({
-        title: 'Ошибка',
-        message: 'Не удалось создать платёж',
-      });
+      tg?.showPopup?.({ title: 'Ошибка', message: 'Не удалось создать платёж' });
     }
   };
 
@@ -134,16 +124,20 @@ export default function TariffsPage() {
 
   return (
     <div className="min-h-dvh px-5 py-6 space-y-4">
-      <header className="space-y-1 text-center motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
-        <h1 className="text-2xl font-bold tracking-tight">Тарифы</h1>
-        <p className="text-sm text-muted-foreground">Выбери подходящий план</p>
-      </header>
+      <div className="flex items-center gap-3">
+        <BackButton />
+        <div className="space-y-0.5">
+          <h1 className="text-2xl font-bold tracking-tight">Тарифы</h1>
+          <p className="text-sm text-muted-foreground">Выбери подходящий план</p>
+        </div>
+      </div>
 
       <div className="space-y-3">
         {products?.map((product, i) => {
           const meta = PRODUCT_META[product.id];
-          if (!meta) return null; // пропускаем неизвестные продукты
+          if (!meta) return null;
 
+          const { Icon } = meta;
           const isOpen = openId === product.id;
           const isPending = startPurchase.isPending;
 
@@ -152,23 +146,28 @@ export default function TariffsPage() {
               key={product.id}
               className={cn(
                 'motion-opacity-in-[0%] motion-translate-y-in-[20px] motion-duration-[0.5s] motion-ease-spring-smooth',
-                meta.popular &&
-                  'border-primary/40 bg-gradient-to-br from-card to-primary/[0.04]',
+                meta.popular && 'border-primary/40 bg-gradient-to-br from-card to-primary/[0.04]',
               )}
               style={{ animationDelay: `${String(i * 100)}ms` }}
             >
               <CardContent className="p-4 space-y-3">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <div className="font-semibold">
-                      {meta.emoji} {meta.name}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className={cn(
+                      'p-2.5 rounded-xl transition-colors',
+                      meta.popular ? 'bg-primary/20' : 'bg-primary/10',
+                    )}>
+                      <Icon className="w-5 h-5 text-primary" />
                     </div>
-                    <div className="text-xs text-muted-foreground">
-                      30 дней · {product.duration_days} дн.
+                    <div>
+                      <div className="font-semibold">{meta.name}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {product.duration_days} дней
+                      </div>
                     </div>
                   </div>
                   {meta.popular && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/20 text-primary font-medium motion-scale-in-[0.8] motion-duration-[0.6s] motion-ease-spring-bouncy">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/20 text-primary font-medium">
                       Популярный
                     </span>
                   )}
@@ -208,21 +207,17 @@ export default function TariffsPage() {
                     onClick={() => setOpenId(isOpen ? null : product.id)}
                     className="cursor-pointer"
                   >
-                    <ChevronDown
-                      className={cn(
-                        'w-4 h-4 transition-transform duration-300',
-                        isOpen && 'rotate-180',
-                      )}
-                    />
+                    <ChevronDown className={cn(
+                      'w-4 h-4 transition-transform duration-300',
+                      isOpen && 'rotate-180',
+                    )} />
                   </Button>
                 </div>
 
-                <div
-                  className={cn(
-                    'overflow-hidden transition-all duration-300 ease-out',
-                    isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0',
-                  )}
-                >
+                <div className={cn(
+                  'overflow-hidden transition-all duration-300 ease-out',
+                  isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0',
+                )}>
                   <ul className="space-y-1.5 pt-2 border-t">
                     {meta.features.map((f, idx) => (
                       <li
