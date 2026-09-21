@@ -1,13 +1,13 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useLocale } from 'next-intl';
 
 import { useUpdateUser } from '@/hooks';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { useGetCurrentUserUsersMeGet } from '@/src/gen/hooks';
 
-const SUPPORTED_LOCALES = ['en', 'ru'] as const;
+const SUPPORTED_LOCALES = ['ru', 'en'] as const;
 
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
@@ -20,43 +20,6 @@ export function useLanguageService() {
   });
   const { mutateAsync: updateUser } = useUpdateUser();
 
-  const switchLocale = useCallback(
-    (locale: SupportedLocale) => {
-      // next-intl's router.replace handles locale switching automatically
-      // pathname from next-intl is already without locale prefix
-      router.replace(pathname, { locale });
-    },
-    [pathname, router]
-  );
-
-  // Sync user language to i18n locale (only for authenticated users)
-  useEffect(() => {
-    // Skip sync for guest users - they can't persist language preference
-    // Guest users should use URL-based locale (controlled by NEXT_LOCALE cookie)
-    if (!user || user.user_type === 'GUEST') {
-      return;
-    }
-
-    if (!user.language_code) {
-      return;
-    }
-
-    const userLang = user.language_code as SupportedLocale;
-
-    // Check if language is supported
-    if (!SUPPORTED_LOCALES.includes(userLang)) {
-      console.warn(
-        `[useLanguageService] Unsupported language: ${userLang}, defaulting to en`
-      );
-      return;
-    }
-
-    // If user's language differs from current locale, switch
-    if (userLang !== currentLocale) {
-      switchLocale(userLang);
-    }
-  }, [user?.language_code, currentLocale, switchLocale, user]);
-
   const changeLanguage = useCallback(
     async (locale: SupportedLocale) => {
       if (!SUPPORTED_LOCALES.includes(locale)) {
@@ -64,15 +27,19 @@ export function useLanguageService() {
         return;
       }
 
-      // Update user preference in backend (only for authenticated users)
-      if (user && user.user_type !== 'GUEST') {
-        await updateUser({ data: { language_code: locale } });
-      }
+      // 1. Сначала меняем URL (это важнее — пользователь сразу видит результат)
+      router.replace(pathname, { locale });
 
-      // Switch i18n locale (works for both guests and authenticated users)
-      switchLocale(locale);
+      // 2. Потом синхронизируем с бэкендом (не блокирует UI)
+      if (user && user.user_type !== 'GUEST') {
+        try {
+          await updateUser({ data: { language_code: locale } });
+        } catch (e) {
+          console.error('Failed to sync language to backend:', e);
+        }
+      }
     },
-    [user, updateUser, switchLocale]
+    [user, updateUser, pathname, router]
   );
 
   return {
