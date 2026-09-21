@@ -14,8 +14,8 @@ class ProductSchema(BaseModel):
 
 class StartPurchaseRequest(BaseModel):
     product_id: str
-    currency: str = "RUB"
-    provider_id: str = "YOOKASSA"
+    currency: str = "XTR"                    # ← было "RUB"
+    provider_id: str = "TELEGRAM_STARS"      # ← было "YOOKASSA"
     return_url: str
 
 
