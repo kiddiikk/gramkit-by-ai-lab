@@ -67,11 +67,6 @@ async def process_start(
 # ТЕСТОВЫЙ ЭНДПОИНТ — СИМУЛЯЦИЯ ОПЛАТЫ (удалить перед продакшеном!)
 # ============================================================
 
-from datetime import datetime, timedelta, UTC
-from core.infrastructure.database.models.enums import PaymentProvider, SubscriptionStatus
-from uuid import uuid4
-
-
 @router.post("/test/grant-subscription")
 async def test_grant_subscription(
     request: Request,
@@ -80,43 +75,40 @@ async def test_grant_subscription(
 ) -> dict:
     """
     ⚠️ ТЕСТОВЫЙ ЭНДПОИНТ. Симулирует успешную оплату Stars.
+    Создаёт только Subscription. Синхронизация users — через newsbot scheduler.
     Удалить перед продакшеном!
     """
-    # Мапинг product_id → длительность
-    products = {
-        "FEELIT_START": 30,
-        "FEELIT_PRO": 30,
-        "FEELIT_BUSINESS": 30,
-    }
-    
-    product_id = "FEELIT_START"  # по умолчанию Старт
-    days = products.get(product_id, 30)
-    
-    now = datetime.now(UTC)
-    end_date = now + timedelta(days=days)
-    
-    # 1. Создаём subscription
-    await services.repo.subscriptions.create({
-        "id": uuid4(),
-        "user_id": user.id,
-        "product_id": product_id,
-        "provider_id": PaymentProvider.GIFT,
-        "currency": "XTR",
-        "status": SubscriptionStatus.ACTIVE,
-        "start_date": now,
-        "end_date": end_date,
-        "recurring_details": {},
-    })
-    
-    # 2. Обновляем users.subscription_until (для синхронизации с newsbot)
-    await services.repo.users.update_user(user.id, {
-        "subscription_until": end_date,
-        "subscription_plan": "start",
-    })
-    
-    return {
-        "status": "ok",
-        "message": f"Тестовая подписка активирована до {end_date}",
-        "product_id": product_id,
-        "end_date": end_date.isoformat(),
-    }
+    from datetime import datetime, timedelta, UTC
+    from uuid import uuid4
+    from core.infrastructure.database.models.enums import PaymentProvider, SubscriptionStatus
+
+    try:
+        now = datetime.now(UTC)
+        end_date = now + timedelta(days=30)
+
+        subscription = await services.repo.subscriptions.create({
+            "id": uuid4(),
+            "user_id": user.id,
+            "product_id": "FEELIT_START",
+            "provider_id": PaymentProvider.GIFT,
+            "currency": "XTR",
+            "status": SubscriptionStatus.ACTIVE,
+            "start_date": now,
+            "end_date": end_date,
+            "recurring_details": {},
+        })
+
+        return {
+            "status": "ok",
+            "message": f"Тестовая подписка активирована до {end_date}",
+            "subscription_id": str(subscription.id),
+            "product_id": "FEELIT_START",
+            "end_date": end_date.isoformat(),
+        }
+    except Exception as e:
+        import traceback
+        return {
+            "status": "error",
+            "error": str(e),
+            "traceback": traceback.format_exc(),
+        }
