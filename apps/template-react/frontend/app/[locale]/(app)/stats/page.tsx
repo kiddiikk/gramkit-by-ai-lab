@@ -1,6 +1,7 @@
 'use client';
 
 import { Send, AlertCircle, Clock, Radio } from 'lucide-react';
+import { BackButton } from '@/components/shared/BackButton';
 
 const stats = [
   { icon: Send, label: 'Опубликовано', value: 0, accent: true },
@@ -12,10 +13,13 @@ const stats = [
 export default function StatsPage() {
   return (
     <div className="min-h-dvh px-5 py-6 space-y-6">
-      <header className="space-y-1 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
-        <h1 className="text-2xl font-bold tracking-tight">Статистика</h1>
-        <p className="text-sm text-muted-foreground">Посты и каналы</p>
-      </header>
+      <div className="flex items-center gap-3 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
+        <BackButton />
+        <div className="space-y-0.5">
+          <h1 className="text-2xl font-bold tracking-tight">Статистика</h1>
+          <p className="text-sm text-muted-foreground">Посты и каналы</p>
+        </div>
+      </div>
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-6">
         {stats.map((s, i) => {
