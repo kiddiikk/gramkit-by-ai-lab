@@ -125,8 +125,8 @@ class RequestsService:
         """Balance service for managing user credits/limits."""
         return BalanceService(self.repo, self.producer, self, self.bot)
 
-        @cached_property
-    def channels(self) -> ChannelsService:  # ← НОВОЕ
+    @cached_property
+    def channels(self) -> ChannelsService:
         """Channels service for managing user Telegram channels."""
         return ChannelsService(self.repo, self.producer, self, self.bot)
 
