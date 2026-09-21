@@ -40,7 +40,7 @@ const sections = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-dvh px-4 py-6 flex flex-col gap-6">
+    <div className="min-h-dvh px-4 py-6 flex flex-col gap-5">
       {/* === HERO === */}
       <section className="text-center space-y-2 pt-2 motion-opacity-in-[0%] motion-translate-y-in-[20px] motion-blur-in-[4px] motion-duration-[0.6s] motion-ease-spring-smooth">
         <h1 className="tracking-tight">FEEL IT — AI LAB</h1>
@@ -72,8 +72,8 @@ export default function HomePage() {
                 {/* Мягкий градиент при hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/[0.03] to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                <CardContent className="relative p-4 flex flex-col justify-between h-full">
-                  {/* Иконка сверху */}
+                <CardContent className="relative p-4 flex flex-col gap-2.5 h-full">
+                  {/* Иконка — сверху */}
                   <div
                     className={[
                       'p-2.5 rounded-xl w-fit transition-all duration-300',
@@ -85,12 +85,12 @@ export default function HomePage() {
                     <Icon className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
                   </div>
 
-                  {/* Текст снизу */}
+                  {/* Текст — сразу под иконкой */}
                   <div className="space-y-0.5 w-full">
                     <div className="flex items-center justify-between gap-1">
-                      <h3 className="text-base font-medium leading-tight">
+                      <span className="text-base font-medium leading-tight">
                         {item.title}
-                      </h3>
+                      </span>
                       <ChevronRight className="w-4 h-4 text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-primary" />
                     </div>
                     <p className="text-xs text-muted-foreground leading-tight">
