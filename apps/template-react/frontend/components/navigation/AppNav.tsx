@@ -9,7 +9,6 @@ import { Link, usePathname } from '@/i18n/navigation';
 import { Logo } from '@/components/shared/logo';
 import { LanguageToggle } from '@/components/shared/language-toggle';
 import { ThemeToggle } from '@/components/shared/theme-toggle';
-import { ProfileDropdown } from '@/components/shared/profile-dropdown';
 import { Button } from '@/components/ui/button';
 import { useAuth, usePlatform } from '@/hooks';
 import { getVisibleNavItems, authCtaItem } from '@/config/navigation';
@@ -17,13 +16,6 @@ import { layoutConfig } from '@/config/layout';
 
 const ICON_SIZE = 22;
 
-/**
- * AppNav - Main application navigation component
- *
- * Renders desktop header + mobile navigation (bottom tabs or hamburger menu).
- * Reads nav items from config/navigation.ts and filters by user access level.
- * Mobile layout style is configured in config/layout.ts.
- */
 export function AppNav() {
   const { mobileLayout } = layoutConfig;
   const pathname = usePathname();
@@ -32,7 +24,6 @@ export function AppNav() {
   const { isAuthenticated, isAdmin, isOwner } = useAuth();
   const { isTelegramMobile } = usePlatform();
 
-  // Extra bottom padding for Telegram Mini App on mobile device with bottom tabs
   const useTelegramMobilePadding = isTelegramMobile && mobileLayout === 'bottom-tabs';
 
   const { mainNav, mobileNav, showLoginCta } = getVisibleNavItems({
@@ -110,7 +101,6 @@ export function AppNav() {
             </Button>
           </div>
 
-          {/* Mobile Menu Content - dropdown below header */}
           {menuOpen && (
             <div className="border-t bg-background">
               <div className="p-2">
@@ -158,7 +148,6 @@ export function AppNav() {
                   <LanguageToggle />
                   <ThemeToggle />
                   <div className="flex-1" />
-                  {isAuthenticated && <ProfileDropdown />}
                 </div>
               </div>
             </div>
@@ -170,7 +159,6 @@ export function AppNav() {
       <header className="fixed top-0 left-0 right-0 z-50 border-b bg-background/95 backdrop-blur hidden md:block">
         <div className="max-w-[var(--page-max-width)] mx-auto px-[var(--page-padding-x)]">
           <div className="flex items-center justify-between h-14">
-            {/* Left: Logo + Nav tabs */}
             <div className="flex items-center gap-6">
               <Logo size="md" showText={true} />
               <nav className="flex items-center gap-1">
@@ -202,7 +190,6 @@ export function AppNav() {
               </nav>
             </div>
 
-            {/* Right: Controls */}
             <div className="flex items-center gap-2">
               <LanguageToggle />
               <ThemeToggle />
@@ -214,13 +201,11 @@ export function AppNav() {
                   </Link>
                 </Button>
               )}
-              {isAuthenticated && <ProfileDropdown />}
             </div>
           </div>
         </div>
       </header>
 
-      {/* Spacer to prevent content from being hidden under fixed header */}
       {mobileLayout === 'hamburger' && <div className="h-14 md:hidden" />}
       <div className="hidden md:block h-14" />
     </>
