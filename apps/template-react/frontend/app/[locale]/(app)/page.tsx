@@ -1,68 +1,61 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import {
-  Gem,
-  ChartLine,
-  UserPlus,
-  Sparkles,
-  ChevronRight,
-  Zap,
-  Send,
-  Clock,
-  Bot,
+  Gem, ChartLine, UserPlus, Sparkles, ChevronRight, Zap, Send, Clock, Bot,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-const sections = [
-  {
-    href: '/subscription',
-    icon: Gem,
-    title: 'Моя подписка',
-    subtitle: 'План, дни, лимиты',
-    accent: true,
-  },
-  {
-    href: '/stats',
-    icon: ChartLine,
-    title: 'Статистика',
-    subtitle: 'Посты и каналы',
-  },
-  {
-    href: '/referrals',
-    icon: UserPlus,
-    title: 'Мои рефералы',
-    subtitle: 'Приглашай друзей',
-  },
-  {
-    href: '/tariffs',
-    icon: Sparkles,
-    title: 'Тарифы',
-    subtitle: 'Выбери план',
-  },
-  {
-    href: '/channels',
-    icon: Bot,
-    title: 'ИИ Редактор',
-    subtitle: 'Каналы, интервал, очередь',
-    accent: true,
-    wide: true,
-  },
-];
-
 export default function HomePage() {
+  const t = useTranslations('feelit.home');
+
+  const sections = [
+    {
+      href: '/subscription',
+      icon: Gem,
+      title: t('cardSubscription'),
+      subtitle: t('cardSubscriptionSub'),
+      accent: true,
+    },
+    {
+      href: '/stats',
+      icon: ChartLine,
+      title: t('cardStats'),
+      subtitle: t('cardStatsSub'),
+    },
+    {
+      href: '/referrals',
+      icon: UserPlus,
+      title: t('cardReferrals'),
+      subtitle: t('cardReferralsSub'),
+    },
+    {
+      href: '/tariffs',
+      icon: Sparkles,
+      title: t('cardTariffs'),
+      subtitle: t('cardTariffsSub'),
+    },
+    {
+      href: '/channels',
+      icon: Bot,
+      title: t('cardChannels'),
+      subtitle: t('cardChannelsSub'),
+      accent: true,
+      wide: true,
+    },
+  ];
+
   return (
     <div className="min-h-dvh px-4 py-6 flex flex-col gap-5">
-      {/* === HERO === */}
       <section className="text-center space-y-2 pt-2 motion-opacity-in-[0%] motion-translate-y-in-[20px] motion-blur-in-[4px] motion-duration-[0.6s] motion-ease-spring-smooth">
-        <h1 className="tracking-tight">FEEL IT — AI LAB</h1>
+        <h1 className="tracking-tight">{t('heroTitle')}</h1>
         <p className="text-muted-foreground text-base max-w-md mx-auto">
-          Бот, который ведёт твой Telegram-канал сам
+          {t('heroSubtitle')}
         </p>
       </section>
 
-      {/* === СЕТКА КНОПОК === */}
       <section className="grid grid-cols-2 gap-3">
         {sections.map((item, index) => {
           const Icon = item.icon;
@@ -116,13 +109,12 @@ export default function HomePage() {
         })}
       </section>
 
-      {/* === БЛОК "КАК ЭТО РАБОТАЕТ" === */}
       <section className="rounded-2xl bg-gradient-to-br from-primary/[0.08] to-primary/[0.02] p-5 space-y-3.5 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[300ms] motion-ease-spring-smooth">
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-lg bg-primary/15">
             <Zap className="w-4 h-4 text-primary" />
           </div>
-          <div className="font-semibold text-sm">Как это работает</div>
+          <div className="font-semibold text-sm">{t('howItWorks')}</div>
         </div>
 
         <div className="space-y-3">
@@ -131,9 +123,9 @@ export default function HomePage() {
               <Send className="w-3 h-3 text-primary" />
             </div>
             <div className="space-y-0.5">
-              <div className="text-sm font-medium leading-tight">Подключаешь канал</div>
+              <div className="text-sm font-medium leading-tight">{t('step1Title')}</div>
               <div className="text-xs text-muted-foreground leading-relaxed">
-                Добавляешь бота в свой Telegram-канал
+                {t('step1Text')}
               </div>
             </div>
           </div>
@@ -143,9 +135,9 @@ export default function HomePage() {
               <Zap className="w-3 h-3 text-primary" />
             </div>
             <div className="space-y-0.5">
-              <div className="text-sm font-medium leading-tight">Бот работает сам</div>
+              <div className="text-sm font-medium leading-tight">{t('step2Title')}</div>
               <div className="text-xs text-muted-foreground leading-relaxed">
-                Находит новости, обрабатывает и публикует
+                {t('step2Text')}
               </div>
             </div>
           </div>
@@ -155,18 +147,17 @@ export default function HomePage() {
               <Clock className="w-3 h-3 text-primary" />
             </div>
             <div className="space-y-0.5">
-              <div className="text-sm font-medium leading-tight">Ты только одобряешь</div>
+              <div className="text-sm font-medium leading-tight">{t('step3Title')}</div>
               <div className="text-xs text-muted-foreground leading-relaxed">
-                Модерация постов — по желанию
+                {t('step3Text')}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* === FOOTER === */}
       <footer className="mt-auto text-center text-xs text-muted-foreground pt-4 motion-opacity-in-[0%] motion-duration-[1s]">
-        FEEL IT — AI LAB · {new Date().getFullYear()}
+        {t('heroTitle')} · {new Date().getFullYear()}
       </footer>
     </div>
   );
