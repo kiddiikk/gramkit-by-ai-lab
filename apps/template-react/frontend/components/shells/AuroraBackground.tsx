@@ -2,8 +2,8 @@
 
 /**
  * AuroraBackground v3 — мягкие плавающие пятна без полос.
- * Использует radial-gradient + blur + mix-blend для плавного слияния.
  * Light: multiply (тонирование белого). Dark: screen (свечение).
+ * Цвет: изумрудный (emerald).
  */
 export function AuroraBackground() {
   return (
@@ -14,7 +14,7 @@ export function AuroraBackground() {
       {/* Базовая подложка */}
       <div className="absolute inset-0 bg-background" />
 
-      {/* Пятно 1 — большое, сверху-слева, тёплое бежевое */}
+      {/* Пятно 1 — большое, сверху-слева */}
       <div
         className="absolute aurora-blob aurora-blob-1"
         style={{
@@ -23,11 +23,11 @@ export function AuroraBackground() {
           width: '70%',
           height: '70%',
           background:
-            'radial-gradient(circle at center, oklch(0.8088 0.0592 67.76 / 0.75) 0%, oklch(0.8088 0.0592 67.76 / 0.35) 40%, transparent 70%)',
+            'radial-gradient(circle at center, oklch(0.65 0.15 160 / 0.75) 0%, oklch(0.65 0.15 160 / 0.35) 40%, transparent 70%)',
         }}
       />
 
-      {/* Пятно 2 — снизу-справа, тёплое золотистое */}
+      {/* Пятно 2 — снизу-справа, чуть светлее изумруд */}
       <div
         className="absolute aurora-blob aurora-blob-2"
         style={{
@@ -36,11 +36,11 @@ export function AuroraBackground() {
           width: '75%',
           height: '75%',
           background:
-            'radial-gradient(circle at center, oklch(0.82 0.08 65 / 0.7) 0%, oklch(0.82 0.08 65 / 0.3) 45%, transparent 70%)',
+            'radial-gradient(circle at center, oklch(0.72 0.14 165 / 0.7) 0%, oklch(0.72 0.14 165 / 0.3) 45%, transparent 70%)',
         }}
       />
 
-      {/* Пятно 3 — по центру, светлое, для "перелива" */}
+      {/* Пятно 3 — по центру, светлое (почти белое-зелёное) */}
       <div
         className="absolute aurora-blob aurora-blob-3"
         style={{
@@ -49,11 +49,11 @@ export function AuroraBackground() {
           width: '65%',
           height: '65%',
           background:
-            'radial-gradient(circle at center, oklch(0.95 0.04 80 / 0.6) 0%, oklch(0.9 0.05 70 / 0.25) 50%, transparent 75%)',
+            'radial-gradient(circle at center, oklch(0.90 0.06 160 / 0.6) 0%, oklch(0.85 0.08 165 / 0.25) 50%, transparent 75%)',
         }}
       />
 
-      {/* Пятно 4 — акцентное, тёплое розово-золотое */}
+      {/* Пятно 4 — акцентное, чуть бирюзовое (для перелива) */}
       <div
         className="absolute aurora-blob aurora-blob-4"
         style={{
@@ -62,7 +62,7 @@ export function AuroraBackground() {
           width: '55%',
           height: '55%',
           background:
-            'radial-gradient(circle at center, oklch(0.78 0.09 55 / 0.6) 0%, oklch(0.78 0.09 55 / 0.2) 50%, transparent 75%)',
+            'radial-gradient(circle at center, oklch(0.70 0.12 175 / 0.6) 0%, oklch(0.70 0.12 175 / 0.2) 50%, transparent 75%)',
         }}
       />
 
@@ -75,7 +75,7 @@ export function AuroraBackground() {
           width: '50%',
           height: '50%',
           background:
-            'radial-gradient(circle at center, oklch(0.85 0.07 70 / 0.55) 0%, transparent 65%)',
+            'radial-gradient(circle at center, oklch(0.75 0.12 155 / 0.55) 0%, transparent 65%)',
         }}
       />
     </div>
