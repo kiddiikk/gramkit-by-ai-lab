@@ -32,9 +32,12 @@ async def get_products(
     Get available products for purchase.
 
     Returns products excluding test products, suitable for profile/shop pages.
+    Prices are returned in XTR (Telegram Stars) for the Mini App.
     """
     # Get products for profile page (excludes test products)
-    products_data = await services.payments.get_profile_products_async(currency="RUB")
+    products_data = await services.payments.get_profile_products_async(
+        user_id=user.id, currency="XTR",
+    )
 
     # Convert to schema
     products = []
