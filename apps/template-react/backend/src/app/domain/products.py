@@ -134,7 +134,11 @@ AVAILABLE_PRODUCTS = {
         product_id="WEEK_SUB_V3",
         name="Weekly Subscription",
         duration_days=7,
-        prices={"RUB": CurrencyPrice(222.0, "RUB"), "USD": CurrencyPrice(1.99, "USD")},
+        prices={
+            "RUB": CurrencyPrice(222.0, "RUB"),
+            "USD": CurrencyPrice(1.99, "USD"),
+            "XTR": CurrencyPrice(250.0, "XTR"),  # ← ДОБАВИТЬ
+        },
         recurring=True,
         reward_handler=weekly_reward,
     ),
@@ -142,7 +146,11 @@ AVAILABLE_PRODUCTS = {
         product_id="MONTH_SUB_V3",
         name="Monthly Subscription",
         duration_days=30,
-        prices={"RUB": CurrencyPrice(555.0, "RUB"), "USD": CurrencyPrice(3.99, "USD")},
+        prices={
+            "RUB": CurrencyPrice(555.0, "RUB"),
+            "USD": CurrencyPrice(3.99, "USD"),
+            "XTR": CurrencyPrice(500.0, "XTR"),  # ← ДОБАВИТЬ
+        },
         recurring=True,
         reward_handler=monthly_reward,
     ),
@@ -150,7 +158,11 @@ AVAILABLE_PRODUCTS = {
         product_id="YEAR_SUB_V3",
         name="Yearly Subscription",
         duration_days=365,
-        prices={"RUB": CurrencyPrice(999.0, "RUB"), "USD": CurrencyPrice(9.99, "USD")},
+        prices={
+            "RUB": CurrencyPrice(999.0, "RUB"),
+            "USD": CurrencyPrice(9.99, "USD"),
+            "XTR": CurrencyPrice(1000.0, "XTR"),  # ← ДОБАВИТЬ
+        },
         recurring=True,
         reward_handler=yearly_reward,
     ),
