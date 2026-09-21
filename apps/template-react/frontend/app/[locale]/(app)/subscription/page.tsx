@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Gem, Clock, Check, ChevronDown, ArrowRight, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useGetSubscriptionSubscriptionsGet } from '@/src/gen';
+import { BackButton } from '@/components/shared/BackButton';
 
 const features = [
   'Автопостинг по расписанию',
