@@ -5,6 +5,7 @@ from functools import cached_property
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.database.repo.balance import BalanceRepo
+from app.infrastructure.database.repo.channels import ChannelRepo  # ← НОВОЕ
 from core.infrastructure.database.repo.groups import GroupMemberRepo, GroupRepo
 from core.infrastructure.database.repo.invites import InviteRepo
 from core.infrastructure.database.repo.payments import PaymentEventRepo, PaymentRepo
@@ -38,6 +39,11 @@ class RequestsRepo:
     def balance(self) -> BalanceRepo:
         """Balance repository (template-specific)."""
         return BalanceRepo(self.session)
+
+    @cached_property
+    def channels(self) -> ChannelRepo:  # ← НОВОЕ
+        """Channel repository (template-specific)."""
+        return ChannelRepo(self.session)
 
     @cached_property
     def groups(self) -> GroupRepo:
