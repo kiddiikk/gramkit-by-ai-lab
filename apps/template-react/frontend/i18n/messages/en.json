@@ -981,3 +981,123 @@
     }
   }
 }
+,
+  "feelit": {
+    "subscription": {
+      "title": "My Subscription",
+      "subtitle": "Plan, days, limits",
+      "currentPlan": "Current plan",
+      "noSub": "No active subscription",
+      "daysLeft": "Days left",
+      "status": "Status",
+      "notActive": "Not active",
+      "until": "until {date}",
+      "upgrade": "Upgrade plan",
+      "subscribe": "Subscribe",
+      "whatIncludes": "What's included",
+      "loading": "Loading...",
+      "loadError": "Failed to load subscription data",
+      "features": {
+        "schedule": "Scheduled autoposting",
+        "ai": "AI content processing",
+        "images": "Image generation for posts",
+        "moderation": "Moderation before publishing",
+        "mix": "News and entertainment mix"
+      }
+    },
+    "tariffs": {
+      "title": "Plans",
+      "subtitle": "Choose your plan",
+      "popular": "Popular",
+      "buy": "Subscribe",
+      "creating": "Creating...",
+      "perMonth": "⭐ / month",
+      "daysLabel": "days",
+      "payNote": "Payment via Telegram Stars",
+      "loadError": "Failed to load plans. Try again later.",
+      "openInTelegram": "Open in Telegram to pay",
+      "paymentSuccess": "Subscription activated 🎉",
+      "paymentFailed": "Payment failed",
+      "paymentError": "Failed to create payment"
+    },
+    "channels": {
+      "title": "AI Editor",
+      "subtitle": "Channels, interval, queue",
+      "connected": "Connected channels",
+      "empty": "You have no channels yet",
+      "emptyHint": "Add a channel via bot — it will appear here",
+      "noTopic": "No topic",
+      "interval": "Post interval",
+      "intervalFor": "For channel:",
+      "queue": "Post queue",
+      "queueEmpty": "Posts will appear here soon",
+      "queueHint": "Queue is available after the first post",
+      "loading": "Loading...",
+      "loadError": "Error: failed to load data"
+    },
+    "stats": {
+      "title": "Statistics",
+      "subtitle": "Posts and channels",
+      "published": "Published",
+      "notPublished": "Not published",
+      "totalPosts": "Total posts",
+      "channels": "Channels",
+      "myChannels": "My channels",
+      "noChannels": "No channels connected yet. Add one via bot."
+    },
+    "referrals": {
+      "title": "My Referrals",
+      "subtitle": "Invite friends — get bonuses",
+      "friends": "invited friends",
+      "copyLink": "Copy link",
+      "copied": "Copied",
+      "about": "About referral program",
+      "youGet": "You get {percent}%",
+      "youGetDesc": "from each invited friend's purchase — Stars go to your account",
+      "friendGet": "Friend benefits too",
+      "friendGetDesc": "gets bonus days on first payment via your link",
+      "howItWorks": "How it works",
+      "step1": "1. Send your link to a friend",
+      "step2": "2. Friend starts bot via your link",
+      "step3": "3. They subscribe",
+      "step4": "4. You get {percent}% Stars"
+    },
+    "about": {
+      "title": "FEEL IT — AI LAB",
+      "subtitle": "About",
+      "p1": "FEEL IT — AI LAB is a bot for automatic Telegram channel management. You give it a topic, and it finds fresh AI news, processes them with neural networks, translates to Russian, rewrites in a lively style, and publishes on schedule — without your involvement.",
+      "p2": "If there's no suitable image for a news item — the bot generates it. If you need to alternate serious content with light — it handles that too. Everything that goes to the channel first passes through you: approve, reject or edit.",
+      "p3": "The bot works 24/7 and never gets tired. Perfect for those running a channel about tech, AI, startups, or who just want to keep the audience informed without spending hours every day.",
+      "contactsTitle": "Questions & collaboration",
+      "contactsText": "Ideas, questions, ads, collaboration — write to us, we reply fast.",
+      "footerText": "FEEL IT — AI LAB"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Interface",
+      "interface": "Interface",
+      "theme": "Theme",
+      "language": "Language"
+    },
+    "home": {
+      "heroTitle": "FEEL IT — AI LAB",
+      "heroSubtitle": "The bot that runs your Telegram channel itself",
+      "cardSubscription": "My Subscription",
+      "cardSubscriptionSub": "Plan, days, limits",
+      "cardStats": "Statistics",
+      "cardStatsSub": "Posts and channels",
+      "cardReferrals": "My Referrals",
+      "cardReferralsSub": "Invite friends",
+      "cardTariffs": "Plans",
+      "cardTariffsSub": "Choose your plan",
+      "cardChannels": "AI Editor",
+      "cardChannelsSub": "Channels, interval, queue",
+      "howItWorks": "How it works",
+      "step1Title": "Connect a channel",
+      "step1Text": "Add the bot to your Telegram channel",
+      "step2Title": "Bot works on its own",
+      "step2Text": "Finds news, processes and publishes",
+      "step3Title": "You just approve",
+      "step3Text": "Moderation is optional"
+    }
+  }
