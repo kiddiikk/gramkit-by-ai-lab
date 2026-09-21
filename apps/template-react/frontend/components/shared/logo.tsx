@@ -1,30 +1,34 @@
 'use client';
 
-import { FlaskConical } from 'lucide-react';
-
-import { Link } from '@/i18n/navigation';
+import { Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface LogoProps {
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg';
   showText?: boolean;
+  className?: string;
 }
 
-export function Logo({ size = 'md', showText = true }: LogoProps) {
-  const iconSize = size === 'sm' ? 'h-5 w-5' : 'h-6 w-6';
-  const textSize = size === 'sm' ? 'text-base' : 'text-lg';
+const sizes = {
+  sm: { icon: 18, text: 'text-sm', gap: 'gap-1.5' },
+  md: { icon: 22, text: 'text-base', gap: 'gap-2' },
+  lg: { icon: 28, text: 'text-lg', gap: 'gap-2.5' },
+} as const;
 
+export function Logo({ size = 'md', showText = true, className }: LogoProps) {
+  const s = sizes[size];
   return (
-    <Link
-      href="/"
-      className="flex items-center gap-2 transition-opacity hover:opacity-80"
-    >
-      <FlaskConical className={cn(iconSize, 'text-primary')} />
+    <div className={cn('flex items-center', s.gap, className)}>
+      <Sparkles
+        size={s.icon}
+        className="text-primary shrink-0"
+        strokeWidth={2.2}
+      />
       {showText && (
-        <span className={cn(textSize, 'font-semibold text-foreground')}>
-          Template
+        <span className={cn(s.text, 'font-bold tracking-tight whitespace-nowrap')}>
+          AI LAB!
         </span>
       )}
-    </Link>
+    </div>
   );
 }
