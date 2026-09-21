@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Activity, Clock, ChevronRight, Radio, ListChecks } from 'lucide-react';
+import { Activity, Clock, Radio, ListChecks } from 'lucide-react';
 import { useListChannels, useToggleChannel, useSetChannelInterval } from '@/src/gen';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
+import { BackButton } from '@/components/shared/BackButton';
 
 const INTERVALS = [
   { value: 3600, label: '1 ч' },
@@ -36,11 +37,13 @@ export default function AIEditorPage() {
 
   return (
     <div className="min-h-dvh px-5 py-6 space-y-5">
-      {/* === HEADER === */}
-      <header className="space-y-1 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
-        <h1 className="text-2xl font-bold tracking-tight">ИИ Редактор</h1>
-        <p className="text-sm text-muted-foreground">Каналы, интервал, очередь</p>
-      </header>
+      <div className="flex items-center gap-3 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
+        <BackButton />
+        <div className="space-y-0.5">
+          <h1 className="text-2xl font-bold tracking-tight">ИИ Редактор</h1>
+          <p className="text-sm text-muted-foreground">Каналы, интервал, очередь</p>
+        </div>
+      </div>
 
       {/* === ПОДКЛЮЧЕННЫЕ КАНАЛЫ === */}
       <section className="space-y-3">
