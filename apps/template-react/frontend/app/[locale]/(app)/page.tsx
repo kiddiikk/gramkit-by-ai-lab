@@ -10,8 +10,10 @@ import {
   Zap,
   Send,
   Clock,
+  Bot,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 const sections = [
   {
@@ -39,6 +41,14 @@ const sections = [
     title: 'Тарифы',
     subtitle: 'Выбери план',
   },
+  {
+    href: '/channels',
+    icon: Bot,
+    title: 'ИИ Редактор',
+    subtitle: 'Каналы, интервал, очередь',
+    accent: true,
+    wide: true,
+  },
 ];
 
 export default function HomePage() {
@@ -52,48 +62,50 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* === СЕТКА КНОПОК (2×2), аккуратные прямоугольники === */}
+      {/* === СЕТКА КНОПОК === */}
       <section className="grid grid-cols-2 gap-3">
         {sections.map((item, index) => {
           const Icon = item.icon;
           return (
-            <Link key={item.href} href={item.href} className="block">
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn('block', item.wide && 'col-span-2')}
+            >
               <Card
-                className={[
-                  'group relative overflow-hidden cursor-pointer gap-0 py-0',
+                className={cn(
+                  'group relative overflow-hidden cursor-pointer gap-0 py-0 h-[124px]',
                   'transition-all duration-300 ease-out',
                   'hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10',
                   'active:scale-[0.98]',
                   'motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s]',
                   'motion-ease-spring-smooth',
                   item.accent && 'border-primary/30 bg-gradient-to-br from-card to-primary/[0.04]',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
+                )}
                 style={{ animationDelay: `${String(index * 60)}ms` }}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/[0.03] to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                <CardContent className="relative p-3.5 flex flex-col gap-2.5">
-                  <div
-                    className={[
-                      'p-2.5 rounded-xl w-fit transition-all duration-300',
-                      item.accent
-                        ? 'bg-primary/20 group-hover:bg-primary/30'
-                        : 'bg-primary/10 group-hover:bg-primary/20',
-                    ].join(' ')}
-                  >
-                    <Icon className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
+                <CardContent className="relative p-3.5 h-full flex flex-col justify-between">
+                  <div className="flex items-start justify-between">
+                    <div
+                      className={cn(
+                        'p-2.5 rounded-xl w-fit transition-all duration-300',
+                        item.accent
+                          ? 'bg-primary/20 group-hover:bg-primary/30'
+                          : 'bg-primary/10 group-hover:bg-primary/20',
+                      )}
+                    >
+                      <Icon className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-primary" />
                   </div>
 
-                  <div className="space-y-0.5 w-full">
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="text-base font-medium leading-tight">
-                        {item.title}
-                      </span>
-                      <ChevronRight className="w-4 h-4 text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-primary" />
+                  <div className="space-y-0.5">
+                    <div className="text-base font-medium leading-tight line-clamp-1">
+                      {item.title}
                     </div>
-                    <p className="text-xs text-muted-foreground leading-tight">
+                    <p className="text-xs text-muted-foreground leading-tight line-clamp-2">
                       {item.subtitle}
                     </p>
                   </div>
