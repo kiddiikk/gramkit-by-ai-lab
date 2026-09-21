@@ -427,4 +427,88 @@ button {
 .theme-transition *::before,
 .theme-transition *::after {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease !important;
+/* ============================================
+   Aurora Background — анимация "северного сияния"
+   ============================================ */
+
+@keyframes aurora-wave-1 {
+  0%, 100% {
+    transform: translateX(-5%) translateY(0) scale(1);
+  }
+  50% {
+    transform: translateX(5%) translateY(-3%) scale(1.05);
+  }
+}
+
+@keyframes aurora-wave-2 {
+  0%, 100% {
+    transform: translateX(3%) translateY(0) scale(1);
+  }
+  50% {
+    transform: translateX(-4%) translateY(4%) scale(1.08);
+  }
+}
+
+@keyframes aurora-wave-3 {
+  0%, 100% {
+    transform: translateX(0) translateY(2%) scale(1);
+  }
+  50% {
+    transform: translateX(-6%) translateY(-4%) scale(1.06);
+  }
+}
+
+@keyframes aurora-glow {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.aurora-wave-1 {
+  animation: aurora-wave-1 45s ease-in-out infinite;
+  opacity: 0.9;
+  will-change: transform;
+}
+
+.aurora-wave-2 {
+  animation: aurora-wave-2 35s ease-in-out infinite;
+  opacity: 0.75;
+  will-change: transform;
+}
+
+.aurora-wave-3 {
+  animation: aurora-wave-3 30s ease-in-out infinite;
+  opacity: 0.7;
+  will-change: transform;
+}
+
+.aurora-glow {
+  animation: aurora-glow 25s ease-in-out infinite;
+}
+
+.aurora-glow-2 {
+  animation: aurora-glow 30s ease-in-out infinite reverse;
+}
+
+/* Dark mode — приглушаем, чтобы не выжигало */
+.dark .aurora-wave-1 { opacity: 0.45; }
+.dark .aurora-wave-2 { opacity: 0.4; }
+.dark .aurora-wave-3 { opacity: 0.35; }
+.dark .aurora-glow { opacity: 0.4; }
+.dark .aurora-glow-2 { opacity: 0.3; }
+
+/* Уважаем настройку "уменьшить движение" */
+@media (prefers-reduced-motion: reduce) {
+  .aurora-wave-1,
+  .aurora-wave-2,
+  .aurora-wave-3,
+  .aurora-glow,
+  .aurora-glow-2 {
+    animation: none;
+  }
 }
