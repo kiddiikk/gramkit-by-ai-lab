@@ -95,20 +95,33 @@
         "mix": "Чередование новостей и развлечений"
       }
     },
-    "tariffs": {
-      "title": "Тарифы",
-      "subtitle": "Выбери подходящий план",
-      "popular": "Популярный",
-      "buy": "Оформить",
-      "creating": "Создание...",
-      "perMonth": "⭐ / мес",
-      "daysLabel": "дней",
-      "payNote": "Оплата через Telegram Stars",
-      "loadError": "Не удалось загрузить тарифы. Попробуй позже.",
-      "openInTelegram": "Открой из Telegram, чтобы оплатить",
-      "paymentSuccess": "Подписка активирована 🎉",
-      "paymentFailed": "Оплата не прошла",
-      "paymentError": "Не удалось создать платёж"
+"tariffs": {
+  "title": "Тарифы",
+  "subtitle": "Выбери подходящий план",
+  "popular": "Популярный",
+  "buy": "Оформить",
+  "creating": "Создание...",
+  "daysLabel": "дней",
+  "payNote": "Оплата через Telegram Stars",
+  "loadError": "Не удалось загрузить тарифы. Попробуй позже.",
+  "openInTelegram": "Открой из Telegram, чтобы оплатить",
+  "paymentSuccess": "Подписка активирована",
+  "paymentFailed": "Оплата не прошла",
+  "paymentError": "Не удалось создать платёж",
+  "startName": "Старт",
+  "proName": "Про",
+  "businessName": "Бизнес",
+  "features": {
+    "channels1": "1 канал",
+    "channels2": "2 канала",
+    "channels5": "5 каналов",
+    "posts10": "10 постов в день",
+    "posts30": "30 постов в день",
+    "posts100": "100 постов в день",
+    "ai": "AI-обработка",
+    "moderation": "Модерация",
+    "images": "Генерация картинок",
+    "priority": "Приоритетная очередь"
     },
     "channels": {
       "title": "ИИ Редактор",
