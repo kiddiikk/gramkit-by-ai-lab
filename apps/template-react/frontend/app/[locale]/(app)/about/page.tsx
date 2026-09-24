@@ -55,14 +55,21 @@ export default function AboutPage() {
 
         {/* 4 цифры */}
         <div className="grid grid-cols-4 gap-2 pt-4 max-w-md mx-auto">
-          {stats.map(({ value, key }, i) => (
+          {stats.map(({ value, prefix, key }, i) => (
             <div
               key={key}
               className="space-y-1 motion-opacity-in-[0%] motion-translate-y-in-[10px] motion-duration-[0.5s] motion-ease-spring-smooth"
               style={{ animationDelay: `${String(300 + i * 80)}ms` }}
             >
-              <div className="text-xl font-bold tabular-nums text-primary">
-                {value}
+              <div className="flex items-baseline justify-center gap-0.5">
+                {prefix && (
+                  <span className="text-[10px] font-medium text-muted-foreground/70 uppercase tracking-wide">
+                    {prefix}
+                  </span>
+                )}
+                <span className="text-xl font-bold tabular-nums text-primary">
+                  {value}
+                </span>
               </div>
               <div className="text-[10px] text-muted-foreground leading-tight uppercase tracking-wide">
                 {t(key)}
