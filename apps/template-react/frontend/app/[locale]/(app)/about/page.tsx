@@ -18,10 +18,10 @@ export default function AboutPage() {
 
   // 4 цифры в hero
   const stats = [
-    { value: '10', key: 'statChannels' },
-    { value: '100', key: 'statPosts' },
-    { value: '24/7', key: 'stat247' },
-    { value: '∞', key: 'statTopics' },
+    { prefix: t('statUpTo'), value: '10', key: 'statChannels' },
+    { prefix: t('statUpTo'), value: '100', key: 'statPosts' },
+    { prefix: '', value: '24/7', key: 'stat247' },
+    { prefix: '', value: '∞', key: 'statTopics' },
   ];
 
   // 6 групп фич
