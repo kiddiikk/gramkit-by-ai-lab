@@ -63,7 +63,7 @@ export default function AboutPage() {
             >
               <div className="flex items-baseline justify-center gap-0.5">
                 {prefix && (
-                  <span className="text-[10px] font-medium text-muted-foreground/70 uppercase tracking-wide">
+                  <span className="text-[10px] font-medium text-primary/70 uppercase tracking-wide">
                     {prefix}
                   </span>
                 )}
