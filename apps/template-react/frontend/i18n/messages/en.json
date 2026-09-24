@@ -167,25 +167,48 @@
       "step4": "4. You get {percent}% Stars"
     },
 "about": {
+  "badge": "AI-powered posting",
   "title": "The bot that runs your Telegram channel for you",
-  "lead": "Connect a channel, pick your sources — RSS feeds, Reddit, news sites — and set a schedule. From there, the bot works on its own: finds fresh content, translates it into the right language, rewrites it in a lively style, generates an image if there isn't one, and publishes the post on time.",
-  "forWhomTitle": "Who it's for",
-  "forWhomText": "Owners of news, niche, and personal channels who want to keep their audience informed — without spending hours every day. Any topic: tech, finance, sports, culture, science.",
-  "featuresTitle": "What's inside",
-  "features": {
-    "f1": "Any sources: RSS, Reddit, news feeds",
-    "f2": "Auto-parsing every 30 minutes — fresh news first",
-    "f3": "Translation and rewrite — no copy-paste",
-    "f4": "Image generation if the post has no picture",
-    "f5": "Flexible schedule: from once an hour to once a day",
-    "f6": "Up to 10 channels and 100 posts per day on the top plan",
-    "f7": "Choose your AI model and custom prompt — for your tasks and style",
-    "f8": "Pre-moderation: approve, reject, or edit before publishing",
-    "f9": "Duplicate check — the same item won't be posted twice",
-    "f10": "Channel and post stats right inside the mini app",
-    "f11": "Switch interface language and theme"
+  "lead": "Connect a channel, pick your sources and set a schedule. From there the bot handles it — finds, translates, rewrites, generates an image if there isn't one, and publishes.",
+  "statChannels": "channels",
+  "statPosts": "posts/day",
+  "stat247": "uptime",
+  "statTopics": "topics",
+  "forWhomLabel": "Who it's for",
+  "forWhomText": "Owners of news, niche and personal channels who want to keep their audience informed without spending hours every day. Any topic: tech, finance, sports, culture, science.",
+  "featuresLabel": "What's inside",
+  "g1": {
+    "title": "Sources",
+    "i1": "RSS feeds, Reddit, news sites",
+    "i2": "Custom URLs and sources",
+    "i3": "Auto-parsing every 30 minutes"
   },
-  "contactsTitle": "Questions & collaboration",
+  "g2": {
+    "title": "AI processing",
+    "i4": "Translation into any language",
+    "i5": "Lively rewrite — no copy-paste",
+    "i6": "Image generation if there isn't one"
+  },
+  "g3": {
+    "title": "Schedule",
+    "i7": "Intervals from an hour to a day",
+    "i8": "Up to 100 posts/day on the top plan"
+  },
+  "g4": {
+    "title": "Moderation",
+    "i9": "Pre-moderation — approve, reject, edit",
+    "i10": "Duplicate check"
+  },
+  "g5": {
+    "title": "Analytics",
+    "i11": "Channel and post stats in the mini app"
+  },
+  "g6": {
+    "title": "Settings",
+    "i12": "AI model choice and custom prompt",
+    "i13": "Switch language and theme"
+  },
+  "contactsLabel": "Questions & collaboration",
   "contactsText": "Ideas, questions, ads, collaboration — write to us, we reply fast.",
   "footerText": "FEEL IT — AI LAB"
 },
