@@ -170,6 +170,7 @@
   "badge": "AI-powered posting",
   "title": "The bot that runs your Telegram channel for you",
   "lead": "Connect a channel, pick your sources and set a schedule. From there the bot handles it — finds, translates, rewrites, generates an image if there isn't one, and publishes.",
+  "statUpTo": "up to",
   "statChannels": "channels",
   "statPosts": "posts/day",
   "stat247": "uptime",
