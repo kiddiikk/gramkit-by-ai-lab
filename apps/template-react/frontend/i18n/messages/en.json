@@ -166,15 +166,29 @@
       "step3": "3. They subscribe",
       "step4": "4. You get {percent}% Stars"
     },
-    "about": {
-      "title": "FEEL IT — AI LAB",
-      "subtitle": "About",
-      "p1": "FEEL IT — AI LAB is a bot for automatic Telegram channel management. You give it a topic, and it finds fresh AI news, processes them with neural networks, translates to Russian, rewrites in a lively style, and publishes on schedule — without your involvement.",
-      "p2": "If there's no suitable image for a news item — the bot generates it. If you need to alternate serious content with light — it handles that too. Everything that goes to the channel first passes through you: approve, reject or edit.",
-      "p3": "The bot works 24/7 and never gets tired. Perfect for those running a channel about tech, AI, startups, or who just want to keep the audience informed without spending hours every day.",
-      "contactsTitle": "Questions & collaboration",
-      "contactsText": "Ideas, questions, ads, collaboration — write to us, we reply fast.",
-      "footerText": "FEEL IT — AI LAB"
+"about": {
+  "title": "The bot that runs your Telegram channel for you",
+  "lead": "Connect a channel, pick your sources — RSS feeds, Reddit, news sites — and set a schedule. From there, the bot works on its own: finds fresh content, translates it into the right language, rewrites it in a lively style, generates an image if there isn't one, and publishes the post on time.",
+  "forWhomTitle": "Who it's for",
+  "forWhomText": "Owners of news, niche, and personal channels who want to keep their audience informed — without spending hours every day. Any topic: tech, finance, sports, culture, science.",
+  "featuresTitle": "What's inside",
+  "features": {
+    "f1": "Any sources: RSS, Reddit, news feeds",
+    "f2": "Auto-parsing every 30 minutes — fresh news first",
+    "f3": "Translation and rewrite — no copy-paste",
+    "f4": "Image generation if the post has no picture",
+    "f5": "Flexible schedule: from once an hour to once a day",
+    "f6": "Up to 10 channels and 100 posts per day on the top plan",
+    "f7": "Choose your AI model and custom prompt — for your tasks and style",
+    "f8": "Pre-moderation: approve, reject, or edit before publishing",
+    "f9": "Duplicate check — the same item won't be posted twice",
+    "f10": "Channel and post stats right inside the mini app",
+    "f11": "Switch interface language and theme"
+  },
+  "contactsTitle": "Questions & collaboration",
+  "contactsText": "Ideas, questions, ads, collaboration — write to us, we reply fast.",
+  "footerText": "FEEL IT — AI LAB"
+},
     },
     "settings": {
       "title": "Settings",
