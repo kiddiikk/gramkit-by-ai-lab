@@ -38,7 +38,9 @@ export default function TariffsPage() {
         { key: 'interval4h', available: true },
         { key: 'model120b', available: false },
         { key: 'customPrompt', available: false },
-        { key: 'moderation', available: false },
+        { key: 'teamAccess', available: false },
+        { key: 'analytics', available: false },
+        { key: 'prioritySupport', available: false },
       ],
     },
     FEELIT_PRO: {
@@ -51,7 +53,9 @@ export default function TariffsPage() {
         { key: 'interval2h', available: true },
         { key: 'model120b', available: true },
         { key: 'customPrompt', available: true },
-        { key: 'moderation', available: true },
+        { key: 'teamAccess2', available: true },
+        { key: 'analytics', available: false },
+        { key: 'prioritySupport', available: false },
       ],
     },
     FEELIT_BUSINESS: {
@@ -63,7 +67,9 @@ export default function TariffsPage() {
         { key: 'interval1h', available: true },
         { key: 'model120b', available: true },
         { key: 'customPrompt', available: true },
-        { key: 'moderation', available: true },
+        { key: 'teamAccess5', available: true },
+        { key: 'analytics', available: true },
+        { key: 'prioritySupport', available: true },
       ],
     },
   };
