@@ -1,16 +1,16 @@
 """Feel It — AI Lab: эндпоинт лимитов тарифа."""
 
 from typing import Any
-from uuid import UUID
 
 from fastapi import APIRouter, Depends, Request
 
-from core.infrastructure.fastapi.dependencies import get_services, get_user
+from app.domain.limits import get_limits_for_product
+from app.infrastructure.database.repo.requests import RequestsRepo
+from app.webhook.auth import get_user
+from app.webhook.dependencies.service import get_services
 from core.infrastructure.fastapi.rate_limiter import SOFT_LIMIT, limiter
 from core.infrastructure.logging import get_logger
 from core.schemas.users import UserSchema
-
-from src.app.domain.limits import PLAN_LIMITS, get_limits_for_product
 
 logger = get_logger(__name__)
 
@@ -27,7 +27,7 @@ async def get_my_limits(
     """
     Возвращает лимиты тарифа текущего юзера + использование.
 
-    Если нет активной подписки — возвращает лимиты 'start'.
+    Если нет активной подписки — лимиты 'start'.
     """
     # Получаем активную подписку юзера
     subscription = None
@@ -39,7 +39,7 @@ async def get_my_limits(
     product_id = subscription.product_id if subscription else None
     plan_key, limits = get_limits_for_product(product_id)
 
-    # Считаем использование
+    # Считаем использование: каналы
     channels_count = 0
     try:
         channels = await services.repo.channels.list_by_user_id(user.id)
