@@ -114,7 +114,6 @@ LEGACY_PRODUCTS = {
         recurring=True,
         reward_handler=yearly_reward,
     ),
-    # V3 — тоже legacy, были активны до этого
     "WEEK_SUB_V3": PaymentProduct(
         product_id="WEEK_SUB_V3",
         name="Weekly Subscription",
@@ -149,7 +148,7 @@ LEGACY_PRODUCTS = {
 FEELIT_PRODUCTS = {
     "FEELIT_START": PaymentProduct(
         product_id="FEELIT_START",
-        name="Старт",
+        name="🚀 Старт",
         duration_days=30,
         prices={
             "XTR": CurrencyPrice(250.0, "XTR"),
@@ -160,7 +159,7 @@ FEELIT_PRODUCTS = {
     ),
     "FEELIT_PRO": PaymentProduct(
         product_id="FEELIT_PRO",
-        name="Про",
+        name="💎 Про",
         duration_days=30,
         prices={
             "XTR": CurrencyPrice(500.0, "XTR"),
@@ -171,13 +170,28 @@ FEELIT_PRODUCTS = {
     ),
     "FEELIT_BUSINESS": PaymentProduct(
         product_id="FEELIT_BUSINESS",
-        name="Бизнес",
+        name="🏢 Бизнес",
         duration_days=30,
         prices={
             "XTR": CurrencyPrice(1000.0, "XTR"),
             "RUB": CurrencyPrice(1000.0, "RUB"),
         },
         recurring=True,
+        reward_handler=monthly_reward,
+    ),
+    # ============================================================
+    # ДОП. МЕСТО В КОМАНДУ — только для Бизнес-тарифа
+    # Разовый платёж (не подписка), цена 200⭐
+    # ============================================================
+    "FEELIT_EXTRA_SEAT": PaymentProduct(
+        product_id="FEELIT_EXTRA_SEAT",
+        name="👥 Доп. место в команду",
+        duration_days=30,
+        prices={
+            "XTR": CurrencyPrice(200.0, "XTR"),
+            "RUB": CurrencyPrice(200.0, "RUB"),
+        },
+        recurring=False,   # ← разово
         reward_handler=monthly_reward,
     ),
 }
@@ -210,9 +224,14 @@ TEST_PRODUCTS = {
 # ============================================================
 
 # В Mini App показываем ТОЛЬКО FEEL IT
-CURRENT_OFFERS = FEELIT_PRODUCTS
+# НО — исключаем EXTRA_SEAT (он покупается отдельно, не в общем списке тарифов)
+CURRENT_OFFERS = {
+    "FEELIT_START": FEELIT_PRODUCTS["FEELIT_START"],
+    "FEELIT_PRO": FEELIT_PRODUCTS["FEELIT_PRO"],
+    "FEELIT_BUSINESS": FEELIT_PRODUCTS["FEELIT_BUSINESS"],
+}
 
-# Внутри — всё (legacy + новые), чтобы найти существующие подписки
+# Внутри — всё (legacy + новые + extra_seat), чтобы найти существующие подписки
 ALL_PRODUCTS = {**LEGACY_PRODUCTS, **FEELIT_PRODUCTS}
 
 
