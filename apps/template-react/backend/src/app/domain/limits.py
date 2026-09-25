@@ -1,3 +1,5 @@
+"""Feel It — AI Lab: лимиты тарифов по продуктам."""
+
 from typing import TypedDict
 
 
@@ -60,10 +62,10 @@ PRODUCT_TO_PLAN = {
 }
 
 
-def get_limits_for_product(product_id: str | None) -> PlanLimits:
-    """Возвращает лимиты для продукта. По умолчанию — start."""
+def get_limits_for_product(product_id: str | None) -> tuple[str, PlanLimits]:
+    """Возвращает (plan_key, limits) по product_id."""
     plan_key = PRODUCT_TO_PLAN.get(product_id or "", "start")
-    return PLAN_LIMITS.get(plan_key, PLAN_LIMITS["start"])
+    return plan_key, PLAN_LIMITS[plan_key]
 
 
 def get_limits_for_plan(plan_key: str) -> PlanLimits:
