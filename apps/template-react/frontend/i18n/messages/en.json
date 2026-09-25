@@ -88,11 +88,18 @@
       "loading": "Loading...",
       "loadError": "Failed to load subscription data",
       "features": {
-        "schedule": "Scheduled autoposting",
-        "ai": "AI content processing",
-        "images": "Image generation for posts",
-        "moderation": "Moderation before publishing",
-        "mix": "News and entertainment mix"
+        "channels1": "1 channel",
+        "channels3": "up to 3 channels",
+        "channels10": "up to 10 channels",
+        "posts5": "up to 5 posts/day",
+        "posts20": "up to 20 posts/day",
+        "posts100": "up to 100 posts/day",
+        "interval4h": "Interval from 4 hours",
+        "interval2h": "Interval from 2 hours",
+        "interval1h": "Interval from 1 hour",
+        "model120b": "Advanced AI model 120b",
+        "customPrompt": "Custom prompt for post style",
+        "moderation": "Post pre-moderation"
       }
     },
     "tariffs": {
