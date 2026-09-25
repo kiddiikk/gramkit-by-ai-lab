@@ -42,11 +42,12 @@ async def get_my_limits(
     # Считаем использование: каналы
     channels_count = 0
     try:
-        channels = await services.repo.channels.list_by_user_id(user.id)
-        channels_count = len(channels)
+        if user.telegram_id:
+            channels = await services.repo.channels.list_by_owner(user.telegram_id)
+            channels_count = len(channels)
     except Exception as e:
         logger.warning(f"Ошибка подсчёта каналов для {user.id}: {e}")
-
+        
     return {
         "plan_key": plan_key,
         "product_id": product_id,
