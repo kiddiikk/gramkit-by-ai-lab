@@ -314,15 +314,17 @@ export { paymentProviderEnum } from "./models/PaymentProvider.ts";
 export { startModeEnum } from "./models/StartMode.ts";
 export { subscriptionStatusEnum } from "./models/SubscriptionStatus.ts";
 export { userTypeEnum } from "./models/UserType.ts";
+
+// ============================================================
+// FEEL IT — Channels (kubb + ручной)
+// ============================================================
 export type { ChannelOut, SetIntervalRequest } from "./models/ChannelOut.ts";
 export { listChannels, getChannel, toggleChannel, setChannelInterval } from "./client/channels.ts";
 export { listChannelsQueryKey, listChannelsQueryOptions, useListChannels, getChannelQueryKey, getChannelQueryOptions, useGetChannel, useToggleChannel, useSetChannelInterval } from "./hooks/useChannels.ts";
-export type { ChannelOut, SetIntervalRequest } from "./models/ChannelOut.ts";
+
+// ============================================================
+// FEEL IT — Limits (ручной)
+// ============================================================
 export type { PlanLimits, UserLimitsUsage, UserLimitsResponse } from "./models/UserLimitsResponse.ts";
-export { listChannels, getChannel, toggleChannel, setChannelInterval } from "./client/channels.ts";
 export { getMyLimits } from "./client/limits.ts";
-export { useListChannels, listChannelsQueryKey, listChannelsQueryOptions } from "./hooks/useChannels.ts";
-export { useGetChannel, getChannelQueryKey, getChannelQueryOptions } from "./hooks/useChannels.ts";
-export { useToggleChannel } from "./hooks/useChannels.ts";
-export { useSetChannelInterval } from "./hooks/useChannels.ts";
 export { useGetMyLimits, getMyLimitsQueryKey, getMyLimitsQueryOptions } from "./hooks/useGetMyLimits.ts";
