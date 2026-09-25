@@ -63,11 +63,11 @@ PRODUCT_TO_PLAN = {
 
 
 def get_limits_for_product(product_id: str | None) -> tuple[str, PlanLimits]:
-    """Возвращает (plan_key, limits) по product_id."""
+    """Возвращает (plan_key, limits) по product_id. По умолчанию — start."""
     plan_key = PRODUCT_TO_PLAN.get(product_id or "", "start")
     return plan_key, PLAN_LIMITS[plan_key]
 
 
 def get_limits_for_plan(plan_key: str) -> PlanLimits:
-    """Возвращает лимиты по ключу плана."""
+    """Возвращает лимиты по ключу плана. По умолчанию — start."""
     return PLAN_LIMITS.get(plan_key, PLAN_LIMITS["start"])
