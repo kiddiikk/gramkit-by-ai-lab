@@ -99,7 +99,7 @@
         "interval1h": "Interval from 1 hour",
         "model120b": "Advanced AI model 120b",
         "customPrompt": "Designer prompt",
-        "moderation": "Moderation"
+        "moderation": "Moderation",
         "teamAccess": "Team access",
         "teamAccess2": "Team access — up to 2 members",
         "teamAccess5": "Team access — up to 5 members + extra seats",
