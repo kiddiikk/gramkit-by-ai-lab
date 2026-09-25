@@ -98,8 +98,13 @@
         "interval2h": "Interval from 2 hours",
         "interval1h": "Interval from 1 hour",
         "model120b": "Advanced AI model 120b",
-        "customPrompt": "Custom prompt for post style",
-        "moderation": "Post pre-moderation"
+        "customPrompt": "Designer prompt",
+        "moderation": "Moderation"
+        "teamAccess": "Team access",
+        "teamAccess2": "Team access — up to 2 members",
+        "teamAccess5": "Team access — up to 5 members + extra seats",
+        "analytics": "Detailed analytics",
+        "prioritySupport": "Priority support"
       }
     },
     "tariffs": {
