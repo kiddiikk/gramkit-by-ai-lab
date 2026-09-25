@@ -62,7 +62,9 @@ export default function SubscriptionPage() {
     t('features.mix'),
   ];
 
-  const planName = plan?.name || (isMock ? t('noSub') : productId ?? t('noSub'));
+  const planName = hasAccess && plan?.name
+    ? plan.name
+    : t('noSub');
 
   const daysLeft = subscription?.end_date && hasAccess
     ? formatDaysLeft(subscription.end_date, locale)
