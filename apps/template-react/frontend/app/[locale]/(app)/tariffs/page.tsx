@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
-  Rocket, Crown, Building2, Check, ChevronDown, Loader2, Sparkles,
+  Rocket, Crown, Building2, Check, X, ChevronDown, Loader2, Sparkles,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,18 +26,19 @@ export default function TariffsPage() {
   const PRODUCT_META: Record<string, {
     name: string;
     Icon: React.ElementType;
-    features: string[];
+    features: Array<{ key: string; available: boolean }>;
     popular?: boolean;
   }> = {
     FEELIT_START: {
       name: t('startName'),
       Icon: Rocket,
       features: [
-        t('features.channels1'),
-        t('features.posts10'),
-        t('features.ai'),
-        t('features.moderation'),
-        t('features.images'),
+        { key: 'channels1', available: true },
+        { key: 'posts5', available: true },
+        { key: 'interval4h', available: true },
+        { key: 'model120b', available: false },
+        { key: 'customPrompt', available: false },
+        { key: 'moderation', available: false },
       ],
     },
     FEELIT_PRO: {
@@ -45,24 +46,24 @@ export default function TariffsPage() {
       Icon: Crown,
       popular: true,
       features: [
-        t('features.channels2'),
-        t('features.posts30'),
-        t('features.ai'),
-        t('features.moderation'),
-        t('features.images'),
-        t('features.priority'),
+        { key: 'channels3', available: true },
+        { key: 'posts20', available: true },
+        { key: 'interval2h', available: true },
+        { key: 'model120b', available: true },
+        { key: 'customPrompt', available: true },
+        { key: 'moderation', available: true },
       ],
     },
     FEELIT_BUSINESS: {
       name: t('businessName'),
       Icon: Building2,
       features: [
-        t('features.channels5'),
-        t('features.posts100'),
-        t('features.ai'),
-        t('features.moderation'),
-        t('features.images'),
-        t('features.priority'),
+        { key: 'channels10', available: true },
+        { key: 'posts100', available: true },
+        { key: 'interval1h', available: true },
+        { key: 'model120b', available: true },
+        { key: 'customPrompt', available: true },
+        { key: 'moderation', available: true },
       ],
     },
   };
@@ -221,14 +222,21 @@ export default function TariffsPage() {
                   isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0',
                 )}>
                   <ul className="space-y-1.5 pt-2 border-t">
-                    {meta.features.map((f, idx) => (
+                    {meta.features.map(({ key, available }, idx) => (
                       <li
-                        key={f}
-                        className="flex items-start gap-2 text-xs text-muted-foreground motion-opacity-in-[0%] motion-translate-x-in-[-8px] motion-duration-[0.4s]"
+                        key={key}
+                        className={cn(
+                          'flex items-start gap-2 text-xs motion-opacity-in-[0%] motion-translate-x-in-[-8px] motion-duration-[0.4s]',
+                          available ? 'text-muted-foreground' : 'text-muted-foreground/40 line-through',
+                        )}
                         style={{ animationDelay: `${String(idx * 50)}ms` }}
                       >
-                        <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
-                        <span>{f}</span>
+                        {available ? (
+                          <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                        ) : (
+                          <X className="w-3.5 h-3.5 text-muted-foreground/40 mt-0.5 shrink-0" />
+                        )}
+                        <span>{t(`features.${key}`)}</span>
                       </li>
                     ))}
                   </ul>
