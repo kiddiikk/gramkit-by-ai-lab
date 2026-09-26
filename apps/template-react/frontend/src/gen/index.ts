@@ -328,3 +328,9 @@ export { listChannelsQueryKey, listChannelsQueryOptions, useListChannels, getCha
 export type { PlanLimits, UserLimitsUsage, UserLimitsResponse } from "./models/UserLimitsResponse.ts";
 export { getMyLimits } from "./client/limits.ts";
 export { useGetMyLimits, getMyLimitsQueryKey, getMyLimitsQueryOptions } from "./hooks/useGetMyLimits.ts";
+// ============================================================
+// FEEL IT — Referrals (ручной)
+// ============================================================
+export type { UserReferralsResponse, ReferralItem } from "./models/UserReferralsResponse.ts";
+export { getMyReferrals } from "./client/referrals.ts";
+export { useGetMyReferrals, getMyReferralsQueryKey, getMyReferralsQueryOptions } from "./hooks/useGetMyReferrals.ts";
