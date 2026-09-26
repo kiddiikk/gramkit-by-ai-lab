@@ -5,6 +5,8 @@ import { usePlatform } from '@/hooks';
 import { AppNav } from '@/components/navigation/AppNav';
 import { layoutConfig } from '@/config/layout';
 import { AuroraBackground } from '@/components/shells/AuroraBackground';
+import { AmbientAtmosphere } from '@/components/effects';
+import { useTheme } from 'next-themes';
 
 const variantClasses = {
   default: 'max-w-[var(--page-max-width)]',
@@ -26,6 +28,7 @@ export interface AppShellProps {
  *
  * Provides:
  * - AuroraBackground (animated beige-white waves)
+ * - AmbientAtmosphere (cyber grid + particles + noise)  ← НОВОЕ
  * - AppNav (handles guest/auth, desktop/mobile automatically)
  * - Responsive content area with width variants
  * - Optional footer slot
@@ -37,6 +40,8 @@ export function AppShell({
 }: AppShellProps) {
   const { isTelegramMobile } = usePlatform();
   const { mobileLayout } = layoutConfig;
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
 
   // Telegram Mini App on mobile device with bottom tabs: reduce top padding
   const useMobilePadding = isTelegramMobile && mobileLayout === 'bottom-tabs';
@@ -45,6 +50,9 @@ export function AppShell({
     <div className="min-h-screen bg-background flex flex-col relative">
       {/* Aurora-фон — fixed, за контентом */}
       <AuroraBackground />
+
+      {/* AmbientAtmosphere — сетка + частицы + noise поверх aurora */}
+      <AmbientAtmosphere isDark={isDark} />
 
       {/* Весь UI поверх фона */}
       <div className="relative z-10 flex flex-col min-h-screen">
