@@ -19,6 +19,9 @@ import {
   ChevronRight,
   Bot,
   ArrowUpRight,
+  Zap,
+  Send,
+  Clock,
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -31,7 +34,9 @@ export default function HomePage() {
   const { data: referrals } = useGetMyReferrals();
 
   const channelList = Array.isArray(channels) ? channels : [];
-  const activeChannelsCount = channelList.filter((c: { is_active?: boolean }) => c.is_active).length;
+  const activeChannelsCount = channelList.filter(
+    (c: { is_active?: boolean }) => c.is_active
+  ).length;
 
   const handleCardClick = () => {
     triggerHaptic('light');
@@ -61,7 +66,10 @@ export default function HomePage() {
       <div className="grid grid-cols-2 gap-3">
         {/* 1. Моя подписка */}
         <Link href="/subscription" onClick={handleCardClick} className="block">
-          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
+          <SpotlightCard
+            isDark={isDark}
+            className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth"
+          >
             <div className="flex items-center justify-between">
               <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/10 p-2 text-cyan-400">
                 <Gem className="h-4 w-4" />
@@ -81,7 +89,10 @@ export default function HomePage() {
 
         {/* 2. Статистика */}
         <Link href="/stats" onClick={handleCardClick} className="block">
-          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[60ms] motion-ease-spring-smooth">
+          <SpotlightCard
+            isDark={isDark}
+            className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[60ms] motion-ease-spring-smooth"
+          >
             <div className="flex items-center justify-between">
               <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-2 text-emerald-400">
                 <ChartLine className="h-4 w-4" />
@@ -99,7 +110,10 @@ export default function HomePage() {
 
         {/* 3. Рефералы */}
         <Link href="/referrals" onClick={handleCardClick} className="block">
-          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[120ms] motion-ease-spring-smooth">
+          <SpotlightCard
+            isDark={isDark}
+            className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[120ms] motion-ease-spring-smooth"
+          >
             <div className="flex items-center justify-between">
               <div className="rounded-xl border border-violet-500/20 bg-violet-500/10 p-2 text-violet-400">
                 <UserPlus className="h-4 w-4" />
@@ -117,7 +131,10 @@ export default function HomePage() {
 
         {/* 4. Тарифы */}
         <Link href="/tariffs" onClick={handleCardClick} className="block">
-          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[180ms] motion-ease-spring-smooth">
+          <SpotlightCard
+            isDark={isDark}
+            className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[180ms] motion-ease-spring-smooth"
+          >
             <div className="flex items-center justify-between">
               <div className="rounded-xl border border-amber-500/20 bg-amber-500/10 p-2 text-amber-400">
                 <Sparkles className="h-4 w-4" />
@@ -162,11 +179,12 @@ export default function HomePage() {
           </div>
         </SpotlightCard>
       </Link>
-    </div>
-  );
-}
+
       {/* Как это работает */}
-      <SpotlightCard isDark={isDark} className="p-5 space-y-3.5 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[300ms] motion-ease-spring-smooth">
+      <SpotlightCard
+        isDark={isDark}
+        className="p-5 space-y-3.5 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[300ms] motion-ease-spring-smooth"
+      >
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-lg bg-emerald-500/15">
             <Sparkles className="w-4 h-4 text-emerald-400" />
@@ -175,23 +193,43 @@ export default function HomePage() {
         </div>
 
         <div className="space-y-3">
-          {[
-            { icon: Send, title: t('step1Title'), text: t('step1Text') },
-            { icon: Zap, title: t('step2Title'), text: t('step2Text') },
-            { icon: Clock, title: t('step3Title'), text: t('step3Text') },
-          ].map((step, i) => {
-            const Icon = step.icon;
-            return (
-              <div key={i} className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0 mt-0.5">
-                  <Icon className="w-3 h-3 text-emerald-400" />
-                </div>
-                <div className="space-y-0.5">
-                  <div className="text-sm font-medium leading-tight">{step.title}</div>
-                  <div className="text-xs text-muted-foreground leading-relaxed">{step.text}</div>
-                </div>
+          <div className="flex items-start gap-3">
+            <div className="w-6 h-6 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0 mt-0.5">
+              <Send className="w-3 h-3 text-emerald-400" />
+            </div>
+            <div className="space-y-0.5">
+              <div className="text-sm font-medium leading-tight">{t('step1Title')}</div>
+              <div className="text-xs text-muted-foreground leading-relaxed">
+                {t('step1Text')}
               </div>
-            );
-          })}
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="w-6 h-6 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0 mt-0.5">
+              <Zap className="w-3 h-3 text-emerald-400" />
+            </div>
+            <div className="space-y-0.5">
+              <div className="text-sm font-medium leading-tight">{t('step2Title')}</div>
+              <div className="text-xs text-muted-foreground leading-relaxed">
+                {t('step2Text')}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="w-6 h-6 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0 mt-0.5">
+              <Clock className="w-3 h-3 text-emerald-400" />
+            </div>
+            <div className="space-y-0.5">
+              <div className="text-sm font-medium leading-tight">{t('step3Title')}</div>
+              <div className="text-xs text-muted-foreground leading-relaxed">
+                {t('step3Text')}
+              </div>
+            </div>
+          </div>
         </div>
       </SpotlightCard>
+    </div>
+  );
+}
