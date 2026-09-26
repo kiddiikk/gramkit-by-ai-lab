@@ -1,4 +1,4 @@
-from . import admin, base, channels, demo, limits
+from . import admin, base, channels, demo, limits, referrals
 
 __all__ = [
     "admin",
@@ -6,4 +6,5 @@ __all__ = [
     "channels",
     "demo",
     "limits",
+    "referrals",
 ]
