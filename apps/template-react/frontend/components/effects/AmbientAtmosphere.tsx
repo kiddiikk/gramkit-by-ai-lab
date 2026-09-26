@@ -60,6 +60,7 @@ export default function AmbientAtmosphere({ isDark = true }: AmbientAtmospherePr
 
         for (let j = idx + 1; j < particles.length; j++) {
           const p2 = particles[j];
+          if (!p2) continue;
           const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
           if (dist < 85) {
             ctx.strokeStyle = isDark
