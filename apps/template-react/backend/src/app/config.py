@@ -48,6 +48,7 @@ class Settings(BaseSettings):
 
     # Infrastructure (using nested delimiter: DB_HOST, REDIS_HOST, etc.)
     db: DatabaseSettings = DatabaseSettings()
+    newsbot_db: DatabaseSettings = DatabaseSettings()  # 👈 вторая БД (newsbot)
     redis: RedisSettings = RedisSettings()
     rabbit: RabbitSettings = RabbitSettings()
 
