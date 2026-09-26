@@ -310,31 +310,34 @@ body {
 
 /* === Typography overrides === */
 h1, h2, h3, h4 {
-  font-family: var(--font-display), system-ui, sans-serif !important;
   letter-spacing: -0.01em !important;
   line-height: 1.2 !important;
 }
 
 /* H1 — hero на главной: semibold, не жирный */
 h1 {
+  font-family: var(--font-alumni), var(--font-display), system-ui, sans-serif !important;
   font-size: 2.25rem !important;  /* 36px */
   font-weight: 600 !important;
 }
 
 /* H2 — средние заголовки: medium */
 h2 {
+  font-family: var(--font-alumni), var(--font-display), system-ui, sans-serif !important;
   font-size: 1.75rem !important;  /* 28px */
   font-weight: 500 !important;
 }
 
 /* H3 — заголовки карточек, страниц: medium */
 h3 {
+  font-family: var(--font-alumni), var(--font-display), system-ui, sans-serif !important;
   font-size: 1.25rem !important;  /* 20px */
   font-weight: 500 !important;
 }
 
 /* H4 — мелкие заголовки: medium */
 h4 {
+  font-family: var(--font-alumni), var(--font-display), system-ui, sans-serif !important;
   font-size: 1.125rem !important; /* 18px */
   font-weight: 500 !important;
 }
