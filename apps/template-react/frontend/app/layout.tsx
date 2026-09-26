@@ -18,7 +18,7 @@ const alumniSans = Alumni_Sans({
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
   variable: '--font-alumni',
-  weight: ['700', '800', '900'],
+  weight: ['600', '700', '800', '900'],
 });
 
 export const viewport: Viewport = {
