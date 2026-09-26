@@ -165,3 +165,33 @@ export default function HomePage() {
     </div>
   );
 }
+      {/* Как это работает */}
+      <SpotlightCard isDark={isDark} className="p-5 space-y-3.5 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[300ms] motion-ease-spring-smooth">
+        <div className="flex items-center gap-2">
+          <div className="p-2 rounded-lg bg-emerald-500/15">
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+          </div>
+          <div className="font-semibold text-sm">{t('howItWorks')}</div>
+        </div>
+
+        <div className="space-y-3">
+          {[
+            { icon: Send, title: t('step1Title'), text: t('step1Text') },
+            { icon: Zap, title: t('step2Title'), text: t('step2Text') },
+            { icon: Clock, title: t('step3Title'), text: t('step3Text') },
+          ].map((step, i) => {
+            const Icon = step.icon;
+            return (
+              <div key={i} className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0 mt-0.5">
+                  <Icon className="w-3 h-3 text-emerald-400" />
+                </div>
+                <div className="space-y-0.5">
+                  <div className="text-sm font-medium leading-tight">{step.title}</div>
+                  <div className="text-xs text-muted-foreground leading-relaxed">{step.text}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </SpotlightCard>
