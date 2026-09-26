@@ -86,22 +86,7 @@ export default function AmbientAtmosphere({ isDark = true }: AmbientAtmospherePr
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      <div
-        className={`absolute -top-32 left-1/2 -translate-x-1/2 w-96 h-80 rounded-full blur-[130px] animate-pulse-slow ${
-          isDark ? 'bg-emerald-500/10' : 'bg-emerald-400/15'
-        }`}
-      />
-      <div
-        className={`absolute top-[40%] -left-36 w-80 h-80 rounded-full blur-[110px] animate-pulse-subtle ${
-          isDark ? 'bg-teal-500/[0.07]' : 'bg-teal-400/10'
-        }`}
-      />
-      <div
-        className={`absolute -bottom-24 -right-24 w-80 h-80 rounded-full blur-[120px] ${
-          isDark ? 'bg-emerald-400/[0.06]' : 'bg-emerald-300/10'
-        }`}
-      />
-
+      {/* Cyber Grid */}
       <div
         className={`absolute inset-0 ${isDark ? 'opacity-[0.03]' : 'opacity-[0.04]'}`}
         style={{
@@ -112,8 +97,10 @@ export default function AmbientAtmosphere({ isDark = true }: AmbientAtmospherePr
         }}
       />
 
+      {/* Canvas созвездия */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-70" />
 
+      {/* Шум */}
       <div
         className="absolute inset-0 opacity-[0.025] mix-blend-overlay pointer-events-none"
         style={{
