@@ -50,13 +50,11 @@ def create_exception_handler(
     return exception_handler
 
 
-# Initialize core auth components with app-specific configuration
 from core.infrastructure.auth.telegram import generate_secret_key
 
 telegram_secret = generate_secret_key(settings.bot.token)
 telegram_auth = TelegramAuthenticator(secret=telegram_secret)
 
-# Create fully-configured API using factory
 app = create_api(
     config=settings.web,
     db_config=settings.db,
@@ -75,11 +73,12 @@ app = create_api(
         routers.demo.router,
         routers.channels.router,
         routers.limits.router,
+        routers.referrals.router,
     ],
     title="Template API",
     version=release_version,
     static_path=Path(__file__).parent.parent / "static",
-    root_path=settings.web.api_root_path,  # Configurable: "" for subdomain, "/api/template" for path-based
+    root_path=settings.web.api_root_path,
     security_csp=(
         "default-src 'self'; "
         "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://js.posthog.com; "
@@ -93,22 +92,12 @@ app = create_api(
     ),
 )
 
-# Mount Socket.IO app for real-time demo
 from app.webhook.socketio import socket_app
 
 app.mount("/socket.io", socket_app)
 
-# Configure core auth components in app state
 app.state.telegram_auth = telegram_auth
 app.state.settings = settings
 
-# Set up dependency overrides for core routes
 app.dependency_overrides[core_deps.get_user] = app_get_user
 app.dependency_overrides[core_deps.get_services] = app_get_services
-
-# Add custom exception handlers (if needed)
-# Example:
-# app.add_exception_handler(
-#     exc_class_or_status_code=CustomException,
-#     handler=create_exception_handler(status.HTTP_400_BAD_REQUEST, "Custom error message"),
-# )
