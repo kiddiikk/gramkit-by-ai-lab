@@ -1,164 +1,167 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import React from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { useTheme } from 'next-themes';
+import { SpotlightCard, AICore } from '@/components/effects';
+import { triggerHaptic, playHapticSound } from '@/lib/haptic';
 import {
-  Gem, ChartLine, UserPlus, Sparkles, ChevronRight, Zap, Send, Clock, Bot,
+  useGetSubscriptionSubscriptionsGet,
+  useListChannels,
+  useGetMyReferrals,
+} from '@/src/gen';
+import {
+  Gem,
+  ChartLine,
+  UserPlus,
+  Sparkles,
+  ChevronRight,
+  Bot,
+  ArrowUpRight,
 } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
 
 export default function HomePage() {
   const t = useTranslations('feelit.home');
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
 
-  const sections = [
-    {
-      href: '/subscription',
-      icon: Gem,
-      title: t('cardSubscription'),
-      subtitle: t('cardSubscriptionSub'),
-      accent: true,
-    },
-    {
-      href: '/stats',
-      icon: ChartLine,
-      title: t('cardStats'),
-      subtitle: t('cardStatsSub'),
-    },
-    {
-      href: '/referrals',
-      icon: UserPlus,
-      title: t('cardReferrals'),
-      subtitle: t('cardReferralsSub'),
-    },
-    {
-      href: '/tariffs',
-      icon: Sparkles,
-      title: t('cardTariffs'),
-      subtitle: t('cardTariffsSub'),
-    },
-    {
-      href: '/channels',
-      icon: Bot,
-      title: t('cardChannels'),
-      subtitle: t('cardChannelsSub'),
-      accent: true,
-      wide: true,
-    },
-  ];
+  const { data: subscription } = useGetSubscriptionSubscriptionsGet();
+  const { data: channels } = useListChannels();
+  const { data: referrals } = useGetMyReferrals();
+
+  const channelList = Array.isArray(channels) ? channels : [];
+  const activeChannelsCount = channelList.filter((c: { is_active?: boolean }) => c.is_active).length;
+
+  const handleCardClick = () => {
+    triggerHaptic('light');
+    playHapticSound('click');
+  };
 
   return (
-    <div className="min-h-dvh px-4 py-6 flex flex-col gap-5">
-      <section className="text-center space-y-2 pt-2 motion-opacity-in-[0%] motion-translate-y-in-[20px] motion-blur-in-[4px] motion-duration-[0.6s] motion-ease-spring-smooth">
-        <h1 className="tracking-tight">{t('heroTitle')}</h1>
-        <p className="text-muted-foreground text-base max-w-md mx-auto">
-          {t('heroSubtitle')}
-        </p>
-      </section>
-
-      <section className="grid grid-cols-2 gap-3">
-        {sections.map((item, index) => {
-          const Icon = item.icon;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn('block', item.wide && 'col-span-2')}
-            >
-              <Card
-                className={cn(
-                  'group relative overflow-hidden cursor-pointer gap-0 py-0 h-[124px]',
-                  'transition-all duration-300 ease-out',
-                  'hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10',
-                  'active:scale-[0.98]',
-                  'motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s]',
-                  'motion-ease-spring-smooth',
-                  item.accent && 'border-primary/30 bg-gradient-to-br from-card to-primary/[0.04]',
-                )}
-                style={{ animationDelay: `${String(index * 60)}ms` }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/[0.03] to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                <CardContent className="relative p-3.5 h-full flex flex-col justify-between">
-                  <div className="flex items-start justify-between">
-                    <div
-                      className={cn(
-                        'p-2.5 rounded-xl w-fit transition-all duration-300',
-                        item.accent
-                          ? 'bg-primary/20 group-hover:bg-primary/30'
-                          : 'bg-primary/10 group-hover:bg-primary/20',
-                      )}
-                    >
-                      <Icon className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-primary" />
-                  </div>
-
-                  <div className="space-y-0.5">
-                    <div className="text-base font-medium leading-tight line-clamp-1">
-                      {item.title}
-                    </div>
-                    <p className="text-xs text-muted-foreground leading-tight line-clamp-2">
-                      {item.subtitle}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          );
-        })}
-      </section>
-
-      <section className="rounded-2xl bg-gradient-to-br from-primary/[0.08] to-primary/[0.02] p-5 space-y-3.5 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[300ms] motion-ease-spring-smooth">
-        <div className="flex items-center gap-2">
-          <div className="p-2 rounded-lg bg-primary/15">
-            <Zap className="w-4 h-4 text-primary" />
+    <div className="space-y-4">
+      {/* Hero */}
+      <div className="flex items-start justify-between gap-3 pt-2 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.6s] motion-ease-spring-smooth">
+        <div className="space-y-1.5 flex-1 min-w-0">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            AI ENGINE v2.4
           </div>
-          <div className="font-semibold text-sm">{t('howItWorks')}</div>
+          <h1 className="font-display text-3xl font-black tracking-tight leading-tight">
+            FEEL IT — AI LAB
+          </h1>
+          <p className="text-xs text-muted-foreground max-w-[240px] leading-relaxed">
+            {t('heroSubtitle')}
+          </p>
         </div>
+        <AICore isDark={isDark} />
+      </div>
 
-        <div className="space-y-3">
-          <div className="flex items-start gap-3">
-            <div className="w-6 h-6 rounded-full bg-primary/15 flex items-center justify-center shrink-0 mt-0.5">
-              <Send className="w-3 h-3 text-primary" />
+      {/* Сетка карточек 2×2 */}
+      <div className="grid grid-cols-2 gap-3">
+        {/* 1. Моя подписка */}
+        <Link href="/subscription" onClick={handleCardClick} className="block">
+          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
+            <div className="flex items-center justify-between">
+              <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/10 p-2 text-cyan-400">
+                <Gem className="h-4 w-4" />
+              </div>
+              <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
             </div>
             <div className="space-y-0.5">
-              <div className="text-sm font-medium leading-tight">{t('step1Title')}</div>
-              <div className="text-xs text-muted-foreground leading-relaxed">
-                {t('step1Text')}
-              </div>
+              <h3 className="text-sm font-semibold leading-tight">{t('cardSubscription')}</h3>
+              <p className="text-[11px] text-muted-foreground leading-tight line-clamp-2">
+                {subscription?.product_id
+                  ? subscription.product_id.replace('FEELIT_', '')
+                  : t('cardSubscriptionSub')}
+              </p>
             </div>
-          </div>
+          </SpotlightCard>
+        </Link>
 
-          <div className="flex items-start gap-3">
-            <div className="w-6 h-6 rounded-full bg-primary/15 flex items-center justify-center shrink-0 mt-0.5">
-              <Zap className="w-3 h-3 text-primary" />
+        {/* 2. Статистика */}
+        <Link href="/stats" onClick={handleCardClick} className="block">
+          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[60ms] motion-ease-spring-smooth">
+            <div className="flex items-center justify-between">
+              <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-2 text-emerald-400">
+                <ChartLine className="h-4 w-4" />
+              </div>
+              <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
             </div>
             <div className="space-y-0.5">
-              <div className="text-sm font-medium leading-tight">{t('step2Title')}</div>
-              <div className="text-xs text-muted-foreground leading-relaxed">
-                {t('step2Text')}
-              </div>
+              <h3 className="text-sm font-semibold leading-tight">{t('cardStats')}</h3>
+              <p className="text-[11px] text-muted-foreground leading-tight line-clamp-2">
+                {channelList.length} {t('cardStatsSub')}
+              </p>
             </div>
-          </div>
+          </SpotlightCard>
+        </Link>
 
-          <div className="flex items-start gap-3">
-            <div className="w-6 h-6 rounded-full bg-primary/15 flex items-center justify-center shrink-0 mt-0.5">
-              <Clock className="w-3 h-3 text-primary" />
+        {/* 3. Рефералы */}
+        <Link href="/referrals" onClick={handleCardClick} className="block">
+          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[120ms] motion-ease-spring-smooth">
+            <div className="flex items-center justify-between">
+              <div className="rounded-xl border border-violet-500/20 bg-violet-500/10 p-2 text-violet-400">
+                <UserPlus className="h-4 w-4" />
+              </div>
+              <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
             </div>
             <div className="space-y-0.5">
-              <div className="text-sm font-medium leading-tight">{t('step3Title')}</div>
-              <div className="text-xs text-muted-foreground leading-relaxed">
-                {t('step3Text')}
+              <h3 className="text-sm font-semibold leading-tight">{t('cardReferrals')}</h3>
+              <p className="text-[11px] text-muted-foreground leading-tight line-clamp-2">
+                {referrals?.total ?? 0} {t('cardReferralsSub')}
+              </p>
+            </div>
+          </SpotlightCard>
+        </Link>
+
+        {/* 4. Тарифы */}
+        <Link href="/tariffs" onClick={handleCardClick} className="block">
+          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[180ms] motion-ease-spring-smooth">
+            <div className="flex items-center justify-between">
+              <div className="rounded-xl border border-amber-500/20 bg-amber-500/10 p-2 text-amber-400">
+                <Sparkles className="h-4 w-4" />
+              </div>
+              <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
+            </div>
+            <div className="space-y-0.5">
+              <h3 className="text-sm font-semibold leading-tight">{t('cardTariffs')}</h3>
+              <p className="text-[11px] text-muted-foreground leading-tight line-clamp-2">
+                {t('cardTariffsSub')}
+              </p>
+            </div>
+          </SpotlightCard>
+        </Link>
+      </div>
+
+      {/* 5. ИИ Редактор — на всю ширину */}
+      <Link href="/channels" onClick={handleCardClick} className="block">
+        <SpotlightCard
+          isDark={isDark}
+          highlight
+          className="p-4 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[240ms] motion-ease-spring-smooth"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-2.5 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)] shrink-0">
+                <Bot className="h-6 w-6" />
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-base font-bold flex items-center gap-2 flex-wrap">
+                  {t('cardChannels')}
+                  <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-mono text-emerald-300">
+                    {activeChannelsCount} active
+                  </span>
+                </h3>
+                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                  {t('cardChannelsSub')}
+                </p>
               </div>
             </div>
+            <ArrowUpRight className="h-5 w-5 text-emerald-400 shrink-0" />
           </div>
-        </div>
-      </section>
-
-      <footer className="mt-auto text-center text-xs text-muted-foreground pt-4 motion-opacity-in-[0%] motion-duration-[1s]">
-        {t('heroTitle')} · {new Date().getFullYear()}
-      </footer>
+        </SpotlightCard>
+      </Link>
     </div>
   );
 }
