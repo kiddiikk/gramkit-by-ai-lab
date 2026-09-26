@@ -87,24 +87,23 @@
       "whatIncludes": "What's included",
       "loading": "Loading...",
       "loadError": "Failed to load subscription data",
-      "features": {
-        "channels1": "1 channel",
-        "channels3": "up to 3 channels",
-        "channels10": "up to 10 channels",
-        "posts5": "up to 5 posts/day",
-        "posts20": "up to 20 posts/day",
-        "posts100": "up to 100 posts/day",
-        "interval4h": "Interval from 4 hours",
-        "interval2h": "Interval from 2 hours",
-        "interval1h": "Interval from 1 hour",
+      "limits": {
+        "title": "Plan limits",
+        "channels": "Channels",
+        "postsPerDay": "Posts per day",
         "model120b": "Advanced AI model 120b",
         "customPrompt": "Designer prompt",
-        "moderation": "Moderation",
-        "teamAccess": "Team access",
-        "teamAccess2": "Team access — up to 2 members",
-        "teamAccess5": "Team access — up to 5 members + extras for ⭐",
+        "moderation": "Pre-moderation",
+        "teamAccess": "Team access (up to {count})",
         "analytics": "Detailed analytics",
         "prioritySupport": "Priority support"
+      },
+      "features": {
+        "schedule": "Scheduled auto-posting",
+        "ai": "AI news processing",
+        "images": "Image generation for posts",
+        "moderation": "Pre-publication moderation",
+        "mix": "Mix of news and entertainment"
       }
     },
     "tariffs": {
@@ -125,15 +124,22 @@
       "businessName": "Business",
       "features": {
         "channels1": "1 channel",
-        "channels2": "2 channels",
-        "channels5": "5 channels",
-        "posts10": "10 posts/day",
-        "posts30": "30 posts/day",
-        "posts100": "100 posts/day",
-        "ai": "AI processing",
-        "moderation": "Moderation",
-        "images": "Image generation",
-        "priority": "Priority queue"
+        "channels3": "up to 3 channels",
+        "channels10": "up to 10 channels",
+        "posts5": "up to 5 posts/day",
+        "posts20": "up to 20 posts/day",
+        "posts100": "up to 100 posts/day",
+        "interval4h": "Interval from 4 hours",
+        "interval2h": "Interval from 2 hours",
+        "interval1h": "Interval from 1 hour",
+        "model120b": "Advanced AI model 120b",
+        "customPrompt": "Designer prompt",
+        "moderation": "Post pre-moderation",
+        "teamAccess": "Team access",
+        "teamAccess2": "Team access — up to 2 members",
+        "teamAccess5": "Team access — up to 5 members + extras for ⭐",
+        "analytics": "Detailed analytics",
+        "prioritySupport": "Priority support"
       }
     },
     "channels": {
@@ -164,67 +170,66 @@
     "referrals": {
       "title": "My Referrals",
       "subtitle": "Invite friends — get bonuses",
-      "friends": "invited friends",
-      "copyLink": "Copy link",
-      "copied": "Copied",
-      "about": "About referral program",
-      "youGet": "You get {percent}%",
-      "youGetDesc": "from each invited friend's purchase — Stars go to your account",
-      "friendGet": "Friend benefits too",
-      "friendGetDesc": "gets bonus days on first payment via your link",
-      "howItWorks": "How it works",
-      "step1": "1. Send your link to a friend",
-      "step2": "2. Friend starts bot via your link",
-      "step3": "3. They subscribe",
-      "step4": "4. You get {percent}% Stars"
+      "totalInvited": "Total invited",
+      "activeInvited": "Active",
+      "yourLink": "Your link",
+      "yourLinkHint": "Send it to a friend — they'll get access",
+      "copy": "Copy link",
+      "copied": "Copied!",
+      "invitedList": "Invited",
+      "active": "Active",
+      "inactive": "Inactive",
+      "empty": "No one yet",
+      "emptyHint": "Send the link to a friend to start",
+      "loadError": "Failed to load referrals"
     },
-"about": {
-  "badge": "AI-powered posting",
-  "title": "The bot that runs your Telegram channel for you",
-  "lead": "Connect a channel, pick your sources and set a schedule. From there the bot handles it — finds, translates, rewrites, generates an image if there isn't one, and publishes.",
-  "statUpTo": "up to",
-  "statChannels": "channels",
-  "statPosts": "posts/day",
-  "stat247": "uptime",
-  "statTopics": "topics",
-  "forWhomLabel": "Who it's for",
-  "forWhomText": "Owners of news, niche and personal channels who want to keep their audience informed without spending hours every day. Any topic: tech, finance, sports, culture, science.",
-  "featuresLabel": "What's inside",
-  "g1": {
-    "title": "Sources",
-    "i1": "RSS feeds, Reddit, news sites",
-    "i2": "Custom URLs and sources",
-    "i3": "Auto-parsing every 30 minutes"
-  },
-  "g2": {
-    "title": "AI processing",
-    "i4": "Translation into any language",
-    "i5": "Lively rewrite — no copy-paste",
-    "i6": "Image generation if there isn't one"
-  },
-  "g3": {
-    "title": "Schedule",
-    "i7": "Intervals from an hour to a day",
-    "i8": "Up to 100 posts/day on the top plan"
-  },
-  "g4": {
-    "title": "Moderation",
-    "i9": "Pre-moderation — approve, reject, edit",
-    "i10": "Duplicate check"
-  },
-  "g5": {
-    "title": "Analytics",
-    "i11": "Channel and post stats in the mini app"
-  },
-  "g6": {
-    "title": "Settings",
-    "i12": "AI model choice and custom prompt",
-    "i13": "Switch language and theme"
-  },
-  "contactsLabel": "Questions & collaboration",
-  "contactsText": "Ideas, questions, ads, collaboration — write to us, we reply fast.",
-  "footerText": "FEEL IT — AI LAB"
-},
+    "about": {
+      "badge": "AI-powered posting",
+      "title": "The bot that runs your Telegram channel for you",
+      "lead": "Connect a channel, pick your sources and set a schedule. From there the bot handles it — finds, translates, rewrites, generates an image if there isn't one, and publishes.",
+      "statUpTo": "up to",
+      "statChannels": "channels",
+      "statPosts": "posts/day",
+      "stat247": "uptime",
+      "statTopics": "topics",
+      "forWhomLabel": "Who it's for",
+      "forWhomText": "Owners of news, niche and personal channels who want to keep their audience informed without spending hours every day. Any topic: tech, finance, sports, culture, science.",
+      "featuresLabel": "What's inside",
+      "g1": {
+        "title": "Sources",
+        "i1": "RSS feeds, Reddit, news sites",
+        "i2": "Custom URLs and sources",
+        "i3": "Auto-parsing every 30 minutes"
+      },
+      "g2": {
+        "title": "AI processing",
+        "i4": "Translation into any language",
+        "i5": "Lively rewrite — no copy-paste",
+        "i6": "Image generation if there isn't one"
+      },
+      "g3": {
+        "title": "Schedule",
+        "i7": "Intervals from an hour to a day",
+        "i8": "Up to 100 posts/day on the top plan"
+      },
+      "g4": {
+        "title": "Moderation",
+        "i9": "Pre-moderation — approve, reject, edit",
+        "i10": "Duplicate check"
+      },
+      "g5": {
+        "title": "Analytics",
+        "i11": "Channel and post stats in the mini app"
+      },
+      "g6": {
+        "title": "Settings",
+        "i12": "AI model choice and custom prompt",
+        "i13": "Switch language and theme"
+      },
+      "contactsLabel": "Questions & collaboration",
+      "contactsText": "Ideas, questions, ads, collaboration — write to us, we reply fast.",
+      "footerText": "FEEL IT — AI LAB"
+    },
     "settings": {
       "title": "Settings",
       "subtitle": "Interface",
