@@ -1,13 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import React from 'react';
 import { useTranslations } from 'next-intl';
+import { useTheme } from 'next-themes';
 import {
-  Rocket, Crown, Building2, Check, X, ChevronDown, Loader2, Sparkles,
+  Rocket,
+  Crown,
+  Building2,
+  Check,
+  X,
+  Loader2,
+  Sparkles,
+  Star,
 } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   useGetProductsPaymentsProductsGet,
@@ -15,10 +20,14 @@ import {
   getSubscriptionSubscriptionsGetQueryKey,
 } from '@/src/gen';
 import { BackButton } from '@/components/shared/BackButton';
+import { SpotlightCard } from '@/components/effects';
+import { triggerHaptic, playHapticSound } from '@/lib/haptic';
 
 export default function TariffsPage() {
   const t = useTranslations('feelit.tariffs');
-  const [openId, setOpenId] = useState<string | null>(null);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+
   const queryClient = useQueryClient();
   const { data: products, isLoading, error } = useGetProductsPaymentsProductsGet();
   const startPurchase = useStartPurchasePaymentsStartPurchasePost();
@@ -75,6 +84,8 @@ export default function TariffsPage() {
   };
 
   const handleBuy = async (productId: string) => {
+    triggerHaptic('heavy');
+    playHapticSound('pulse');
     try {
       const result = await startPurchase.mutateAsync({
         data: {
@@ -98,8 +109,11 @@ export default function TariffsPage() {
               queryKey: getSubscriptionSubscriptionsGetQueryKey(),
             });
             queryClient.invalidateQueries({ queryKey: [{ url: '/users/me' }] });
+            triggerHaptic('success');
+            playHapticSound('success');
             tg.showPopup({ title: t('paymentSuccess'), message: '' });
           } else if (status === 'failed') {
+            triggerHaptic('error');
             tg.showPopup({ title: t('paymentFailed'), message: '' });
           }
         });
@@ -115,30 +129,26 @@ export default function TariffsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-dvh flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-spin text-primary" />
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader2 className="w-6 h-6 animate-spin text-emerald-400" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-dvh flex items-center justify-center px-5">
-        <div className="text-sm text-destructive text-center">
-          {t('loadError')}
-        </div>
+      <div className="min-h-[60vh] flex items-center justify-center px-5">
+        <div className="text-sm text-destructive text-center">{t('loadError')}</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-dvh px-5 py-6 space-y-4">
-      <div className="flex items-center gap-3">
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex items-center gap-2 pt-1 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth">
         <BackButton />
-        <div className="space-y-0.5">
-          <h1 className="text-2xl font-bold tracking-tight">{t('title')}</h1>
-          <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
-        </div>
+        <h1>{t('title')}</h1>
       </div>
 
       <div className="space-y-3">
@@ -147,113 +157,91 @@ export default function TariffsPage() {
           if (!meta) return null;
 
           const { Icon } = meta;
-          const isOpen = openId === product.id;
           const isPending = startPurchase.isPending;
 
           return (
-            <Card
+            <SpotlightCard
               key={product.id}
-              className={cn(
-                'motion-opacity-in-[0%] motion-translate-y-in-[20px] motion-duration-[0.5s] motion-ease-spring-smooth',
-                meta.popular && 'border-primary/40 bg-gradient-to-br from-card to-primary/[0.04]',
-              )}
-              style={{ animationDelay: `${String(i * 100)}ms` }}
+              isDark={isDark}
+              highlight={meta.popular}
+              className="p-4 space-y-3 motion-opacity-in-[0%] motion-translate-y-in-[20px] motion-duration-[0.5s] motion-ease-spring-smooth"
             >
-              <CardContent className="p-4 space-y-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <div className={cn(
-                      'p-2.5 rounded-xl transition-colors',
-                      meta.popular ? 'bg-primary/20' : 'bg-primary/10',
-                    )}>
-                      <Icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <div className="font-semibold">{meta.name}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {product.duration_days} {t('daysLabel')}
-                      </div>
-                    </div>
+              {/* Header: иконка + название + цена + popular */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-2.5 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)] shrink-0">
+                    <Icon className="h-5 w-5" />
                   </div>
-                  {meta.popular && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/20 text-primary font-medium">
-                      {t('popular')}
-                    </span>
-                  )}
+                  <div className="min-w-0">
+                    <h3 className="text-base font-bold flex items-center gap-2 flex-wrap">
+                      {meta.name}
+                      {meta.popular && (
+                        <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-300">
+                          {t('popular')}
+                        </span>
+                      )}
+                    </h3>
+                    <p className="text-[11px] text-muted-foreground">
+                      {product.duration_days} {t('daysLabel')}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="flex items-baseline gap-1">
-                  <span className="text-2xl font-bold tabular-nums">
-                    {Math.round(product.price)}
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    {product.currency === 'XTR' ? '⭐' : product.currency} / мес
-                  </span>
+                <div className="flex items-center gap-1 font-mono text-base font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-xl border border-amber-500/20 shrink-0">
+                  <Star className="w-3.5 h-3.5 fill-amber-400" />
+                  {Math.round(product.price)}
                 </div>
+              </div>
 
-                <div className="flex gap-2">
-                  <Button
-                    className="flex-1"
-                    variant={meta.popular ? 'default' : 'outline'}
-                    onClick={() => handleBuy(product.id)}
-                    disabled={isPending}
+              {/* Фичи 2 колонки — всегда видны */}
+              <div className="pt-2 border-t border-border/50 grid grid-cols-2 gap-x-3 gap-y-1.5">
+                {meta.features.map(({ key, available }) => (
+                  <div
+                    key={key}
+                    className={`flex items-center gap-1.5 text-[11px] ${
+                      available ? 'text-muted-foreground' : 'text-muted-foreground/40'
+                    }`}
                   >
-                    {isPending ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        {t('creating')}
-                      </>
+                    {available ? (
+                      <Check className="w-3 h-3 text-emerald-400 shrink-0" />
                     ) : (
-                      <>
-                        <Sparkles className="w-4 h-4 mr-2" />
-                        {t('buy')}
-                      </>
+                      <X className="w-3 h-3 text-muted-foreground/40 shrink-0" />
                     )}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setOpenId(isOpen ? null : product.id)}
-                    className="cursor-pointer"
-                  >
-                    <ChevronDown className={cn(
-                      'w-4 h-4 transition-transform duration-300',
-                      isOpen && 'rotate-180',
-                    )} />
-                  </Button>
-                </div>
+                    <span className={`truncate ${!available ? 'line-through' : ''}`}>
+                      {t(`features.${key}`)}
+                    </span>
+                  </div>
+                ))}
+              </div>
 
-                <div className={cn(
-                  'overflow-hidden transition-all duration-300 ease-out',
-                  isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0',
-                )}>
-                  <ul className="space-y-1.5 pt-2 border-t">
-                    {meta.features.map(({ key, available }, idx) => (
-                      <li
-                        key={key}
-                        className={cn(
-                          'flex items-start gap-2 text-xs motion-opacity-in-[0%] motion-translate-x-in-[-8px] motion-duration-[0.4s]',
-                          available ? 'text-muted-foreground' : 'text-muted-foreground/40 line-through',
-                        )}
-                        style={{ animationDelay: `${String(idx * 50)}ms` }}
-                      >
-                        {available ? (
-                          <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
-                        ) : (
-                          <X className="w-3.5 h-3.5 text-muted-foreground/40 mt-0.5 shrink-0" />
-                        )}
-                        <span>{t(`features.${key}`)}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
+              {/* Кнопка «Оформить» */}
+              <button
+                onClick={() => handleBuy(product.id)}
+                disabled={isPending}
+                className={`w-full py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-[0.98] ${
+                  meta.popular
+                    ? 'bg-emerald-500 hover:bg-emerald-400 text-black shadow-[0_0_16px_rgba(16,185,129,0.3)]'
+                    : 'bg-muted hover:bg-muted/70 text-foreground'
+                } ${isPending ? 'opacity-60 cursor-not-allowed' : ''}`}
+              >
+                {isPending ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    {t('creating')}
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    {t('buy')}
+                  </>
+                )}
+              </button>
+            </SpotlightCard>
           );
         })}
       </div>
 
-      <p className="text-xs text-muted-foreground text-center pt-2">
+      <p className="text-[11px] text-muted-foreground text-center pt-2">
         {t('payNote')}
       </p>
     </div>
