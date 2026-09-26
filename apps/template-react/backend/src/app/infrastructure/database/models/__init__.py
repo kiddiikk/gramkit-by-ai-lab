@@ -1,7 +1,8 @@
 """Template application database models."""
 
 from app.infrastructure.database.models.balance import Balance
-from app.infrastructure.database.models.channel import Channel, Post  # ← НОВОЕ
+from app.infrastructure.database.models.channel import Channel, Post
+from app.infrastructure.database.models.referral import Referral
 from core.infrastructure.database.models import (
     Friendship,
     Group,
@@ -21,6 +22,7 @@ __all__ = [
     "Friendship",
     # Template models
     "Balance",
-    "Channel",   # ← НОВОЕ
-    "Post",      # ← НОВОЕ
+    "Channel",
+    "Post",
+    "Referral",
 ]
