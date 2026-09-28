@@ -184,17 +184,20 @@
       "loadError": "Failed to load referrals"
     },
     "about": {
-      "badge": "AI-powered posting",
-      "title": "The bot that runs your Telegram channel for you",
+      "badge": "AI-powered posting 2026",
+      "title": "About",
+      "heroHeading1": "The bot that runs your",
+      "heroHeading2": "Telegram channel itself",
+      "heroLead": "Connect a channel, pick a niche and set timing. From there the bot works fully autonomously.",
       "lead": "Connect a channel, pick your sources and set a schedule. From there the bot handles it — finds, translates, rewrites, generates an image if there isn't one, and publishes.",
       "statUpTo": "up to",
       "statChannels": "channels",
       "statPosts": "posts/day",
       "stat247": "uptime",
-      "statTopics": "topics",
+      "statTopics": "topics & niches",
       "forWhomLabel": "Who it's for",
-      "forWhomText": "Owners of news, niche and personal channels who want to keep their audience informed without spending hours every day. Any topic: tech, finance, sports, culture, science.",
-      "featuresLabel": "What's inside",
+      "forWhomText": "Owners of news, niche and personal channels who want to keep their audience informed 24/7 without spending hours every day.",
+      "featuresLabel": "How the pipeline works",
       "g1": {
         "title": "Sources",
         "i1": "RSS feeds, Reddit, news sites",
@@ -226,7 +229,7 @@
         "i12": "AI model choice and custom prompt",
         "i13": "Switch language and theme"
       },
-      "contactsLabel": "Questions & collaboration",
+      "contactsLabel": "Contact developers",
       "contactsText": "Ideas, questions, ads, collaboration — write to us, we reply fast.",
       "footerText": "FEEL IT — AI LAB"
     },
