@@ -6,6 +6,7 @@ import { AppNav } from '@/components/navigation/AppNav';
 import { layoutConfig } from '@/config/layout';
 import { AuroraBackground } from '@/components/shells/AuroraBackground';
 import { AmbientAtmosphere } from '@/components/effects';
+import { AppHeader } from '@/components/layout/AppHeader';
 import { useTheme } from 'next-themes';
 
 const variantClasses = {
@@ -27,8 +28,9 @@ export interface AppShellProps {
  * AppShell - Unified layout wrapper for all pages
  *
  * Provides:
- * - AuroraBackground (animated beige-white waves)
- * - AmbientAtmosphere (cyber grid + particles + noise)  ← НОВОЕ
+ * - AuroraBackground (animated waves)
+ * - AmbientAtmosphere (cyber grid + particles + noise)
+ * - AppHeader (custom Telegram header)
  * - AppNav (handles guest/auth, desktop/mobile automatically)
  * - Responsive content area with width variants
  * - Optional footer slot
@@ -56,12 +58,23 @@ export function AppShell({
 
       {/* Весь UI поверх фона */}
       <div className="relative z-10 flex flex-col min-h-screen">
-        <div className="px-[var(--page-padding-x)]">
+        {/* AppHeader — над main, внутри ширины страницы */}
+        <div className="w-full mx-auto px-[var(--page-padding-x)] pt-[var(--page-padding-y)]">
           <AppHeader />
         </div>
-        <main ...>
+
+        {/* Основной контент */}
+        <main
+          className={cn(
+            'flex-1 w-full mx-auto px-[var(--page-padding-x)] py-[var(--page-padding-y)] pb-[var(--bottom-nav-height)] md:pb-[var(--page-padding-y)]',
+            variantClasses[variant],
+            useMobilePadding && 'pt-2'
+          )}
+        >
           {children}
         </main>
+
+        {footer}
         <AppNav />
       </div>
     </div>
