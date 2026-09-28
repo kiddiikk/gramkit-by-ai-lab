@@ -18,9 +18,8 @@ import {
   Sparkles,
   ChevronRight,
   Bot,
-  ArrowUpRight,
   Zap,
-  Send,
+  ArrowUpRight,
   Clock,
 } from 'lucide-react';
 
@@ -34,9 +33,7 @@ export default function HomePage() {
   const { data: referrals } = useGetMyReferrals();
 
   const channelList = Array.isArray(channels) ? channels : [];
-  const activeChannelsCount = channelList.filter(
-    (c: { is_active?: boolean }) => c.is_active
-  ).length;
+  const activeChannelsCount = channelList.filter((c) => c.is_active).length;
 
   const handleCardClick = () => {
     triggerHaptic('light');
@@ -45,191 +42,162 @@ export default function HomePage() {
 
   return (
     <div className="space-y-4">
-      {/* Hero */}
-      <div className="flex items-start justify-between gap-3 pt-2 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.6s] motion-ease-spring-smooth">
-        <div className="space-y-1.5 flex-1 min-w-0">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            AI ENGINE v2.4
+      {/* HERO CARD — как Gemini */}
+      <SpotlightCard isDark={isDark} highlight className="p-5 space-y-2">
+        <div className="flex items-center justify-between text-[11px]">
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+            <span className="text-emerald-400 font-bold uppercase tracking-wider">
+              Live Monitor
+            </span>
           </div>
-          <h1 className="font-display text-3xl font-black tracking-tight leading-tight">
-            FEEL IT — AI LAB
-          </h1>
-          <p className="text-xs text-muted-foreground max-w-[240px] leading-relaxed">
-            {t('heroSubtitle')}
-          </p>
+          <span className="text-muted-foreground font-mono">@feelit_ailab_bot</span>
         </div>
-        <AICore isDark={isDark} />
-      </div>
 
-      {/* Сетка карточек 2×2 */}
+        {/* AICore — БОЛЬШАЯ, ЦЕНТР */}
+        <AICore isDark={isDark} />
+
+        <div className="text-center pt-1">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-400 uppercase tracking-wider">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            Нейроядро активно • 24/7
+          </div>
+        </div>
+
+        <h2 className="text-center text-xl font-black tracking-tight pt-1">
+          FEEL IT — AI LAB
+        </h2>
+        <p className="text-center text-xs text-muted-foreground leading-relaxed max-w-[300px] mx-auto">
+          {t('heroSubtitle')}
+        </p>
+      </SpotlightCard>
+
+      {/* ИИ РЕДАКТОР — как Gemini, но без фейкового «Тест генерации» */}
+      <SpotlightCard isDark={isDark} className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-2.5 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)] shrink-0">
+              <Bot className="w-5 h-5" />
+            </div>
+            <div className="min-w-0">
+              <h3 className="text-sm font-bold flex items-center gap-2 flex-wrap">
+                {t('cardChannels')}
+                <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-mono text-emerald-300">
+                  {activeChannelsCount} active
+                </span>
+              </h3>
+              <p className="text-[11px] text-muted-foreground line-clamp-1">
+                {t('cardChannelsSub')}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <Link
+          href="/channels"
+          onClick={handleCardClick}
+          className="w-full py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-xs flex items-center justify-center gap-1.5 transition-all shadow-[0_0_16px_rgba(16,185,129,0.3)]"
+        >
+          <Zap className="w-3.5 h-3.5 fill-current" />
+          Открыть ИИ Редактор
+          <ArrowUpRight className="w-3.5 h-3.5" />
+        </Link>
+      </SpotlightCard>
+
+      {/* BENTO 2×2 — как Gemini, но с реальными данными */}
       <div className="grid grid-cols-2 gap-3">
-        {/* 1. Моя подписка */}
+        {/* Подписка */}
         <Link href="/subscription" onClick={handleCardClick} className="block">
-          <SpotlightCard
-            isDark={isDark}
-            className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-ease-spring-smooth"
-          >
+          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/10 p-2 text-cyan-400">
                 <Gem className="h-4 w-4" />
               </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
+              <span className="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+                {subscription?.product_id?.replace('FEELIT_', '') || 'START'}
+              </span>
             </div>
-            <div className="space-y-0.5">
-              <h3 className="text-sm font-semibold leading-tight">{t('cardSubscription')}</h3>
-              <p className="text-[11px] text-muted-foreground leading-tight line-clamp-2">
-                {subscription?.product_id
-                  ? subscription.product_id.replace('FEELIT_', '')
-                  : t('cardSubscriptionSub')}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-bold leading-tight">{t('cardSubscription')}</h3>
+                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/50" />
+              </div>
+              <p className="text-[10px] text-muted-foreground leading-tight line-clamp-1">
+                {t('cardSubscriptionSub')}
               </p>
             </div>
           </SpotlightCard>
         </Link>
 
-        {/* 2. Статистика */}
+        {/* Статистика */}
         <Link href="/stats" onClick={handleCardClick} className="block">
-          <SpotlightCard
-            isDark={isDark}
-            className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[60ms] motion-ease-spring-smooth"
-          >
+          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-2 text-emerald-400">
                 <ChartLine className="h-4 w-4" />
               </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
+              <span className="text-[10px] font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">
+                {channelList.length}
+              </span>
             </div>
-            <div className="space-y-0.5">
-              <h3 className="text-sm font-semibold leading-tight">{t('cardStats')}</h3>
-              <p className="text-[11px] text-muted-foreground leading-tight line-clamp-2">
+            <div className="space-y-1">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-bold leading-tight">{t('cardStats')}</h3>
+                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/50" />
+              </div>
+              <p className="text-[10px] text-muted-foreground leading-tight line-clamp-1">
                 {channelList.length} {t('cardStatsSub')}
               </p>
             </div>
           </SpotlightCard>
         </Link>
 
-        {/* 3. Рефералы */}
+        {/* Рефералы */}
         <Link href="/referrals" onClick={handleCardClick} className="block">
-          <SpotlightCard
-            isDark={isDark}
-            className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[120ms] motion-ease-spring-smooth"
-          >
+          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <div className="rounded-xl border border-violet-500/20 bg-violet-500/10 p-2 text-violet-400">
                 <UserPlus className="h-4 w-4" />
               </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
+              <span className="text-[10px] font-bold text-violet-400 bg-violet-400/10 px-1.5 py-0.5 rounded">
+                {referrals?.total ?? 0}
+              </span>
             </div>
-            <div className="space-y-0.5">
-              <h3 className="text-sm font-semibold leading-tight">{t('cardReferrals')}</h3>
-              <p className="text-[11px] text-muted-foreground leading-tight line-clamp-2">
+            <div className="space-y-1">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-bold leading-tight">{t('cardReferrals')}</h3>
+                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/50" />
+              </div>
+              <p className="text-[10px] text-muted-foreground leading-tight line-clamp-1">
                 {referrals?.total ?? 0} {t('cardReferralsSub')}
               </p>
             </div>
           </SpotlightCard>
         </Link>
 
-        {/* 4. Тарифы */}
+        {/* Тарифы */}
         <Link href="/tariffs" onClick={handleCardClick} className="block">
-          <SpotlightCard
-            isDark={isDark}
-            className="h-32 p-3.5 flex flex-col justify-between motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[180ms] motion-ease-spring-smooth"
-          >
+          <SpotlightCard isDark={isDark} className="h-32 p-3.5 flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <div className="rounded-xl border border-amber-500/20 bg-amber-500/10 p-2 text-amber-400">
                 <Sparkles className="h-4 w-4" />
               </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
+              <span className="text-[8px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-amber-400 text-black">
+                HOT
+              </span>
             </div>
-            <div className="space-y-0.5">
-              <h3 className="text-sm font-semibold leading-tight">{t('cardTariffs')}</h3>
-              <p className="text-[11px] text-muted-foreground leading-tight line-clamp-2">
-                {t('cardTariffsSub')}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-bold leading-tight">{t('cardTariffs')}</h3>
+                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/50" />
+              </div>
+              <p className="text-[10px] text-muted-foreground leading-tight line-clamp-1">
+                от 250 ⭐
               </p>
             </div>
           </SpotlightCard>
         </Link>
       </div>
-
-      {/* 5. ИИ Редактор — на всю ширину */}
-      <Link href="/channels" onClick={handleCardClick} className="block">
-        <SpotlightCard
-          isDark={isDark}
-          highlight
-          className="p-4 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[240ms] motion-ease-spring-smooth"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-2.5 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)] shrink-0">
-                <Bot className="h-6 w-6" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-base font-bold flex items-center gap-2 flex-wrap">
-                  {t('cardChannels')}
-                  <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-mono text-emerald-300">
-                    {activeChannelsCount} active
-                  </span>
-                </h3>
-                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                  {t('cardChannelsSub')}
-                </p>
-              </div>
-            </div>
-            <ArrowUpRight className="h-5 w-5 text-emerald-400 shrink-0" />
-          </div>
-        </SpotlightCard>
-      </Link>
-
-      {/* Как это работает */}
-      <SpotlightCard
-        isDark={isDark}
-        className="p-5 space-y-3.5 motion-opacity-in-[0%] motion-translate-y-in-[15px] motion-duration-[0.5s] motion-delay-[300ms] motion-ease-spring-smooth"
-      >
-        <div className="flex items-center gap-2">
-          <div className="p-2 rounded-lg bg-emerald-500/15">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
-          </div>
-          <div className="font-semibold text-sm">{t('howItWorks')}</div>
-        </div>
-
-        <div className="space-y-3">
-          <div className="flex items-start gap-3">
-            <div className="w-6 h-6 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0 mt-0.5">
-              <Send className="w-3 h-3 text-emerald-400" />
-            </div>
-            <div className="space-y-0.5">
-              <div className="text-sm font-medium leading-tight">{t('step1Title')}</div>
-              <div className="text-xs text-muted-foreground leading-relaxed">
-                {t('step1Text')}
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <div className="w-6 h-6 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0 mt-0.5">
-              <Zap className="w-3 h-3 text-emerald-400" />
-            </div>
-            <div className="space-y-0.5">
-              <div className="text-sm font-medium leading-tight">{t('step2Title')}</div>
-              <div className="text-xs text-muted-foreground leading-relaxed">
-                {t('step2Text')}
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <div className="w-6 h-6 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0 mt-0.5">
-              <Clock className="w-3 h-3 text-emerald-400" />
-            </div>
-            <div className="space-y-0.5">
-              <div className="text-sm font-medium leading-tight">{t('step3Title')}</div>
-              <div className="text-xs text-muted-foreground leading-relaxed">
-                {t('step3Text')}
-              </div>
-            </div>
-          </div>
-        </div>
-      </SpotlightCard>
     </div>
   );
 }
