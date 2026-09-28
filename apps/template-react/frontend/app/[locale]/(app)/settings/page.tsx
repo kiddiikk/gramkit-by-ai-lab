@@ -17,21 +17,24 @@ import {
   Image as ImageIcon,
   Bell,
   Vibrate,
-  Globe,
 } from 'lucide-react';
+
+const LANGS: Array<{ code: 'ru' | 'en'; label: string }> = [
+  { code: 'ru', label: 'Русский' },
+  { code: 'en', label: 'English' },
+];
 
 export default function SettingsPage() {
   const t = useTranslations('feelit.settings');
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Local states — читаем из localStorage
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [hapticEnabled, setHapticEnabled] = useState(true);
   const [autoArt, setAutoArt] = useState(true);
   const [notifications, setNotifications] = useState(true);
 
-  const { currentLocale, supportedLocales, changeLanguage } = useLanguageService();
+  const { currentLocale, changeLanguage } = useLanguageService();
 
   useEffect(() => {
     setMounted(true);
@@ -137,10 +140,7 @@ export default function SettingsPage() {
         </h3>
 
         <div className="p-1 rounded-2xl border border-border bg-card flex">
-          {[
-            { code: 'ru', label: 'Русский' },
-            { code: 'en', label: 'English' },
-          ].map((lang) => {
+          {LANGS.map((lang) => {
             const isSelected = currentLocale === lang.code;
             return (
               <button
@@ -170,7 +170,6 @@ export default function SettingsPage() {
         </h3>
 
         <SpotlightCard isDark={isDark} className="divide-y divide-border/50">
-          {/* Haptic */}
           <ToggleRow
             icon={Vibrate}
             color="emerald"
@@ -188,7 +187,6 @@ export default function SettingsPage() {
             }}
           />
 
-          {/* Sound */}
           <ToggleRow
             icon={Volume2}
             color="cyan"
@@ -206,7 +204,6 @@ export default function SettingsPage() {
             }}
           />
 
-          {/* Auto Art */}
           <ToggleRow
             icon={ImageIcon}
             color="violet"
@@ -222,7 +219,6 @@ export default function SettingsPage() {
             }}
           />
 
-          {/* Notifications */}
           <ToggleRow
             icon={Bell}
             color="amber"
