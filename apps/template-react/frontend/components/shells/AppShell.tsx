@@ -56,15 +56,13 @@ export function AppShell({
 
       {/* Весь UI поверх фона */}
       <div className="relative z-10 flex flex-col min-h-screen">
-        <AppNav />
-        <main className={cn(
-          'flex-1 w-full mx-auto px-[var(--page-padding-x)] py-[var(--page-padding-y)] pb-[var(--bottom-nav-height)] md:pb-[var(--page-padding-y)]',
-          variantClasses[variant],
-          useMobilePadding && 'pt-2'
-        )}>
+        <div className="px-[var(--page-padding-x)]">
+          <AppHeader />
+        </div>
+        <main ...>
           {children}
         </main>
-        {footer}
+        <AppNav />
       </div>
     </div>
   );
