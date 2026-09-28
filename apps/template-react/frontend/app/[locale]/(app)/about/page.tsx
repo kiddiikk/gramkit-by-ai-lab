@@ -76,7 +76,7 @@ export default function AboutPage() {
         </p>
       </div>
 
-      {/* 4 МЕТРИКИ — 4 карточки 2×2, белые числа */}
+      {/* 4 МЕТРИКИ — градиентные числа */}
       <div className="grid grid-cols-2 gap-2">
         {stats.map(({ value, prefix, key }) => (
           <SpotlightCard
@@ -89,7 +89,7 @@ export default function AboutPage() {
                 {prefix}
               </div>
             )}
-            <div className="text-3xl font-black tabular-nums text-white font-display leading-none">
+            <div className="text-3xl font-black tabular-nums text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 via-teal-300 to-cyan-400 font-display leading-none">
               {value}
             </div>
             <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.15em]">
