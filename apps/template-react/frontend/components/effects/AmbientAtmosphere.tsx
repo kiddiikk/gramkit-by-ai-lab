@@ -51,7 +51,7 @@ export default function AmbientAtmosphere({ isDark = true }: AmbientAtmospherePr
 
         const currentAlpha = p.baseAlpha + Math.sin(p.pulse) * 0.1;
         ctx.fillStyle = isDark
-          ? `rgba(16, 185, 129, ${Math.max(0.04, currentAlpha)})`
+          ? `rgba(52, 211, 153, ${Math.max(0.04, currentAlpha)})`
           : `rgba(5, 150, 105, ${Math.max(0.03, currentAlpha * 0.7)})`;
 
         ctx.beginPath();
@@ -87,14 +87,14 @@ export default function AmbientAtmosphere({ isDark = true }: AmbientAtmospherePr
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Cyber Grid */}
+      {/* Cyber Grid — усиленный, голографический */}
       <div
-        className={`absolute inset-0 ${isDark ? 'opacity-[0.03]' : 'opacity-[0.04]'}`}
+        className={`absolute inset-0 ${isDark ? 'opacity-[0.05]' : 'opacity-[0.06]'}`}
         style={{
-          backgroundImage: `linear-gradient(to right, #10b981 1px, transparent 1px), linear-gradient(to bottom, #10b981 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(to right, #34d399 1px, transparent 1px), linear-gradient(to bottom, #34d399 1px, transparent 1px)`,
           backgroundSize: '36px 36px',
-          maskImage: 'radial-gradient(circle at 50% 35%, black 20%, transparent 80%)',
-          WebkitMaskImage: 'radial-gradient(circle at 50% 35%, black 20%, transparent 80%)',
+          maskImage: 'radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 95%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 95%)',
         }}
       />
 
